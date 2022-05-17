@@ -10,14 +10,14 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_pegawai',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'user_id',
-    ],
+//        [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'id_pegawai',
+//    ],
+//    [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'user_id',
+//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'nik',
@@ -34,14 +34,14 @@ return [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'foto',
     // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'email',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'no_hp',
-    // ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'email',
+     ],
+     [
+         'class'=>'\kartik\grid\DataColumn',
+         'attribute'=>'no_hp',
+     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'pns_nonpns_id',

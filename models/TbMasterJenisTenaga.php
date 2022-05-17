@@ -47,7 +47,7 @@ class TbMasterJenisTenaga extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTbPegawais()
+    public function getPegawai()
     {
         return $this->hasMany(TbPegawai::className(), ['jenis_tenaga_id' => 'id_master_jenis_tenaga']);
     }

@@ -12,28 +12,24 @@ use yii\helpers\Html;
                 <li class="active">
                     <a href="index-2.html"><i class="fa fa-th-large"></i> <span class="nav-label">Data Master</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><?= Html::a('Jabatan Fungsional', ['/jabatan-fungsional/index']) ?></li>
-                        <li><?= Html::a('Jabatan Struktural', ['/jabatan-struktural/index']) ?></li>
-                        <li><?= Html::a('Jam Kerja', ['/jam-kerja/index']) ?></li>
-                        <li><?= Html::a('Jenis Tenaga', ['/jenis-tenaga/index']) ?></li>
-                        <li><?= Html::a('Level', ['/level/index']) ?></li>
-                        <li><?= Html::a('Jam Kantor', ['/jam-kantor/index']) ?></li>
-                        <li><?= Html::a('Pangkat Golongan', ['/pangkat-golongan/index']) ?></li>
-                        <li><?= Html::a('Pns Non-pns', ['//index']) ?></li>
-                        <li><?= Html::a('Status Absensi', ['/jam-kantor/index']) ?></li>
+                        <li><?= Html::a('Jabatan Fungsional', ['/master-jabatan-fungsional/index']) ?></li>
+                        <li><?= Html::a('Jabatan Struktural', ['/master-jabatan-struktural/index']) ?></li>
+                        <li><?= Html::a('Jam Kerja', ['/master-jam-kerja/index']) ?></li>
+                        <li><?= Html::a('Jenis Tenaga', ['/master-jenis-tenaga/index']) ?></li>
+                        <li><?= Html::a('Level', ['/master-level/index']) ?></li>
+                        <li><?= Html::a('Jam Kantor', ['/master-office/index']) ?></li>
+                        <li><?= Html::a('Pangkat Golongan', ['/master-pangkat-golongan/index']) ?></li>
+                        <li><?= Html::a('Pns Non-pns', ['/master-pns-nonpns/index']) ?></li>
+                        <li><?= Html::a('Status Absensi', ['/master-status-absensi/index']) ?></li>
                     </ul>
                 </li>
 
                 <li>
-                    <?= Html::a('<i class="fa fa-diamond"></i></span> <span class="nav-label"> Kegiatan', ['/kegiatan/index']) ?>
+                    <?= Html::a('<i class="fa fa-users"></i></span> <span class="nav-label"> Pegawai', ['/pegawai/index']) ?>
                 </li>
 
                 <li>
-                    <?= Html::a('<i class="fa fa-list"></i></span> <span class="nav-label"> Pendaftaran', ['/pendaftaran/index']) ?>
-                </li>
-
-                <li>
-                    <?= Html::a('<i class="fa fa-money"></i></span> <span class="nav-label"> Pembayaran', ['/pembayaran/index']) ?>
+                    <?= Html::a('<i class="fa fa-list"></i></span> <span class="nav-label"> Absensi', ['/absensi/index']) ?>
                 </li>
             </ul>
         </div>

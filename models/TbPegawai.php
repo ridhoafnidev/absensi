@@ -44,10 +44,11 @@ class TbPegawai extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
     public function rules()
     {
         return [
-            [['user_id', 'nik', 'nip', 'nama_lengkap', 'foto', 'email', 'no_hp', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'jabatan_struktural_id', 'jabatan_fungsional_id', 'pangkat_golongan_id'], 'required'],
+            [['nik', 'nip', 'nama_lengkap', 'email', 'no_hp', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'jabatan_struktural_id', 'jabatan_fungsional_id', 'pangkat_golongan_id'], 'required'],
             [['user_id', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'jabatan_struktural_id', 'jabatan_fungsional_id', 'pangkat_golongan_id', 'is_active'], 'integer'],
             [['nik'], 'string', 'max' => 18],
             [['nip'], 'string', 'max' => 20],

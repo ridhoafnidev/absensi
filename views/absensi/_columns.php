@@ -10,26 +10,41 @@ return [
         'class' => 'kartik\grid\SerialColumn',
         'width' => '30px',
     ],
-        [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'id_absensi',
-    ],
+//        [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'id_absensi',
+//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'date_absensi',
+        'label' => 'Tanggal Absensi',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'time_absensi',
+        'label' => 'Waktu Absensi',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'status_absensi_id',
+        'label' => 'Status Absensi',
+        'value' => function($model) {
+            return $model->statusAbsensi->status_absensi;
+        }
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'tanggal_mulai',
+        'attribute'=>'user_id',
+        'label' => 'Pegawai',
+        'value' => function($model) {
+            $pegawai = \app\models\TbPegawai::findOne($model->user_id)->nama_lengkap;
+            return $pegawai;
+        }
     ],
+//    [
+//        'class'=>'\kartik\grid\DataColumn',
+//        'attribute'=>'tanggal_mulai',
+//    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'tanggal_selesai',

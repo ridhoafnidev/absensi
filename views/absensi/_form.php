@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\TbAbsensi */
@@ -11,17 +12,28 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'date_absensi')->textInput() ?>
+    <?= $form->field($model, 'date_absensi')->textInput(['type' => 'date']) ?>
 
-    <?= $form->field($model, 'time_absensi')->textInput() ?>
+    <?= $form->field($model, 'time_absensi')->textInput(['type' => 'time']) ?>
 
-    <?= $form->field($model, 'status_absensi_id')->textInput() ?>
+     <!-- $form->field($model, 'status_absensi_id')->textInput() ?> -->
 
-    <?= $form->field($model, 'tanggal_mulai')->textInput(['maxlength' => true]) ?>
+    <?php
+    $status_absensi = \app\models\TbMasterStatusAbsensi::find()->all();
 
-    <?= $form->field($model, 'tanggal_selesai')->textInput(['maxlength' => true]) ?>
+    $list = \yii\helpers\ArrayHelper::map($status_absensi, 'id_status_absensi','status_absensi');
 
-    <?= $form->field($model, 'dokumen_pendukung')->textInput(['maxlength' => true]) ?>
+    echo $form->field($model, 'status_absensi_id')->dropDownList(
+        $list,
+        ['prompt' => 'Pilih...']
+    )->label('Status Absensi');
+    ?>
+
+    <?= $form->field($model, 'tanggal_mulai')->textInput(['type' => 'date']) ?>
+
+    <?= $form->field($model, 'tanggal_selesai')->textInput(['type' => 'date']) ?>
+
+     <!-- $form->field($model, 'dokumen_pendukung')->fileInput() ?> -->
 
     <?= $form->field($model, 'jenis_cuti')->textInput(['maxlength' => true]) ?>
 
@@ -35,11 +47,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'alamat_absensi')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'created_at')->textInput() ?>
+     <!-- $form->field($model, 'created_at')->textInput() ?> -->
 
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+     <!-- $form->field($model, 'updated_at')->textInput() ?> -->
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?php
+    $user = \app\models\TbUser::find()->all();
+
+    $list = \yii\helpers\ArrayHelper::map($user, 'id_user','username');
+
+    echo $form->field($model, 'user_id')->dropDownList(
+        $list,
+        ['prompt' => 'Pilih...']
+    )->label('Username');
+    ?>
+
+    <!-- $form->field($model, 'user_id')->textInput() ?> -->
 
     <?= $form->field($model, 'jenis_absensi')->dropDownList([ 'masuk' => 'Masuk', 'keluar' => 'Keluar', ], ['prompt' => '']) ?>
 

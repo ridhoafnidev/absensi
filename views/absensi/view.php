@@ -13,10 +13,20 @@ use yii\widgets\DetailView;
             'id_absensi',
             'date_absensi',
             'time_absensi',
-            'status_absensi_id',
+            array(
+                'attribute' => 'Status Absensi',
+               'value' => $model->statusAbsensi->status_absensi,
+            ),
             'tanggal_mulai',
             'tanggal_selesai',
-            'dokumen_pendukung',
+            [
+                'attribute' => 'dokumen_pendukung',
+                'format' => 'html',
+                'value' => function ($data) {
+                    return \yii\helpers\Html::img('http://localhost/api-absensi-depag/public/dokumen-pendukung/'. $data['dokumen_pendukung'],
+                        ['width' => '100px', 'height' => '100%']);
+                },
+            ],
             'jenis_cuti',
             'lembur',
             'keterangan',
@@ -25,7 +35,10 @@ use yii\widgets\DetailView;
             'alamat_absensi:ntext',
             'created_at',
             'updated_at',
-            'user_id',
+            array(
+                'attribute' => 'Username',
+               'value' => $model->user->username,
+            ),
             'jenis_absensi',
         ],
     ]) ?>

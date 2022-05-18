@@ -80,7 +80,7 @@ class TbAbsensi extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'user_id' => 'User ID',
-            'jenis_absensi' => 'Jenis Absensi',
+            'jenis_absensi' => 'Jenis Absensi'
         ];
     }
 

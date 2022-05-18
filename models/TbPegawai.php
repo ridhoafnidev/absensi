@@ -45,6 +45,9 @@ class TbPegawai extends \yii\db\ActiveRecord
      * {@inheritdoc}
      */
 
+    public $username;
+    public $password;
+
     public function rules()
     {
         return [

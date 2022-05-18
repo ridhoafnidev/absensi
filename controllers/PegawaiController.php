@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\TbUser;
 use Yii;
 use app\models\TbPegawai;
 use app\models\TbPegawaiSearch;
@@ -82,7 +83,8 @@ class PegawaiController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new TbPegawai();  
+        $model = new TbPegawai();
+        $modelUser = new TbUser();
 
         if($request->isAjax){
             /*
@@ -99,11 +101,22 @@ class PegawaiController extends Controller
                                 Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post())){
+                if(strlen($model->nip) > 0) {
+                    $modelUser->username = $model->nip;
+                    $modelUser->password = $model->nip;
+                } else {
+                    $modelUser->username = $model->nik;
+                    $model->password = $model->nik;
+                }
+                if ($modelUser->save(false)){
+                    $model->user_id = $modelUser->id_user;
+                    $model->save();
+                }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Tambah Pegawai",
-                    'content'=>'<span class="text-success">Create Pegawai success</span>',
+                    'content'=>'<span class="text-success">Tambah Pegawai Berhasil</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         

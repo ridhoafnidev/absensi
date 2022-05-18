@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use app\models\TbPegawai; 
 
 return [
     [
@@ -37,7 +38,7 @@ return [
         'attribute'=>'user_id',
         'label' => 'Pegawai',
         'value' => function($model) {
-            $pegawai = \app\models\TbPegawai::findOne($model->user_id)->nama_lengkap;
+            $pegawai = TbPegawai::findOne(['user_id' => $model->user_id])->nama_lengkap;
             return $pegawai;
         }
     ],

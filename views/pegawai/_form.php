@@ -19,6 +19,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nama_lengkap')->textInput(['maxlength' => true]) ?>
 
+<!--    < $form->field($model, 'username')->textInput(['maxlength' => true]) ?>-->
+
+<!--    < $form->field($model, 'password')->textInput(['maxlength' => true]) ?>-->
+
 <!--    < $form->field($model, 'foto')->textInput(['maxlength' => true]) ?>-->
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>

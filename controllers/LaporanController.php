@@ -34,16 +34,16 @@ class LaporanController extends Controller
         $data->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
         ->from('tb_absensi')
         ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ');
+        ->where('tb_absensi.tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ');
 
         $command = $data->createCommand();
-        $modelAbsensi = $command->queryAll();
+        $modelAbsensiMasuk = $command->queryAll();
 
         $mpdf = new Mpdf();
         $mpdf->SetTitle("Laporan");
         $mpdf->WriteHTML($this->renderPartial('laporan', [
             'model' => $model,
-            'model_absensi' => $modelAbsensi,
+            'model_absensi_masuk' => $modelAbsensiMasuk,
         ]));
         $mpdf->Output('laporan.pdf', 'I');
         exit();

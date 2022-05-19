@@ -162,12 +162,15 @@
         return $daySplite[1];
     }
 
-    print_r($model_absensi);
-    exit();
+//    print_r($model_absensi);
+//    foreach ($model_absensi as $data) {
+//        if ($data['date_absensi'] )
+//    }
+//    exit();
 
 //    foreach ($model_absensi as $data) {
 //        if ()
-    }
+
 
     ?>
 

@@ -30,6 +30,10 @@ class MasterJamKerjaController extends Controller
                         'allow' => false,
                         'roles' => ['?'],
                     ],
+                    [
+                        'allow' => true,    
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -69,12 +73,12 @@ class MasterJamKerjaController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Master Jam Kerja #".$id,
+                    'title'=> "Data Master Jam Kerja #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -101,31 +105,31 @@ class MasterJamKerjaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Tambah Master Jam Kerja",
+                    'title'=> "Tambah Data Master Jam Kerja",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Tambah Master Jam Kerja",
-                    'content'=>'<span class="text-success">Master Jam Kerja Berhasil Dibuat</span>',
+                    'title'=> "Tambah Data Master Jam Kerja",
+                    'content'=>'<span class="text-success">Data Master Jam Kerja Berhasil ditambahkan</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Tambah Master Jam Kerja",
+                    'title'=> "Tambah Data Master Jam Kerja",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -163,12 +167,12 @@ class MasterJamKerjaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Perbarui Master Jam Kerja #".$id,
+                    'title'=> "Perbarui Data Master Jam Kerja #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
@@ -178,16 +182,16 @@ class MasterJamKerjaController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Perbaruijuiiiiiiiiiiiiiiii=[]km,/;nm Master Jam Kerja #".$id,
+                    'title'=> "Perbarui Data Master Jam Kerja #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

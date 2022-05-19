@@ -10,7 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel app\models\TbMasterJabatanStrukturalSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Master Jabatan Struktural';
+$this->title = 'Data Master Jabatan Struktural';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -49,8 +49,8 @@ CrudAsset::register($this);
                                     'role'=>'modal-remote-bulk',
                                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                     'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
+                                    'data-confirm-title'=>'Apakah anda yakin?',
+                                    'data-confirm-message'=>'Apakah anda yakin ingin menghapus item ini?'
                                 ]),
                         ]).                        
                         '<div class="clearfix"></div>',

@@ -17,7 +17,7 @@ use yii\helpers\Html;
                         <li><?= Html::a('Jam Kerja', ['/master-jam-kerja/index']) ?></li>
                         <li><?= Html::a('Jenis Tenaga', ['/master-jenis-tenaga/index']) ?></li>
                         <li><?= Html::a('Level', ['/master-level/index']) ?></li>
-                        <li><?= Html::a('Jam Kantor', ['/master-office/index']) ?></li>
+                        <li><?= Html::a('Kantor', ['/master-office/index']) ?></li>
                         <li><?= Html::a('Pangkat Golongan', ['/master-pangkat-golongan/index']) ?></li>
                         <li><?= Html::a('Pns Non-pns', ['/master-pns-nonpns/index']) ?></li>
                         <li><?= Html::a('Status Absensi', ['/master-status-absensi/index']) ?></li>

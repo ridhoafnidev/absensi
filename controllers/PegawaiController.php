@@ -31,6 +31,10 @@ class PegawaiController extends Controller
                         'allow' => false,
                         'roles' => ['?'],
                     ],
+                    [
+                        'allow' => true,    
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -70,12 +74,12 @@ class PegawaiController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Pegawai #".$id,
+                    'title'=> "Data Pegawai #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -103,7 +107,7 @@ class PegawaiController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Tambah Pegawai",
+                    'title'=> "Tambah Data Pegawai",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -125,15 +129,15 @@ class PegawaiController extends Controller
                 }
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Tambah Pegawai",
-                    'content'=>'<span class="text-success">Tambah Pegawai Berhasil</span>',
+                    'title'=> "Tambah Data Pegawai",
+                    'content'=>'<span class="text-success">Data Pewagawai Berhasil ditambahkan</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Tambah Pegawai",
+                    'title'=> "Tambah Data Pegawai",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -176,7 +180,7 @@ class PegawaiController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Pegawai #".$id,
+                    'title'=> "Perbarui Data Pegawai #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -186,16 +190,16 @@ class PegawaiController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Pegawai #".$id,
+                    'title'=> "Data Pegawai #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Pegawai #".$id,
+                    'title'=> "Perbarui Data Pegawai #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

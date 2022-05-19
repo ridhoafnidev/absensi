@@ -30,6 +30,10 @@ class AbsensiController extends Controller
                         'allow' => false,
                         'roles' => ['?'],
                     ],
+                    [
+                        'allow' => true,    
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -69,12 +73,12 @@ class AbsensiController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "TbAbsensi #".$id,
+                    'title'=> "Data Absensi #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -101,7 +105,7 @@ class AbsensiController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Tambah Absensi",
+                    'title'=> "Tambah Data Absensi",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -112,15 +116,15 @@ class AbsensiController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Tambah Absensi",
-                    'content'=>'<span class="text-success">Create TbAbsensi success</span>',
+                    'title'=> "Tambah Data Absensi",
+                    'content'=>'<span class="text-success">Data Absensi Berhasil ditambahkan</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Tambah Absensi",
+                    'title'=> "Tambah Data Absensi",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -163,7 +167,7 @@ class AbsensiController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Absensi #".$id,
+                    'title'=> "Perbarui Data Absensi #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -173,16 +177,16 @@ class AbsensiController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "TbAbsensi #".$id,
+                    'title'=> "Data Absensi #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Absensi #".$id,
+                    'title'=> "Perbarui Data  Absensi #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

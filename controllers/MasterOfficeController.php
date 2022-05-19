@@ -30,6 +30,10 @@ class MasterOfficeController extends Controller
                         'allow' => false,
                         'roles' => ['?'],
                     ],
+                    [
+                        'allow' => true,    
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -69,12 +73,12 @@ class MasterOfficeController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Master Office #".$id,
+                    'title'=> "Data Master Kantor #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -101,31 +105,31 @@ class MasterOfficeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Tambah Data Master Office",
+                    'title'=> "Tambah Data Master Kantor",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Tambah Data Master Office",
-                    'content'=>'<span class="text-success">Tambah Master Office Berhasil</span>',
+                    'title'=> "Tambah Data Master Kantor",
+                    'content'=>'<span class="text-success">Data Master Kantor Berhasil ditambahkan</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Tambah Data Master Office",
+                    'title'=> "Tambah Data Master Kantor",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -163,31 +167,31 @@ class MasterOfficeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Master Office #".$id,
+                    'title'=> "Perbarui Data Master Kantor #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Master Office #".$id,
+                    'title'=> "Data Master Kantor #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Master Office #".$id,
+                    'title'=> "Perbarui Data Master Kantor #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

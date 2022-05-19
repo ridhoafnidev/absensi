@@ -30,6 +30,10 @@ class MasterLevelController extends Controller
                         'allow' => false,
                         'roles' => ['?'],
                     ],
+                    [
+                        'allow' => true,    
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -69,12 +73,12 @@ class MasterLevelController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Master Level #".$id,
+                    'title'=> "Data Master Level #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -106,14 +110,13 @@ class MasterLevelController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-        
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Tambah Data Master Level",
-                    'content'=>'<span class="text-success">Master Level Berhasil Dibuat</span>',
+                    'content'=>'<span class="text-success">Data Master Level Berhasil ditambahkan</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
@@ -125,7 +128,7 @@ class MasterLevelController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -163,31 +166,31 @@ class MasterLevelController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Master Level #".$id,
+                    'title'=> "Perbarui Data Master Level #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "TbMasterLevel #".$id,
+                    'title'=> "Data Master Level #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update Master Level #".$id,
+                    'title'=> "Perbarui Data Master Level #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

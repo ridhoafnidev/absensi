@@ -10,7 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel app\models\TbAbsensiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Absensi';
+$this->title = 'Data Absensi';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -27,7 +27,7 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Tambah Absensi','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Tambah Data Absensi','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
@@ -42,15 +42,15 @@ CrudAsset::register($this);
                 'heading' => 'Data Absensi',
                 // 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
                 'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Hapus Semua',
                                 ["bulkdelete"] ,
                                 [
                                     "class"=>"btn btn-danger btn-xs",
                                     'role'=>'modal-remote-bulk',
                                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                     'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
+                                    'data-confirm-title'=>'Apakah anda yakin?',
+                                    'data-confirm-message'=>'Apakah anda yakin ingin menghapus item ini?'
                                 ]),
                         ]).                        
                         '<div class="clearfix"></div>',

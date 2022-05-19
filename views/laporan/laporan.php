@@ -165,8 +165,8 @@
     print_r($model_absensi);
     exit();
 
-    foreach ($model_absensi as $data) {
-        if ()
+//    foreach ($model_absensi as $data) {
+//        if ()
     }
 
     ?>

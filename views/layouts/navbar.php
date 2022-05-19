@@ -35,6 +35,10 @@ use yii\helpers\Html;
             <li>
                 <?= Html::a('<i class="fa fa-list"></i></span> <span class="nav-label"> Absensi', ['/absensi/index']) ?>
             </li>
+
+            <li>
+                <?= Html::a('<i class="fa fa-book"></i></span> <span class="nav-label"> Laporan', ['/laporan/index']) ?>
+            </li>
         </ul>
     </div>
 </nav>

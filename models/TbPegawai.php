@@ -22,6 +22,8 @@ use Yii;
  * @property int $jabatan_fungsional_id
  * @property int $pangkat_golongan_id
  * @property int $is_active
+ * @property string $grade
+ * @property string $tunjangan
  *
  * @property TbMasterJabatanFungsional $jabatanFungsional
  * @property TbMasterJabatanStruktural $jabatanStruktural
@@ -44,10 +46,6 @@ class TbPegawai extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-
-    public $username;
-    public $password;
-
     public function rules()
     {
         return [
@@ -57,6 +55,7 @@ class TbPegawai extends \yii\db\ActiveRecord
             [['nip'], 'string', 'max' => 20],
             [['nama_lengkap', 'foto', 'email'], 'string', 'max' => 50],
             [['no_hp'], 'string', 'max' => 16],
+            [['grade', 'tunjangan'], 'string', 'max' => 11],
             [['jabatan_fungsional_id'], 'exist', 'skipOnError' => true, 'targetClass' => TbMasterJabatanFungsional::className(), 'targetAttribute' => ['jabatan_fungsional_id' => 'id_jabatan_fungsional']],
             [['jabatan_struktural_id'], 'exist', 'skipOnError' => true, 'targetClass' => TbMasterJabatanStruktural::className(), 'targetAttribute' => ['jabatan_struktural_id' => 'id_master_jabatan_struktural']],
             [['jenis_tenaga_id'], 'exist', 'skipOnError' => true, 'targetClass' => TbMasterJenisTenaga::className(), 'targetAttribute' => ['jenis_tenaga_id' => 'id_master_jenis_tenaga']],
@@ -88,6 +87,8 @@ class TbPegawai extends \yii\db\ActiveRecord
             'jabatan_fungsional_id' => 'Jabatan Fungsional ID',
             'pangkat_golongan_id' => 'Pangkat Golongan ID',
             'is_active' => 'Is Active',
+            'grade' => 'Grade',
+            'tunjangan' => 'Tunjangan',
         ];
     }
 

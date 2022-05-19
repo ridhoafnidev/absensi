@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 18, 2022 at 12:11 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 7.4.28
+-- Host: localhost:3306
+-- Generation Time: May 19, 2022 at 10:09 AM
+-- Server version: 5.7.33
+-- PHP Version: 7.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,32 +36,27 @@ CREATE TABLE `tb_absensi` (
   `tanggal_selesai` varchar(10) NOT NULL DEFAULT '',
   `dokumen_pendukung` varchar(50) NOT NULL DEFAULT '',
   `jenis_cuti` varchar(150) NOT NULL DEFAULT '',
-  `lembur` tinyint(4) NOT NULL DEFAULT 0,
+  `lembur` tinyint(4) NOT NULL DEFAULT '0',
   `keterangan` varchar(100) NOT NULL DEFAULT '',
   `lat` double NOT NULL,
   `lng` double NOT NULL,
   `alamat_absensi` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
-  `jenis_absensi` enum('masuk','keluar') NOT NULL
+  `jenis_absensi` enum('masuk','keluar') NOT NULL,
+  `terlambat` varchar(11) NOT NULL DEFAULT '',
+  `plg_cepat` varchar(11) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_absensi`
 --
 
-INSERT INTO `tb_absensi` (`id_absensi`, `date_absensi`, `time_absensi`, `status_absensi_id`, `tanggal_mulai`, `tanggal_selesai`, `dokumen_pendukung`, `jenis_cuti`, `lembur`, `keterangan`, `lat`, `lng`, `alamat_absensi`, `created_at`, `updated_at`, `user_id`, `jenis_absensi`) VALUES
-(6, '2022-04-23', '13:57:59', 1, '', '', '2_1650442462738.jpg', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
-(7, '2022-04-29', '13:57:59', 2, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
-(78, '2022-05-11', '14:32:52', 1, '', '', '', '', 0, '', -0.3725003, 102.559869, 'JHG6+Q5M, Jl. Lintas Timur Belilas, Pasir Kemilu, Rengat, Kabupaten Indragiri Hulu, Riau 29351, Indonesia', '2022-05-11 07:32:53', '2022-05-11 07:32:53', 2, 'masuk'),
-(79, '2022-05-11', '14:33:01', 1, '', '', '', '', 0, '', -0.3728127, 102.5598117, 'JHG6+Q5M, Jl. Lintas Timur Belilas, Pasir Kemilu, Rengat, Kabupaten Indragiri Hulu, Riau 29351, Indonesia', '2022-05-11 07:33:02', '2022-05-11 07:33:02', 2, 'keluar'),
-(84, '2022-05-12', '17:28:26', 2, '', '', '', '', 0, '', -0.3725927, 102.5597409, 'JHG6+Q5M, Jl. Lintas Timur Belilas, Pasir Kemilu, Rengat, Kabupaten Indragiri Hulu, Riau 29351, Indonesia', '2022-05-12 10:28:27', '2022-05-12 10:28:27', 2, 'masuk'),
-(85, '2022-05-12', '17:40:06', 2, '', '', '', '', 0, '', -0.3725169, 102.5597028, 'JHG6+Q5M, Jl. Lintas Timur Belilas, Pasir Kemilu, Rengat, Kabupaten Indragiri Hulu, Riau 29351, Indonesia', '2022-05-12 10:40:06', '2022-05-12 10:40:06', 2, 'keluar'),
-(89, '2022-05-17', '14:16:44', 2, '', '', '', '', 0, '', -0.37284, 102.55984333333333, '', '2022-05-17 07:16:44', '2022-05-17 07:16:44', 2, 'masuk'),
-(90, '2022-05-17', '14:16:44', 2, '', '', '', '', 0, '', -0.37284, 102.55984333333333, '', '2022-05-17 07:16:44', '2022-05-17 07:16:44', 2, 'masuk'),
-(91, '2022-05-17', '14:17:29', 2, '', '', '', '', 0, '', -0.37284, 102.55984333333333, 'JHG6+Q5M, Jl. Lintas Timur Belilas, Pasir Kemilu, Kec. Rengat, Kabupaten Indragiri Hulu, Riau 29351, Indonesia', '2022-05-17 07:17:29', '2022-05-17 07:17:29', 2, 'keluar'),
-(92, '2022-05-18', '10:50:00', 2, '18/05/2022', '18/05/2022', 'ssds', 'dfdf', 0, 'sd', 676, 454, 'fdfdf', '2022-05-18 03:51:03', '2022-05-18 03:51:03', 2, 'keluar');
+INSERT INTO `tb_absensi` (`id_absensi`, `date_absensi`, `time_absensi`, `status_absensi_id`, `tanggal_mulai`, `tanggal_selesai`, `dokumen_pendukung`, `jenis_cuti`, `lembur`, `keterangan`, `lat`, `lng`, `alamat_absensi`, `created_at`, `updated_at`, `user_id`, `jenis_absensi`, `terlambat`, `plg_cepat`) VALUES
+(6, '2022-04-21', '07:38:00', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk', '', ''),
+(60, '2022-04-21', '16:57:59', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'keluar', '', ''),
+(61, '2022-04-22', '07:00:00', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk', '', '');
 
 -- --------------------------------------------------------
 
@@ -118,11 +113,11 @@ CREATE TABLE `tb_master_jam_kerja` (
 --
 
 INSERT INTO `tb_master_jam_kerja` (`id_jam_kerja`, `hari`, `jam`) VALUES
-(1, 'Senin', '07:30 - 16:00'),
-(2, 'Selasa', '07:30 - 16:00'),
-(3, 'Rabu', '07:30 - 16:00'),
-(4, 'Kamis', '07:30 - 16:00'),
-(5, 'Jumat', '07:30 - 16:30'),
+(1, 'Senin', '07:30:00 - 16:00:00'),
+(2, 'Selasa', '07:30:00 - 16:00:00'),
+(3, 'Rabu', '07:30:00 - 16:00:00'),
+(4, 'Kamis', '07:30:00 - 16:00:00'),
+(5, 'Jumat', '07:30:00 - 16:30:00'),
 (6, 'Sabtu', '00:00 - 00:00'),
 (7, 'Minggu', '00:00 - 00:00');
 
@@ -154,7 +149,7 @@ INSERT INTO `tb_master_jenis_tenaga` (`id_master_jenis_tenaga`, `jenis_tenaga`) 
 CREATE TABLE `tb_master_level` (
   `id_level` int(11) NOT NULL,
   `level` varchar(50) NOT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT 1
+  `is_active` tinyint(4) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -177,8 +172,8 @@ CREATE TABLE `tb_master_office` (
   `office_address` varchar(50) NOT NULL,
   `lat` double NOT NULL,
   `lng` double NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -186,7 +181,7 @@ CREATE TABLE `tb_master_office` (
 --
 
 INSERT INTO `tb_master_office` (`id_master_office`, `office_name`, `office_address`, `lat`, `lng`, `created_at`, `updated_at`) VALUES
-(1, 'Kantor Baru', 'Jalan Narasinga', -0.37284, 102.55984333333333, '2022-05-10 04:14:26', '2022-05-10 04:14:26');
+(1, 'Kantor Baru', 'Jalan Narasinga', -6.229455, 106.608975, '2022-05-10 04:14:26', '2022-05-10 04:14:26');
 
 -- --------------------------------------------------------
 
@@ -215,7 +210,7 @@ INSERT INTO `tb_master_pangkat_golongan` (`id_pangkat_golongan`, `pangkat_golong
 
 CREATE TABLE `tb_master_pns_nonpns` (
   `id_master_pns_nonpns` int(11) NOT NULL,
-  `pns_nonpns` int(11) NOT NULL
+  `pns_nonpns` varchar(7) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -223,8 +218,8 @@ CREATE TABLE `tb_master_pns_nonpns` (
 --
 
 INSERT INTO `tb_master_pns_nonpns` (`id_master_pns_nonpns`, `pns_nonpns`) VALUES
-(1, 1),
-(2, 2);
+(1, 'PNS'),
+(2, 'NON-PNS');
 
 -- --------------------------------------------------------
 
@@ -279,7 +274,7 @@ CREATE TABLE `tb_pegawai` (
   `nik` varchar(18) NOT NULL,
   `nip` varchar(20) NOT NULL,
   `nama_lengkap` varchar(50) NOT NULL,
-  `foto` varchar(50) NOT NULL,
+  `foto` varchar(50) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL,
   `no_hp` varchar(16) NOT NULL,
   `pns_nonpns_id` int(11) NOT NULL,
@@ -288,15 +283,18 @@ CREATE TABLE `tb_pegawai` (
   `jabatan_struktural_id` int(11) NOT NULL,
   `jabatan_fungsional_id` int(11) NOT NULL,
   `pangkat_golongan_id` int(11) NOT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT 1
+  `is_active` tinyint(4) NOT NULL DEFAULT '1',
+  `grade` varchar(11) NOT NULL DEFAULT '',
+  `tunjangan` varchar(11) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_pegawai`
 --
 
-INSERT INTO `tb_pegawai` (`id_pegawai`, `user_id`, `nik`, `nip`, `nama_lengkap`, `foto`, `email`, `no_hp`, `pns_nonpns_id`, `jenis_tenaga_id`, `unit_kerja_id`, `jabatan_struktural_id`, `jabatan_fungsional_id`, `pangkat_golongan_id`, `is_active`) VALUES
-(3, 2, '123456', '654321', 'Ahmad Zahid', '3_IMG_20220513_095658496.png', 'ahmad@gmail.com', '082154321267', 1, 1, 2, 1, 1, 1, 1);
+INSERT INTO `tb_pegawai` (`id_pegawai`, `user_id`, `nik`, `nip`, `nama_lengkap`, `foto`, `email`, `no_hp`, `pns_nonpns_id`, `jenis_tenaga_id`, `unit_kerja_id`, `jabatan_struktural_id`, `jabatan_fungsional_id`, `pangkat_golongan_id`, `is_active`, `grade`, `tunjangan`) VALUES
+(3, 2, '123456', '7654321', 'Ahmad Zahid', '3_images.jpeg', 'ahmad@gmail.com', '082154321267', 1, 1, 2, 1, 1, 1, 1, '', ''),
+(4, 5, '098765', '567890', 'Aman', '', 'aman@gmail.com', '0812', 1, 1, 1, 2, 1, 1, 1, '', '');
 
 -- --------------------------------------------------------
 
@@ -308,20 +306,22 @@ CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level_id` int(11) NOT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT 1,
-  `authkey` varchar(50) NOT NULL,
-  `accesToken` varchar(50) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `level_id` int(11) NOT NULL DEFAULT '1',
+  `is_active` tinyint(4) NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `authkey` varchar(50) NOT NULL DEFAULT '',
+  `accesToken` varchar(50) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level_id`, `is_active`, `authkey`, `accesToken`, `created_at`, `updated_at`) VALUES
-(2, 'ahmad', '$2y$10$2J8487haXMNup5mpAlbSUeUVJzcqYZuGqimoQVvWZ8s22oa.tRpQG', 1, 1, 'dsdsd', 'sdsdsd', '2022-04-12 08:08:56', '2022-04-12 08:08:56');
+INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level_id`, `is_active`, `created_at`, `updated_at`, `authkey`, `accesToken`) VALUES
+(2, 'ahmad', '$2y$10$Pcr5OgzbhEJ7oUllq6ZvYO9HKE1wd66p8Jk4JGZhzY3XicQBrkBSC', 1, 1, '2022-04-12 08:08:56', '2022-05-12 10:31:09', '', ''),
+(5, '567890', '567890', 1, 1, '2022-05-17 16:29:24', '2022-05-17 16:29:24', '', ''),
+(6, 'admin', '$2y$10$2J8487haXMNup5mpAlbSUeUVJzcqYZuGqimoQVvWZ8s22oa.tRpQG', 2, 1, '2022-04-12 08:08:56', '2022-05-12 10:31:09', '', '');
 
 --
 -- Indexes for dumped tables
@@ -423,7 +423,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_absensi`
 --
 ALTER TABLE `tb_absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `tb_master_jabatan_fungsional`
@@ -489,13 +489,13 @@ ALTER TABLE `tb_master_unit_kerja`
 -- AUTO_INCREMENT for table `tb_pegawai`
 --
 ALTER TABLE `tb_pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

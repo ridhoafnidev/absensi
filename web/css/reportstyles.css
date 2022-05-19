@@ -1,0 +1,47 @@
+.font-provinsi {
+    font-size: 17px;
+}
+
+.font-dinas {
+    font-size: 16px;
+}
+
+.font-sma {
+    font-size: 12px;
+}
+
+.kop table {
+    width: 100%;
+    margin-left: 17%;
+}
+
+.kop h1 {
+    font-weight: normal;
+    margin-bottom: -2px;
+    margin-top: -80px;
+    text-align: center;
+}
+
+.kop td {
+    font-size: 11px;
+}
+
+.box-kop {
+    border: 2px solid black ;
+    margin-top: -1.5%;
+}
+
+.content table{
+    margin-top: 5%;
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.content th,
+.content td {
+    font-family: "Modern No. 20";
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+}

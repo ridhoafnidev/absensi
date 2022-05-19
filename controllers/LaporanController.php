@@ -30,20 +30,32 @@ class LaporanController extends Controller
         $tgl_awal = Yii::$app->getRequest()->getQueryParam('awal');
         $tgl_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
 
-        $data = (new Query());
-        $data->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
+        $dataAbsensiMasuk = (new Query());
+        $dataAbsensiMasuk->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
         ->from('tb_absensi')
         ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ');
+        ->where('tb_absensi.jenis_absensi="masuk" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ');
 
-        $command = $data->createCommand();
-        $modelAbsensiMasuk = $command->queryAll();
+        $dataAbsensiKeluar = (new Query());
+        $dataAbsensiKeluar->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
+        ->from('tb_absensi')
+        ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
+        ->where('tb_absensi.jenis_absensi="keluar" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ');
+
+        $commandAbsensiMasuk = $dataAbsensiMasuk->createCommand();
+        $modelAbsensiMasuk = $commandAbsensiMasuk->queryAll();
+
+        $commandAbsensiKeluar = $dataAbsensiKeluar->createCommand();
+        $modelAbsensiKeluar = $commandAbsensiKeluar->queryAll();
 
         $mpdf = new Mpdf();
         $mpdf->SetTitle("Laporan");
+        $stylesheet = file_get_contents('http://localhost/absensi/web/css/reportstyles.css');
+        $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
         $mpdf->WriteHTML($this->renderPartial('laporan', [
             'model' => $model,
             'model_absensi_masuk' => $modelAbsensiMasuk,
+            'model_absensi_keluar' => $modelAbsensiKeluar,
         ]));
         $mpdf->Output('laporan.pdf', 'I');
         exit();

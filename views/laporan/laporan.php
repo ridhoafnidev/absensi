@@ -32,37 +32,16 @@
             border: 0.5px solid #000000;
         }
 
-        .font-yayasan {
+        .font-title {
             font-weight: bold;
-            font-size:20.5px;
-            font-family: "Modern No. 20";
-        }
-        .font-pendidikan{
-            font-size: 14px;
-            font-weight: bold;
-            font-family: "Modern No. 20";
-        }
-        .font-alfurqon{
-            font-size: 14px;
-            font-weight: bold;
-            font-family: "Modern No. 20";
+            font-size:14px;
+            font-family: Arial;
         }
         .font-jl{
-            font-size: 11px;
-            font-weight: bold;
+            font-size: 14px;
+            font-weight: normal;
             font-family: Arial;
-        }
-        .font-tel{
-            font-size: 11px;
-            font-weight: bold;
-            font-family: Arial;
-        }
-        .font-pos{
-            margin-left: 20%;
-            font-size: 11px;
-            font-weight: bold;
-            font-family: Arial;
-        }
+        } font-family: Arial;
 
         .kop table {
             font-weight: bold;
@@ -84,16 +63,16 @@
 
 <div style="text-align: center;">
     <div class="kop">
-        <font class="font-yayasan">KEMENTERIAN AGAMA REPUBLIK INDONESIA</font><br>
-        <font class="font-pendidikan">KANTOR WILAYAH KEMENTERIAN AGAMA</font><br>
-        <font class="font-alfurqon">PROVINSI RIAU</font><br>
-        <font class="font-jl">JL. KULIM BERINGIN INDAH KECAMATAN MARPOYAN DAMAI</font><br>
-        <table><tr><td>TELEPON : 0761 – 7637045</td><td>KODE POS : 28294</td></tr></table>
+        <img src="http://localhost/absensi/web/gambar/kop/riau.png" width="60" height="80" style="margin-left: 7%">
+        <font class="font-title">KEMENTERIAN AGAMA REPUBLIK INDONESIA</font><br>
+        <font class="font-title">KANTOR KEMENTERIAN AGAMA KABUPATEN INDRAGIRI HULU</font><br>
+        <font class="font-jl">JL. Lintas Timur - Pematang Reba</font><br>
+        <font class="font-jl">Telepon (0769) 341576; Faksimili (0769) 341574 </font><br>
     </div>
 </div>
 
-<div class="box-kop"/>
 <div class="box-kop-under"/>
+<div class="box-kop"/>
 
 <table border="1" width="100%" style="margin-top: 50px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
     <tr>
@@ -130,7 +109,7 @@
                 $hari = 'Kamis';
                 break;
             case 'Friday':
-                $hari = 'Jum\'at';
+                $hari = 'Jumat';
                 break;
             case 'Saturday':
                 $hari = 'Sabtu';
@@ -148,7 +127,7 @@
             ->where(['hari' => $day])
             ->one();
 
-        $daySplite = split('-', $dayJamKerja);
+        $daySplite = explode('-', $dayJamKerja->jam);
         return $daySplite[0];
     }
 
@@ -158,23 +137,111 @@
             ->where(['hari' => $day])
             ->one();
 
-        $daySplite = split('-', $dayJamKerja);
+        $daySplite = explode('-', $dayJamKerja->jam);
         return $daySplite[1];
     }
 
-//    print_r($model_absensi);
-//    foreach ($model_absensi as $data) {
-//        if ($data['date_absensi'] )
-//    }
-//    exit();
+    $absensi =array();
+    foreach ($model_absensi_masuk as $dataMasuk) {
+        foreach ($model_absensi_keluar as $dataKeluar) {
+            if ($dataMasuk['date_absensi'] == $dataKeluar['date_absensi']){
+                $array['date_absensi'] = $dataMasuk['date_absensi'];
+                $array['time_absensi_masuk'] = $dataMasuk['time_absensi'];
+                $array['time_absensi_keluar'] = $dataKeluar['time_absensi'];
 
-//    foreach ($model_absensi as $data) {
-//        if ()
+                $array['terlambat'] = $dataMasuk['terlambat'];
+                $array['plg_cepat'] = $dataMasuk['plg_cepat'];
+                $array['pengecualian'] = $dataMasuk['status_absensi'];
+                $array['lembur'] = $dataMasuk['lembur'];
 
+            }
+            else {
+                $array['date_absensi'] = $dataMasuk['date_absensi'];
+                $array['time_absensi_masuk'] = $dataMasuk['time_absensi'];
+                $array['time_absensi_keluar'] = "";
 
-    ?>
+                $array['terlambat'] = $dataMasuk['terlambat'];
+                $array['plg_cepat'] = $dataMasuk['plg_cepat'];
+                $array['pengecualian'] = $dataMasuk['status_absensi'];
+                $array['lembur'] = $dataMasuk['lembur'];
+            }
+            array_push($absensi, $array);
+        }
+    }
 
+    foreach ($absensi as $data):?>
+        <tr>
+            <td><?php
+                $date = strtotime($data['date_absensi']);
+                echo convertDay(date('l', $date));
+                ?>
+            </td>
+            <td><?= $data['date_absensi'] ?></td>
+            <td>
+                <?php
+                echo  getJamMasukByHari(convertDay(date('l', $date)));
+                ?>
+            </td>
+            <td>
+                <?php
+                echo  getJamKeluarByHari(convertDay(date('l', $date)));
+                ?>
+            </td>
+            <td><?= $data['time_absensi_masuk'] ?></td>
+            <td><?= $data['time_absensi_keluar'] ?></td>
+            <td>
+                <?php
 
+                    $time1 = strtotime(getJamMasukByHari(convertDay(date('l', $date))));
+                    $time2 = strtotime($data['time_absensi_masuk']);
+
+                    if ($time2 > $time1) {
+                        $timeOffice1 = new DateTime(getJamMasukByHari(convertDay(date('l', $date))));
+                        $timeMasuk2 = new DateTime($data['time_absensi_masuk']);
+
+                         $lateTime = $timeOffice1->diff($timeMasuk2)->format('%H:%S');
+                         if ($lateTime != "00:00") {
+                             echo $lateTime;
+                         } else {
+                             "";
+                         }
+                    }
+                ?>
+            </td>
+            <td><?= $data['plg_cepat'] ?></td>
+            <td><?php
+                if ($data['pengecualian'] == "Dinas Luar") {
+                    echo "OL";
+                }
+                else {
+                    echo $data['pengecualian'] ;
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                $timeMasuk = new DateTime($data['time_absensi_masuk']);
+                $timeKeluar = new DateTime($data['time_absensi_keluar']);
+                echo $timeMasuk->diff($timeKeluar)->format('%H:%S');
+                ?>
+            </td>
+            <td>
+                <?php
+                    if ($data['time_absensi_keluar'] != ""){
+                        $timeJadwalKeluar = new DateTime(getJamKeluarByHari(convertDay(date('l', $date))));
+                        $timeKantorKeluar = new DateTime($data['time_absensi_keluar']);
+                        echo $timeJadwalKeluar->diff($timeKantorKeluar)->format('%H:%S');
+                    }
+                    else {
+                        echo "";
+                    }
+
+                ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+
+</table>
 
 </body>
 </html>

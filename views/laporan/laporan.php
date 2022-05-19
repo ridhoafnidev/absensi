@@ -8,18 +8,8 @@
     <title>Document</title>
     <link rel="stylesheet" href=""/>
     <style>
-        . table {
-            border: 1px solid black;
-            border-collapse: collapse;
-            padding: 5px;
-        }
-
-        .tr, td {
-            padding-left: 10px;
-        }
-
-        . font {
-            color: #00B050;
+        * {
+            font-family: Arial, serif;
         }
 
         .box-kop {
@@ -35,13 +25,24 @@
         .font-title {
             font-weight: bold;
             font-size:14px;
-            font-family: Arial;
         }
-        .font-jl{
-            font-size: 14px;
-            font-weight: normal;
-            font-family: Arial;
-        } font-family: Arial;
+
+        .font-subtitle {
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .font-date {
+            font-size: 12px;
+            text-align: center;
+            margin-top: -2px;
+        }
+
+        .kop td {
+            text-align: center;
+        }
 
         .kop table {
             font-weight: bold;
@@ -49,32 +50,75 @@
             border: 0;
             margin-left: auto;
             margin-right: auto;
-            font-family: Arial;
             color: #00B050;
         }
 
-        .kop td, kop th {
+        .kop td, .kop th {
             padding-left: 20px;
         }
 
+        .biodata {
+            width: 100%;
+        }
+        .biodata td {
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
 
-<div style="text-align: center;">
-    <div class="kop">
-        <img src="http://localhost/absensi/web/gambar/kop/riau.png" width="60" height="80" style="margin-left: 7%">
-        <font class="font-title">KEMENTERIAN AGAMA REPUBLIK INDONESIA</font><br>
-        <font class="font-title">KANTOR KEMENTERIAN AGAMA KABUPATEN INDRAGIRI HULU</font><br>
-        <font class="font-jl">JL. Lintas Timur - Pematang Reba</font><br>
-        <font class="font-jl">Telepon (0769) 341576; Faksimili (0769) 341574 </font><br>
-    </div>
-</div>
+<table class="kop">
+    <tr>
+        <td rowspan="4">
+            <img src="http://localhost/absensi/web/gambar/kop/riau.png" width="60" height="80" alt="Logo Depag">
+        </td>
+        <td>
+            <h1 class="font-title">KEMENTERIAN AGAMA REPUBLIK INDONESIA</h1>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2 class="font-title">KANTOR KEMENTERIAN AGAMA KABUPATEN INDRAGIRI HULU</h2>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p class="font-jl">JL. Lintas Timur - Pematang Reba</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p class="font-jl">Telepon (0769) 341576; Faksimili (0769) 341574</p>
+        </td>
+    </tr>
+</table>
 
-<div class="box-kop-under"/>
-<div class="box-kop"/>
+<div class="box-kop-under"></div>
+<div class="box-kop"></div>
 
-<table border="1" width="100%" style="margin-top: 50px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
+<h1 class="font-subtitle">REKAP ABSEN</h1>
+<p class="font-date">Maret 2020</p>
+
+<table class="biodata">
+    <tr>
+        <td>Nama</td>
+        <td colspan="5">Abdul Hafiz Ramadan</td>
+        <td>Grade</td>
+        <td>11</td>
+    </tr>
+    <tr>
+        <td>NIP</td>
+        <td colspan="5">123456789</td>
+        <td>Tunjangan</td>
+        <td>Rp. 10000000000</td>
+    </tr>
+    <tr>
+        <td>Pangkat Gol</td>
+        <td colspan="5">Owner</td>
+    </tr>
+</table>
+
+<table border="1" width="100%" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
     <tr>
         <th>Hari</th>
         <th>Tanggal</th>

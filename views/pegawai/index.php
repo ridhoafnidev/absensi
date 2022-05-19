@@ -10,7 +10,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel app\models\TbPegawaiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Pegawai';
+$this->title = 'Data Pegawai';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -27,7 +27,7 @@ CrudAsset::register($this);
             'toolbar'=> [
                 ['content'=>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Tambah Pegawai','class'=>'btn btn-default']).
+                    ['role'=>'modal-remote','title'=> 'Tambah Data Pegawai','class'=>'btn btn-default']).
                     Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
                     '{toggleData}'.
@@ -49,8 +49,8 @@ CrudAsset::register($this);
                                     'role'=>'modal-remote-bulk',
                                     'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                                     'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Are you sure?',
-                                    'data-confirm-message'=>'Are you sure want to delete this item'
+                                    'data-confirm-title'=>'Apakah anda yakin?',
+                                    'data-confirm-message'=>'Apakah anda yakin ingin menghapus item ini?'
                                 ]),
                         ]).                        
                         '<div class="clearfix"></div>',

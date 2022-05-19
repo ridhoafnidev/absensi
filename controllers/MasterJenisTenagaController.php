@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\filters\AccessControl;
 
 /**
  * MasterJenisTenagaController implements the CRUD actions for TbMasterJenisTenaga model.
@@ -22,6 +23,19 @@ class MasterJenisTenagaController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => false,
+                        'roles' => ['?'],
+                    ],
+                    [
+                        'allow' => true,    
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -59,12 +73,12 @@ class MasterJenisTenagaController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Master Jenis Tenaga #".$id,
+                    'title'=> "Data Master Jenis Tenaga #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
@@ -103,7 +117,7 @@ class MasterJenisTenagaController extends Controller
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Tambah Data Master Jenis Tenaga",
-                    'content'=>'<span class="text-success">Master Jenis Tenaga Berhasil Ditambah</span>',
+                    'content'=>'<span class="text-success">Data Master Jenis Tenaga Berhasil ditambahkan</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
@@ -114,8 +128,8 @@ class MasterJenisTenagaController extends Controller
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             }
@@ -153,7 +167,7 @@ class MasterJenisTenagaController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Perbarui Master Jenis Tenaga #".$id,
+                    'title'=> "Perbarui Data Master Jenis Tenaga #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -163,16 +177,16 @@ class MasterJenisTenagaController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Master Jenis Tenaga #".$id,
+                    'title'=> "Data Master Jenis Tenaga #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Ubah',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Perbarui Master Jenis Tenaga #".$id,
+                    'title'=> "Perbarui Data Master Jenis Tenaga #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

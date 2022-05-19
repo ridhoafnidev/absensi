@@ -17,12 +17,9 @@ use Yii;
  */
 class Admin extends \yii\db\ActiveRecord implements IdentityInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
-        return 'admin';
+        return 'tb_user';
     }
 
     /**
@@ -31,9 +28,10 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password'], 'required'],
+            [['username', 'password', 'level_id', 'is_active','authkey', 'accesToken', 'createdAt', 'updatedAt'], 'required'],
             [['createdAt', 'updatedAt'], 'safe'],
-            [['username', 'password', 'authkey', 'accesToken'], 'string', 'max' => 50],
+            [['username', 'authkey', 'accesToken'], 'string', 'max' => 50],
+            [['password'], 'string', 'max' => 255],
         ];
     }
 
@@ -43,7 +41,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'id_admin' => 'Id Admin',
+            'id_user' => 'Id User',
             'username' => 'Username',
             'password' => 'Password',
             'authkey' => 'Authkey',
@@ -92,7 +90,8 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
       // mencari user berdasarkan username dan yang dicari haya 1
-        $user = Admin::find()->where(['username' => $username])->one();
+        $user = Admin::find()->where(['username' => $username])
+            ->andWhere(['level_id' => 2])->one();
 
         if ($user != null) {
             return $user;
@@ -106,7 +105,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getId()
     {
-        return $this->id_admin;
+        return $this->id_user;
     }
 
     /**
@@ -133,7 +132,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return Yii::$app->security->validatePassword($password, $this->password);
     }
 
 }

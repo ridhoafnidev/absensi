@@ -37,7 +37,7 @@ use yii\widgets\DetailView;
             'updated_at',
             array(
                 'attribute' => 'Username',
-               'value' => $model->user->username,
+                'value' => $model->user->username,
             ),
             'jenis_absensi',
         ],

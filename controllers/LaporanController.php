@@ -51,6 +51,16 @@ class LaporanController extends Controller
         $commandAbsensiAll = $dataAbsensiAll->createCommand();
         $modelAbsensiAll = $commandAbsensiAll->queryAll();
 
+        $dataAbsensiDl = (new Query());
+        $dataAbsensiDl->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
+        ->from('tb_absensi')
+        ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
+        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.status_absensi_id="5" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
+        ->groupBy('tb_absensi.date_absensi');
+
+        $commandAbsensiDl = $dataAbsensiDl->createCommand();
+        $modelAbsensiDl = $commandAbsensiDl->queryAll();
+
         $mpdf = new Mpdf();
         $mpdf->SetTitle("Laporan");
         $stylesheet = file_get_contents('http://localhost/absensi/web/css/reportstyles.css');
@@ -58,6 +68,7 @@ class LaporanController extends Controller
         $mpdf->WriteHTML($this->renderPartial('laporan', [
             'model' => $model,
             'model_absensi_all' => $modelAbsensiAll,
+            'model_absensi_dl' => $modelAbsensiDl,
             'model_user' => $modelUser,
         ]));
         $mpdf->Output('laporan.pdf', 'I');

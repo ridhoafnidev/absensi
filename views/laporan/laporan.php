@@ -88,6 +88,8 @@ $bulan_awal = Yii::$app->getRequest()->getQueryParam('awal');
 $bulan_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
 $split_awal = explode('-', $bulan_awal);
 
+$tahun = $split_awal[0];
+
 function month_indo($month)
 {
     $bulan = array(1 => 'Januari',
@@ -194,7 +196,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         <th>Jam Pulang</th>
         <th>Scan Masuk</th>
         <th>Scan Pulang</th>
-        <th>Terlambar</th>
+        <th>Terlambat</th>
         <th>Plg. Cepat</th>
         <th>Pengecualian</th>
         <th>Jumlah Jam Kerja</th>
@@ -280,6 +282,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
             $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
             $array['lembur'] = $dataAbsensi[0]['lembur'];
+            $array['status_absensi_id'] = $dataAbsensi[0]['status_absensi_id'];
 
             array_push($absensi, $array);
 
@@ -295,6 +298,18 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
                 $diffDate = $dtDate1->diff($dtDate2)->format("%d");
 
+                for ($i = 0; $i <= $diffDate; $i++ ) {
+                    $array['date_absensi'] = date('Y-m-d', strtotime($date1. ' + '.$i.' days'));
+                    $array['time_absensi_masuk'] = "";
+                    $array['time_absensi_keluar'] = "";
+
+                    $array['pengecualian'] = $dataAll['status_absensi_id'];
+                    $array['lembur'] = $dataAll['lembur'];
+                    $array['status_absensi_id'] = $dataAll['status_absensi_id'];
+
+                    array_push($absensi, $array);
+                }
+
             }
             else {
                 $array['date_absensi'] = $dataAbsensi[0]['date_absensi'];
@@ -309,6 +324,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
                 $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
                 $array['lembur'] = $dataAbsensi[0]['lembur'];
+                $array['status_absensi_id'] = $dataAbsensi[0]['status_absensi_id'];
 
                 array_push($absensi, $array);
             }
@@ -377,7 +393,8 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
     foreach ($absensi as $data):?>
         <tr>
-            <td><?php
+            <td>
+                <?php
                 $date = strtotime($data['date_absensi']);
                 echo convertDay(date('l', $date));
                 ?>
@@ -388,16 +405,21 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             <td>
                 <?php
                     $timeAbsensiMasuk = $data['time_absensi_masuk'];
-                    if (empty($timeAbsensiMasuk)){
-                        $totalPersenTerlambat += 1.5;
+                    if ($data['status_absensi_id'] != "5"){
+                        if (empty($timeAbsensiMasuk)){
+                            $totalPersenTerlambat += 1.5;
+                        }
                     }
+
                     echo $timeAbsensiMasuk;
                 ?>
             </td>
             <td><?php
                 $timeAbsensiKeluar= $data['time_absensi_keluar'];
-                if (empty($timeAbsensiKeluar)){
-                    $totalPersenTerlambat = $totalPersenTerlambat + 1.5;
+                if ($data['status_absensi_id'] != "5"){
+                    if (empty($timeAbsensiKeluar)){
+                        $totalPersenTerlambat += 1.5;
+                    }
                 }
                 echo $timeAbsensiKeluar;
                 ?></td>
@@ -422,12 +444,18 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 ?>
             </td>
             <td></td>
-            <td><?= getException($data['pengecualian']) ?></td>
+            <td style="text-align: center"><?= getException($data['pengecualian']) ?></td>
             <td>
                 <?php
                 $timeMasuk = new DateTime($data['time_absensi_masuk']);
                 $timeKeluar = new DateTime($data['time_absensi_keluar']);
-                echo getDiffTime($timeMasuk, $timeKeluar);
+                $diffAllTime = getDiffTime($timeMasuk, $timeKeluar);
+                if ($diffAllTime != "00:00") {
+                    echo $diffAllTime;
+                }
+                else {
+                    echo "";
+                }
                 ?>
             </td>
             <td>
@@ -456,7 +484,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 <th>Total Pemotongan(%)</th>
             </tr>
             <tr>
-                <td style="text-align: center"><?= count($absensi) ?></td>
+                <td style="text-align: center"><?= count($model_absensi_all) - count($model_absensi_dl)?></td>
                 <td style="text-align: center"><?= $totalPersenTerlambat ?></td>
             </tr>
         </table>
@@ -474,13 +502,13 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 </div>
 
 <br>
-<p style="margin-left:400px; font-size:14px;font-family:Arial, Times, serif;">
+<p style="margin-left:400px; font-size:12px;font-family:Arial, Times, serif;">
     Pekanbaru, <?= date("d") ?> <?= month_indo(date('m')) ?> <?= date("Y") ?>
 </p>
-<p style="margin-left:400px; font-size:14px;font-family:Arial, Times, serif;">
+<p style="margin-left:400px; font-size:12px;font-family:Arial, Times, serif;">
     Pelaksana Perhitungan Tunjangan Kinerja
 </p>
-<p style="margin-left:400px; margin-top:100px; font-size:14px;font-family:'Times New Roman', Times, serif;">
+<p style="margin-left:400px; margin-top:100px; font-size:12px;font-family:'Times New Roman', Times, serif;">
     HAFIZUDDIN, SE <br>
     NIP: ...
 </p>

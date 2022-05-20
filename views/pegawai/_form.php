@@ -13,9 +13,9 @@ use yii\widgets\ActiveForm;
 
 <!--    < $form->field($model, 'user_id')->textInput() ?>-->
 
-    <?= $form->field($model, 'nik')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nik')->textInput(['maxlength' => true, 'type' => 'number']) ?>
 
-    <?= $form->field($model, 'nip')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nip')->textInput(['maxlength' => true, 'type' => 'number']) ?>
 
     <?= $form->field($model, 'nama_lengkap')->textInput(['maxlength' => true]) ?>
 
@@ -96,6 +96,10 @@ use yii\widgets\ActiveForm;
         ['prompt' => 'Pilih...']
     )->label('Pangkat Golongan');
     ?>
+
+    <?= $form->field($model, 'grade')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'tunjangan')->textInput(['maxlength' => true, 'type' => 'number']) ?>
 
 <!--    < $form->field($model, 'is_active')->textInput() ?>-->
 

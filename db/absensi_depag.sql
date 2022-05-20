@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 19, 2022 at 10:09 AM
+-- Generation Time: May 20, 2022 at 12:08 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -44,19 +44,20 @@ CREATE TABLE `tb_absensi` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
-  `jenis_absensi` enum('masuk','keluar') NOT NULL,
-  `terlambat` varchar(11) NOT NULL DEFAULT '',
-  `plg_cepat` varchar(11) NOT NULL DEFAULT ''
+  `jenis_absensi` enum('masuk','keluar') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_absensi`
 --
 
-INSERT INTO `tb_absensi` (`id_absensi`, `date_absensi`, `time_absensi`, `status_absensi_id`, `tanggal_mulai`, `tanggal_selesai`, `dokumen_pendukung`, `jenis_cuti`, `lembur`, `keterangan`, `lat`, `lng`, `alamat_absensi`, `created_at`, `updated_at`, `user_id`, `jenis_absensi`, `terlambat`, `plg_cepat`) VALUES
-(6, '2022-04-21', '07:38:00', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk', '', ''),
-(60, '2022-04-21', '16:57:59', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'keluar', '', ''),
-(61, '2022-04-22', '07:00:00', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk', '', '');
+INSERT INTO `tb_absensi` (`id_absensi`, `date_absensi`, `time_absensi`, `status_absensi_id`, `tanggal_mulai`, `tanggal_selesai`, `dokumen_pendukung`, `jenis_cuti`, `lembur`, `keterangan`, `lat`, `lng`, `alamat_absensi`, `created_at`, `updated_at`, `user_id`, `jenis_absensi`) VALUES
+(6, '2022-04-21', '07:38:00', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
+(60, '2022-04-21', '16:57:59', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'keluar'),
+(61, '2022-04-22', '07:55:03', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
+(62, '2022-04-22', '17:01:34', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'keluar'),
+(63, '2022-04-19', '07:22:36', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
+(64, '2022-04-25', '00:00:00', 5, '2022-04-25', '2022-04-27', '', '', 0, '', 0, 0, 'PKU', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk');
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,7 @@ INSERT INTO `tb_master_jam_kerja` (`id_jam_kerja`, `hari`, `jam`) VALUES
 (2, 'Selasa', '07:30:00 - 16:00:00'),
 (3, 'Rabu', '07:30:00 - 16:00:00'),
 (4, 'Kamis', '07:30:00 - 16:00:00'),
-(5, 'Jumat', '07:30:00 - 16:30:00'),
+(5, 'Jumat', '07:30:00 - 16:00:00'),
 (6, 'Sabtu', '00:00 - 00:00'),
 (7, 'Minggu', '00:00 - 00:00');
 
@@ -293,8 +294,8 @@ CREATE TABLE `tb_pegawai` (
 --
 
 INSERT INTO `tb_pegawai` (`id_pegawai`, `user_id`, `nik`, `nip`, `nama_lengkap`, `foto`, `email`, `no_hp`, `pns_nonpns_id`, `jenis_tenaga_id`, `unit_kerja_id`, `jabatan_struktural_id`, `jabatan_fungsional_id`, `pangkat_golongan_id`, `is_active`, `grade`, `tunjangan`) VALUES
-(3, 2, '123456', '7654321', 'Ahmad Zahid', '3_images.jpeg', 'ahmad@gmail.com', '082154321267', 1, 1, 2, 1, 1, 1, 1, '', ''),
-(4, 5, '098765', '567890', 'Aman', '', 'aman@gmail.com', '0812', 1, 1, 1, 2, 1, 1, 1, '', '');
+(3, 2, '123456', '7654321', 'Ahmad Zahid', '3_images.jpeg', 'ahmad@gmail.com', '082154321267', 1, 1, 2, 1, 1, 1, 1, '11', '5000000'),
+(4, 5, '098765', '567890', 'Aman', '', 'aman@gmail.com', '0812', 1, 1, 1, 2, 1, 1, 1, '11', '6500000');
 
 -- --------------------------------------------------------
 
@@ -423,7 +424,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_absensi`
 --
 ALTER TABLE `tb_absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT for table `tb_master_jabatan_fungsional`

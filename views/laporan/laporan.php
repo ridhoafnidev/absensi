@@ -136,7 +136,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 <table class="kop">
     <tr>
         <td rowspan="4">
-            <img src="http://localhost/absensi/web/gambar/kop/riau.png" width="60" height="80" alt="Logo Depag">
+            <img src="http://localhost/absensi/web/gambar/kop/depaglogo.png" width="70" height="80" alt="Logo Depag">
         </td>
         <td>
             <h1 class="font-title">KEMENTERIAN AGAMA REPUBLIK INDONESIA</h1>
@@ -176,11 +176,13 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         <td>NIP</td>
         <td colspan="5">: <?= $model_user['nip'] ?></td>
         <td>Tunjangan</td>
-        <td>: </td>
+        <td>: <?php
+            if ($model_user['pns_nonpns_id'] == "1") { echo "Rp. ".number_format($model_user['tunjangan']);  }
+            ?></td>
     </tr>
     <tr>
         <td>Pangkat Gol</td>
-        <td colspan="5">: Owner</td>
+        <td colspan="5">: <?= $model_user['pangkat_golongan'] ?></td>
     </tr>
 </table>
 
@@ -199,6 +201,11 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         <th>Lembur</th>
     </tr>
     <?php
+
+    function getTunjangan($tunjangan, $totalPersenTerlambat)
+    {
+        return $tunjangan - ($tunjangan * $totalPersenTerlambat / 100);
+    }
 
     function convertDay($day)
     {
@@ -254,6 +261,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     $absensi =array();
 
     $index = 0;
+
     foreach ($model_absensi_all as $dataAll) {
 
         $cekSizeDate = \app\models\TbAbsensi::find()
@@ -280,21 +288,35 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         }
         else if ($cekSizeDate == 1){
 
-            $array['date_absensi'] = $dataAbsensi[0]['date_absensi'];
-            if ($dataAbsensi[0]['jenis_absensi'] == "masuk"){
-                $array['time_absensi_masuk'] = $dataAbsensi[0]['time_absensi'];
-                $array['time_absensi_keluar'] = "";
+            if ($dataAll['status_absensi_id'] == "5") {
+                $date1 = $dataAll['tanggal_mulai'];
+                $date2 = $dataAll['tanggal_selesai'];
+
+                $dtDate1 = new DateTime($date1);
+                $dtDate2 = new DateTime($date2);
+
+                $diffDate = $dtDate1->diff($dtDate2)->format("%d");
+
             }
             else {
-                $array['time_absensi_masuk'] = "";
-                $array['time_absensi_keluar'] = $dataAbsensi[0]['time_absensi'];
-            }
-            $array['terlambat'] = $dataAbsensi[0]['terlambat'];
-            $array['plg_cepat'] = $dataAbsensi[0]['plg_cepat'];
-            $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
-            $array['lembur'] = $dataAbsensi[0]['lembur'];
+                $array['date_absensi'] = $dataAbsensi[0]['date_absensi'];
+                if ($dataAbsensi[0]['jenis_absensi'] == "masuk"){
+                    $array['time_absensi_masuk'] = $dataAbsensi[0]['time_absensi'];
+                    $array['time_absensi_keluar'] = "";
+                }
+                else {
+                    $array['time_absensi_masuk'] = "";
+                    $array['time_absensi_keluar'] = $dataAbsensi[0]['time_absensi'];
+                }
+                $array['terlambat'] = $dataAbsensi[0]['terlambat'];
+                $array['plg_cepat'] = $dataAbsensi[0]['plg_cepat'];
+                $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
+                $array['lembur'] = $dataAbsensi[0]['lembur'];
 
-            array_push($absensi, $array);
+                array_push($absensi, $array);
+            }
+
+
 
         }
 
@@ -329,9 +351,8 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     }
 
     $index = 0;
-    $totalPersenTerlambat = 0;
-    $totalTerlambar = 0.0;
     $totalMinute = 0;
+    $totalPersenTerlambat = 0;
 
     function getPercentageLate($lateTime)
     {
@@ -395,7 +416,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
                     $lateTime = getDiffTime($timeOffice1, $timeMasuk2);
                     if ($lateTime != "00:00") {
-                        $totalTerlambar += getPercentageLate($lateTime);
+                        $totalPersenTerlambat += getPercentageLate($lateTime);
                         echo $lateTime;
                     } else {
                         "";
@@ -449,7 +470,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 <th><b>Tunjangan Kinerja</b></th>
             </tr>
             <tr>
-                <td style="text-align: center"><?= $totalPersenTerlambat ?></td>
+                <td style="text-align: center"><?= "Rp. ".number_format(getTunjangan($model_user['tunjangan'], $totalPersenTerlambat)) ?></td>
             </tr>
         </table>
     </div>

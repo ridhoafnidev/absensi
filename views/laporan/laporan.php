@@ -278,8 +278,6 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             $array['time_absensi_masuk'] = $dataAbsensi[0]['time_absensi'];
             $array['time_absensi_keluar'] = $dataAbsensi[1]['time_absensi'];
 
-            $array['terlambat'] = $dataAbsensi[0]['terlambat'];
-            $array['plg_cepat'] = $dataAbsensi[0]['plg_cepat'];
             $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
             $array['lembur'] = $dataAbsensi[0]['lembur'];
 
@@ -308,8 +306,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                     $array['time_absensi_masuk'] = "";
                     $array['time_absensi_keluar'] = $dataAbsensi[0]['time_absensi'];
                 }
-                $array['terlambat'] = $dataAbsensi[0]['terlambat'];
-                $array['plg_cepat'] = $dataAbsensi[0]['plg_cepat'];
+
                 $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
                 $array['lembur'] = $dataAbsensi[0]['lembur'];
 
@@ -424,7 +421,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 }
                 ?>
             </td>
-            <td><?= $data['plg_cepat'] ?></td>
+            <td></td>
             <td><?= getException($data['pengecualian']) ?></td>
             <td>
                 <?php

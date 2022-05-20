@@ -15,8 +15,9 @@ class LaporanController extends Controller
         if ($model->load($post)) {
             $bulanAwal = $post['TbAbsensi']['bulan_awal'];
             $bulanAkhir = $post['TbAbsensi']['bulan_akhir'];
+            $user = $post['TbAbsensi']['user'];
 
-            return $this->redirect(['laporan', 'awal' => $bulanAwal, 'akhir' => $bulanAkhir]);
+            return $this->redirect(['laporan', 'awal' => $bulanAwal, 'akhir' => $bulanAkhir, 'user' => $user]);
         }
 
         return $this->render('index', [
@@ -29,24 +30,26 @@ class LaporanController extends Controller
 
         $tgl_awal = Yii::$app->getRequest()->getQueryParam('awal');
         $tgl_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
+        $idUser = Yii::$app->getRequest()->getQueryParam('user');
 
-        $dataAbsensiMasuk = (new Query());
-        $dataAbsensiMasuk->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
+        $dataUser = (new Query());
+        $dataUser->select(['tb_pegawai.*', 'tb_master_pangkat_golongan.pangkat_golongan'])
+        ->from('tb_pegawai')
+        ->leftJoin('tb_master_pangkat_golongan', 'tb_master_pangkat_golongan.id_pangkat_golongan = tb_pegawai.pangkat_golongan_id')
+        ->where(' tb_pegawai.user_id="'.$idUser.'" ');
+
+        $commandUser = $dataUser->createCommand();
+        $modelUser = $commandUser->queryOne();
+
+        $dataAbsensiAll = (new Query());
+        $dataAbsensiAll->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
         ->from('tb_absensi')
         ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.jenis_absensi="masuk" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ');
+        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
+        ->groupBy('tb_absensi.date_absensi');
 
-        $dataAbsensiKeluar = (new Query());
-        $dataAbsensiKeluar->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
-        ->from('tb_absensi')
-        ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.jenis_absensi="keluar" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ');
-
-        $commandAbsensiMasuk = $dataAbsensiMasuk->createCommand();
-        $modelAbsensiMasuk = $commandAbsensiMasuk->queryAll();
-
-        $commandAbsensiKeluar = $dataAbsensiKeluar->createCommand();
-        $modelAbsensiKeluar = $commandAbsensiKeluar->queryAll();
+        $commandAbsensiAll = $dataAbsensiAll->createCommand();
+        $modelAbsensiAll = $commandAbsensiAll->queryAll();
 
         $mpdf = new Mpdf();
         $mpdf->SetTitle("Laporan");
@@ -54,8 +57,8 @@ class LaporanController extends Controller
         $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
         $mpdf->WriteHTML($this->renderPartial('laporan', [
             'model' => $model,
-            'model_absensi_masuk' => $modelAbsensiMasuk,
-            'model_absensi_keluar' => $modelAbsensiKeluar,
+            'model_absensi_all' => $modelAbsensiAll,
+            'model_user' => $modelUser,
         ]));
         $mpdf->Output('laporan.pdf', 'I');
         exit();

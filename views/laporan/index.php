@@ -1,4 +1,7 @@
 <?php
+
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -8,26 +11,56 @@ use yii\widgets\ActiveForm;
 ?>
 
     <!-- /.row -->
-<?php $form = ActiveForm::begin(['options'=>['action'=>['/tb-asset/hasil-laporan'],'target'=>'_blank']]); ?>
+<?php
 
-    <!-- <form action="/hms/accommodations" method="GET">  -->
+$this->title = 'Laporan';
+$this->params['breadcrumbs'][] = $this->title;
 
-    <h1 class="lead" style='font-family:"Lucida Console", Monaco, monospace; font-size:200%'><center>PT. KUNANGO JANTAN CABANG PEKANBARU</center></h1>
+$form = ActiveForm::begin(['options' => ['action' => ['/tb-asset/hasil-laporan'], 'target' => '_blank']]);
+
+$pegawai = \app\models\TbPegawai::find()->all();
+$listData = ArrayHelper::map($pegawai, 'user_id', 'nama_lengkap');
+
+?>
+
+
+    <h1 class="lead" style='font-family:"Lucida Console", Monaco, monospace; font-size:200%'>
+        <center>Cari Laporan Absensi</center>
+    </h1>
 
 
     <div class="row">
 
-        <div class="col-xs-4">
+
+        <div class="col-xs-3">
+
             <div class="form-group">
-                <label>Bulan awal</label>
-                <?= $form->field($model, 'bulan_awal')->textInput(['maxlength' => true, 'type'=>'date'])->label(false) ?>
+                <label>Pegawai</label>
+
+                <?= $form->field($model, 'user')->widget(Select2::classname(), [
+                    'data' => $listData,
+                    'language' => 'en',
+                    'options' => ['placeholder' => 'Pilih Pegawai'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ])->label(false);
+
+                ?>
             </div>
         </div>
 
-        <div class="col-xs-4">
+        <div class="col-xs-3">
+            <div class="form-group">
+                <label>Bulan awal</label>
+                <?= $form->field($model, 'bulan_awal')->textInput(['maxlength' => true, 'type' => 'date'])->label(false) ?>
+            </div>
+        </div>
+
+        <div class="col-xs-3">
             <div class="form-group">
                 <label>Bulan akhir</label>
-                <?= $form->field($model, 'bulan_akhir')->textInput(['maxlength' => true, 'type'=>'date'])->label(false) ?>
+                <?= $form->field($model, 'bulan_akhir')->textInput(['maxlength' => true, 'type' => 'date'])->label(false) ?>
             </div>
         </div>
         <div class="col-xs-3" style="margin-top: 24px;">

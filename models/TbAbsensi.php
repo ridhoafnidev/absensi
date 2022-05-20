@@ -47,6 +47,7 @@ class TbAbsensi extends \yii\db\ActiveRecord
 
     public $bulan_awal;
     public $bulan_akhir;
+    public $user;
 
     /**
      * {@inheritdoc}

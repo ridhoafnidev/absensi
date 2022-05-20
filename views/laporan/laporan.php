@@ -8,6 +8,17 @@
     <title>Document</title>
     <link rel="stylesheet" href=""/>
     <style>
+        .column {
+            float: left;
+            width: 50%;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
         * {
             font-family: Arial, serif;
         }
@@ -63,9 +74,64 @@
         .biodata td {
             font-size: 12px;
         }
+
+        .content {
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
+
+<?php
+
+$bulan_awal = Yii::$app->getRequest()->getQueryParam('awal');
+$bulan_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
+$split_awal = explode('-', $bulan_awal);
+
+function month_indo($month)
+{
+    $bulan = array(1 => 'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+    return $bulan[(int)$month];
+}
+
+function tanggal_indo($tanggal_awal, $tanggal_akhir)
+{
+    $bulan = array (1 => 'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+    );
+
+    $split_awal = explode('-', $tanggal_awal);
+    $split_akhir = explode('-', $tanggal_akhir);
+    if ((int)$split_awal[1] == (int)$split_akhir[1] ) {
+        return $bulan[(int)$split_awal[1]];
+    }else{
+        return $bulan[(int)$split_awal[1]]. "-".$bulan[(int)$split_akhir[1]];
+    }
+}
+
+?>
 
 <table class="kop">
     <tr>
@@ -97,28 +163,28 @@
 <div class="box-kop"></div>
 
 <h1 class="font-subtitle">REKAP ABSEN</h1>
-<p class="font-date">Maret 2020</p>
+<p class="font-date"><?= tanggal_indo($bulan_awal, $bulan_akhir) ?> <?= $split_awal[0] ?></p>
 
 <table class="biodata">
     <tr>
         <td>Nama</td>
-        <td colspan="5">Abdul Hafiz Ramadan</td>
+        <td colspan="5">: <?= $model_user['nama_lengkap'] ?></td>
         <td>Grade</td>
-        <td>11</td>
+        <td>: <?= $model_user['grade'] ?></td>
     </tr>
     <tr>
         <td>NIP</td>
-        <td colspan="5">123456789</td>
+        <td colspan="5">: <?= $model_user['nip'] ?></td>
         <td>Tunjangan</td>
-        <td>Rp. 10000000000</td>
+        <td>: </td>
     </tr>
     <tr>
         <td>Pangkat Gol</td>
-        <td colspan="5">Owner</td>
+        <td colspan="5">: Owner</td>
     </tr>
 </table>
 
-<table border="1" width="100%" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
+<table class="content" border="1" width="100%" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
     <tr>
         <th>Hari</th>
         <th>Tanggal</th>
@@ -186,31 +252,109 @@
     }
 
     $absensi =array();
-    foreach ($model_absensi_masuk as $dataMasuk) {
-        foreach ($model_absensi_keluar as $dataKeluar) {
-            if ($dataMasuk['date_absensi'] == $dataKeluar['date_absensi']){
-                $array['date_absensi'] = $dataMasuk['date_absensi'];
-                $array['time_absensi_masuk'] = $dataMasuk['time_absensi'];
-                $array['time_absensi_keluar'] = $dataKeluar['time_absensi'];
 
-                $array['terlambat'] = $dataMasuk['terlambat'];
-                $array['plg_cepat'] = $dataMasuk['plg_cepat'];
-                $array['pengecualian'] = $dataMasuk['status_absensi'];
-                $array['lembur'] = $dataMasuk['lembur'];
+    $index = 0;
+    foreach ($model_absensi_all as $dataAll) {
 
+        $cekSizeDate = \app\models\TbAbsensi::find()
+            ->where(['date_absensi' => $dataAll['date_absensi']])
+            ->count();
+
+        $dataAbsensi = \app\models\TbAbsensi::find()
+            ->where(['date_absensi' => $dataAll['date_absensi']])
+            ->all();
+
+        if ($cekSizeDate == 2) {
+
+            $array['date_absensi'] = $dataAbsensi[0]['date_absensi'];
+            $array['time_absensi_masuk'] = $dataAbsensi[0]['time_absensi'];
+            $array['time_absensi_keluar'] = $dataAbsensi[1]['time_absensi'];
+
+            $array['terlambat'] = $dataAbsensi[0]['terlambat'];
+            $array['plg_cepat'] = $dataAbsensi[0]['plg_cepat'];
+            $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
+            $array['lembur'] = $dataAbsensi[0]['lembur'];
+
+            array_push($absensi, $array);
+
+        }
+        else if ($cekSizeDate == 1){
+
+            $array['date_absensi'] = $dataAbsensi[0]['date_absensi'];
+            if ($dataAbsensi[0]['jenis_absensi'] == "masuk"){
+                $array['time_absensi_masuk'] = $dataAbsensi[0]['time_absensi'];
+                $array['time_absensi_keluar'] = "";
             }
             else {
-                $array['date_absensi'] = $dataMasuk['date_absensi'];
-                $array['time_absensi_masuk'] = $dataMasuk['time_absensi'];
-                $array['time_absensi_keluar'] = "";
-
-                $array['terlambat'] = $dataMasuk['terlambat'];
-                $array['plg_cepat'] = $dataMasuk['plg_cepat'];
-                $array['pengecualian'] = $dataMasuk['status_absensi'];
-                $array['lembur'] = $dataMasuk['lembur'];
+                $array['time_absensi_masuk'] = "";
+                $array['time_absensi_keluar'] = $dataAbsensi[0]['time_absensi'];
             }
+            $array['terlambat'] = $dataAbsensi[0]['terlambat'];
+            $array['plg_cepat'] = $dataAbsensi[0]['plg_cepat'];
+            $array['pengecualian'] = $dataAbsensi[0]['status_absensi_id'];
+            $array['lembur'] = $dataAbsensi[0]['lembur'];
+
             array_push($absensi, $array);
+
         }
+
+        $index++;
+    }
+
+    function getException($ex)
+    {
+        switch ($ex) {
+            case '1':
+                $pengecualian = "WFH";
+                break;
+            case '2':
+                $pengecualian = "WFO";
+                break;
+            case '3':
+                $pengecualian = "Sakit";
+                break;
+            case '4':
+                $pengecualian = "Cuti";
+                break;
+            case '5':
+                $pengecualian = "DL";
+                break;
+        }
+        return $pengecualian;
+    }
+
+    function getDiffTime(DateTime $time1, DateTime $time2)
+    {
+        return $time1->diff($time2)->format('%H:%I');
+    }
+
+    $index = 0;
+    $totalPersenTerlambat = 0;
+    $totalTerlambar = 0.0;
+    $totalMinute = 0;
+
+    function getPercentageLate($lateTime)
+    {
+        $totalPersenTerlambat = 0;
+        $exTime = explode(':', $lateTime);
+        $hour = $exTime[0] * 60;
+        $minute = $exTime[1];
+        $minutes = $hour + $minute;
+        switch ($minutes) {
+            case $minutes >= 0 && $minutes <= 30:
+                $totalPersenTerlambat += 0.5;
+                break;
+            case  $minutes >= 31 && $minutes <= 60:
+                $totalPersenTerlambat += 1;
+                break;
+            case  $minutes >= 61 && $minutes <= 90:
+                $totalPersenTerlambat += 1.5;
+                break;
+            case  $minutes >= 91:
+                $totalPersenTerlambat += 1.5;
+                break;
+        }
+        return $totalPersenTerlambat;
     }
 
     foreach ($absensi as $data):?>
@@ -220,72 +364,108 @@
                 echo convertDay(date('l', $date));
                 ?>
             </td>
-            <td><?= $data['date_absensi'] ?></td>
+            <td><?= $data['date_absensi']; ?></td>
+            <td><?= getJamMasukByHari(convertDay(date('l', $date))); ?></td>
+            <td><?= getJamKeluarByHari(convertDay(date('l', $date))); ?></td>
             <td>
                 <?php
-                echo  getJamMasukByHari(convertDay(date('l', $date)));
-                ?>
-            </td>
-            <td>
-                <?php
-                echo  getJamKeluarByHari(convertDay(date('l', $date)));
-                ?>
-            </td>
-            <td><?= $data['time_absensi_masuk'] ?></td>
-            <td><?= $data['time_absensi_keluar'] ?></td>
-            <td>
-                <?php
-
-                    $time1 = strtotime(getJamMasukByHari(convertDay(date('l', $date))));
-                    $time2 = strtotime($data['time_absensi_masuk']);
-
-                    if ($time2 > $time1) {
-                        $timeOffice1 = new DateTime(getJamMasukByHari(convertDay(date('l', $date))));
-                        $timeMasuk2 = new DateTime($data['time_absensi_masuk']);
-
-                         $lateTime = $timeOffice1->diff($timeMasuk2)->format('%H:%S');
-                         if ($lateTime != "00:00") {
-                             echo $lateTime;
-                         } else {
-                             "";
-                         }
+                    $timeAbsensiMasuk = $data['time_absensi_masuk'];
+                    if (empty($timeAbsensiMasuk)){
+                        $totalPersenTerlambat += 1.5;
                     }
+                    echo $timeAbsensiMasuk;
+                ?>
+            </td>
+            <td><?php
+                $timeAbsensiKeluar= $data['time_absensi_keluar'];
+                if (empty($timeAbsensiKeluar)){
+                    $totalPersenTerlambat = $totalPersenTerlambat + 1.5;
+                }
+                echo $timeAbsensiKeluar;
+                ?></td>
+            <td>
+                <?php
+
+                $time1 = strtotime(getJamMasukByHari(convertDay(date('l', $date))));
+                $time2 = strtotime($timeAbsensiMasuk);
+
+                if ($time2 > $time1) {
+                    $timeOffice1 = new DateTime(getJamMasukByHari(convertDay(date('l', $date))));
+                    $timeMasuk2 = new DateTime($timeAbsensiMasuk);
+
+                    $lateTime = getDiffTime($timeOffice1, $timeMasuk2);
+                    if ($lateTime != "00:00") {
+                        $totalTerlambar += getPercentageLate($lateTime);
+                        echo $lateTime;
+                    } else {
+                        "";
+                    }
+                }
                 ?>
             </td>
             <td><?= $data['plg_cepat'] ?></td>
-            <td><?php
-                if ($data['pengecualian'] == "Dinas Luar") {
-                    echo "OL";
-                }
-                else {
-                    echo $data['pengecualian'] ;
-                }
-                ?>
-            </td>
+            <td><?= getException($data['pengecualian']) ?></td>
             <td>
                 <?php
                 $timeMasuk = new DateTime($data['time_absensi_masuk']);
                 $timeKeluar = new DateTime($data['time_absensi_keluar']);
-                echo $timeMasuk->diff($timeKeluar)->format('%H:%S');
+                echo getDiffTime($timeMasuk, $timeKeluar);
                 ?>
             </td>
             <td>
                 <?php
-                    if ($data['time_absensi_keluar'] != ""){
-                        $timeJadwalKeluar = new DateTime(getJamKeluarByHari(convertDay(date('l', $date))));
-                        $timeKantorKeluar = new DateTime($data['time_absensi_keluar']);
-                        echo $timeJadwalKeluar->diff($timeKantorKeluar)->format('%H:%S');
-                    }
-                    else {
-                        echo "";
-                    }
+                if ($data['time_absensi_keluar'] != ""){
+                    $timeJadwalKeluar = new DateTime(getJamKeluarByHari(convertDay(date('l', $date))));
+                    $timeKantorKeluar = new DateTime($data['time_absensi_keluar']);
+                    echo getDiffTime($timeJadwalKeluar, $timeKantorKeluar);
+                }
+                else {
+                    echo "";
+                }
 
                 ?>
             </td>
         </tr>
-    <?php endforeach; ?>
+    <?php $index++; endforeach; ?>
 
 </table>
+
+<div class="row">
+    <div class="column">
+        <table class="content" border="1" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
+            <tr>
+                <th>Hari Kerja</th>
+                <th>Total Pemotongan(%)</th>
+            </tr>
+            <tr>
+                <td style="text-align: center"><?= count($absensi) ?></td>
+                <td style="text-align: center"><?= $totalPersenTerlambat ?></td>
+            </tr>
+        </table>
+    </div>
+    <div class="column">
+        <table class="content" border="1" style="margin-top: 10px; margin-left: 60px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
+            <tr>
+                <th><b>Tunjangan Kinerja</b></th>
+            </tr>
+            <tr>
+                <td style="text-align: center"><?= $totalPersenTerlambat ?></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<br>
+<p style="margin-left:400px; font-size:14px;font-family:Arial, Times, serif;">
+    Pekanbaru, <?= date("d") ?> <?= month_indo(date('m')) ?> <?= date("Y") ?>
+</p>
+<p style="margin-left:400px; font-size:14px;font-family:Arial, Times, serif;">
+    Pelaksana Perhitungan Tunjangan Kinerja
+</p>
+<p style="margin-left:400px; margin-top:100px; font-size:14px;font-family:'Times New Roman', Times, serif;">
+    HAFIZUDDIN, SE <br>
+    NIP: ...
+</p>
 
 </body>
 </html>

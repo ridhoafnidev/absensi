@@ -61,6 +61,15 @@ class LaporanController extends Controller
         $commandAbsensiDl = $dataAbsensiDl->createCommand();
         $modelAbsensiDl = $commandAbsensiDl->queryAll();
 
+        $dataAbsensiYear = (new Query());
+        $dataAbsensiYear->select(['tb_absensi.*', 'YEAR(date_absensi)'])
+        ->from('tb_absensi')
+        ->where('YEAR(date_absensi)="2022" AND status_absensi_id="3"')
+        ->groupBy('date_absensi');
+
+        $commandAbsensiYear = $dataAbsensiYear->createCommand();
+        $modelAbsensiYear = $commandAbsensiYear->queryAll();
+
         $mpdf = new Mpdf();
         $mpdf->SetTitle("Laporan");
         $stylesheet = file_get_contents('http://localhost/absensi/web/css/reportstyles.css');
@@ -69,6 +78,7 @@ class LaporanController extends Controller
             'model' => $model,
             'model_absensi_all' => $modelAbsensiAll,
             'model_absensi_dl' => $modelAbsensiDl,
+            'model_absensi_year' => $modelAbsensiYear,
             'model_user' => $modelUser,
         ]));
         $mpdf->Output('laporan.pdf', 'I');

@@ -35,11 +35,28 @@ use yii\jui\DatePicker;
 
      <!-- $form->field($model, 'dokumen_pendukung')->fileInput() ?> -->
 
-    <?= $form->field($model, 'jenis_cuti')->textInput(['maxlength' => true]) ?>
+    <?php
 
-    <?= $form->field($model, 'lembur')->textInput() ?>
+    $list_cuti = ['Cuti Tahunan' => 'Cuti Tahunan', 'Cuti Besar' => 'Cuti Besar'
+    , 'Cuti Alasan Tidak Penting' => 'Cuti Alasan Tidak Penting', 'Cuti Bersalin' => 'Cuti Bersalin'];
 
-    <?= $form->field($model, 'keterangan')->textInput(['maxlength' => true]) ?>
+    echo $form->field($model, 'jenis_cuti')->dropDownList(
+            $list_cuti,
+            ['prompt' => 'Pilih...']
+    )->label('Jenis Cuti')
+    ?>
+
+    <?php
+
+    $list_lembur = array('Tidak', 'Iya');
+
+    echo $form->field($model, 'lembur')->dropDownList(
+            $list_lembur,
+            ['prompt' => 'Pilih...']
+    )->label('Lembur')
+    ?>
+
+    <?= $form->field($model, 'keterangan')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'lat')->textInput() ?>
 

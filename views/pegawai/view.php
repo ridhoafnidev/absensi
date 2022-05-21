@@ -50,6 +50,8 @@ use yii\widgets\DetailView;
                 'value' => $model->pangkatGolongan->pangkat_golongan,
             ),
             'is_active',
+            'grade',
+            'tunjangan',
         ],
     ]) ?>
 

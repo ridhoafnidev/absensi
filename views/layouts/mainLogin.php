@@ -2,118 +2,52 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
+
 /* @var $model app\models\LoginForm */
 
+use app\assets\LoginAppAsset;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
-use app\assets\AppAsset;
 
-AppAsset::register($this);
+LoginAppAsset::register($this);
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<?php $this->beginPage() ?>
+<!DOCTYPE html>
+<html>
 
-<style type="text/css">
-	/* Made with love by Mutiullah Samim*/
+<head>
+    <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php $this->registerCsrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head()  ?>
+</head>
 
-@import url('https://fonts.googleapis.com/css?family=Numans');
-
-html,body{
-background-image: url('http://getwallpapers.com/wallpaper/full/d/6/2/1523391-razer-wallpaper-5760x1080-3840x1080-for-macbook.jpg');
-background-size: cover;
-background-repeat: no-repeat;
-height: 100%;
-font-family: 'Numans', sans-serif;
-}
-
-.container{
-height: 100%;
-align-content: center;
-}
-
-.card{
-height: 300px;
-margin-top: auto;
-margin-bottom: auto;
-width: 400px;
-background-color: rgba(0,0,0,0.5) !important;
-}
-
-.social_icon span{
-font-size: 60px;
-margin-left: 10px;
-color: #FFC312;
-}
-
-.social_icon span:hover{
-color: white;
-cursor: pointer;
-}
-
-.card-header h3{
-color: white;
-}
-
-.social_icon{
-position: absolute;
-right: 20px;
-top: -45px;
-}
-
-.input-group-prepend span{
-width: 50px;
-background-color: #FFC312;
-color: black;
-border:0 !important;
-}
-
-input:focus{
-outline: 0 0 0 0  !important;
-box-shadow: 0 0 0 0 !important;
-
-}
-
-.remember{
-color: white;
-}
-
-.remember input
-{
-width: 20px;
-height: 20px;
-margin-left: 15px;
-margin-right: 5px;
-}
-
-.login_btn{
-color: black;
-background-color: #FFC312;
-width: 100px;
-}
-
-.login_btn:hover{
-color: black;
-background-color: white;
-}
-
-.links{
-color: white;
-}
-
-.links a{
-margin-left: 4px;
-}
-</style>
-
-<div class="site-login">		
-    <div class="container">
-        <div class="row">
-
-            <?= $content ?>
-
+<body class="gray-bg">
+<?php $this->beginBody() ?>
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+        <div>
+            <?php $url = Yii::getAlias("@web").'/gambar/kop/' ?>
+            <img class="logo-name" src="<?= $url ?>depaglogo.png" style="width: 100px; height: 100px; margin-top: 200px;">
         </div>
-    </div>
+        <h3 style="margin-top: 20px;">Selamat Datang</h3>
+        <p>Silahkan login menggunakan Username dan Password.
+        </p>
 
-   
+        <?= $content ?>
+
+        <p class="m-t"> <small>Sistem administrator absensi Kemenag Inhu &copy; <?= date("Y") ?></small> </p>
+    </div>
 </div>
+
+<!-- Mainly scripts -->
+<?php $this->endBody() ?>
+</body>
+
+</html>
+<?php $this->endPage() ?>
+

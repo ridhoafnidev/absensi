@@ -116,12 +116,20 @@ class PegawaiController extends Controller
         
                 ];         
             }else if($model->load($request->post())){
+
+                $authkey = Yii::$app->security->generateRandomString();
+                $accesToken = Yii::$app->security->generateRandomString();
+
                 if(strlen($model->nip) > 0) {
                     $modelUser->username = $model->nip;
-                    $modelUser->password = $model->nip;
+                    $modelUser->password = Yii::$app->getSecurity()->generatePasswordHash($model->nip);
+                    $modelUser->authkey = $authkey;
+                    $modelUser->accesToken = $accesToken;
                 } else {
                     $modelUser->username = $model->nik;
-                    $model->password = $model->nik;
+                    $modelUser->password = Yii::$app->getSecurity()->generatePasswordHash($model->nik);
+                    $modelUser->authkey = $authkey;
+                    $modelUser->accesToken = $accesToken;
                 }
                 if ($modelUser->save(false)){
                     $model->user_id = $modelUser->id_user;

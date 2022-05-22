@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="body-content">
 
-        <H1 style="text-align: center; margin-top: 300px;">Assalamua'laikum Selamat Datang...</H1>
+        <H1 style="text-align: center; margin-top: 100px;">Assalamua'laikum Selamat Datang...</H1>
 
     </div>
 </div>

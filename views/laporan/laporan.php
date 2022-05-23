@@ -461,9 +461,16 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             <td>
                 <?php
                 if ($data['time_absensi_keluar'] != ""){
-                    $timeJadwalKeluar = new DateTime(getJamKeluarByHari(convertDay(date('l', $date))));
-                    $timeKantorKeluar = new DateTime($data['time_absensi_keluar']);
-                    echo getDiffTime($timeJadwalKeluar, $timeKantorKeluar);
+                    $jamKelKan = getJamKeluarByHari(convertDay(date('l', $date)));
+                    $jamKel = $data['time_absensi_keluar'];
+                    $timeJadwalKeluar = new DateTime($jamKelKan);
+                    $timeKantorKeluar = new DateTime($jamKel);
+                    if (strtotime($jamKel) > strtotime($jamKelKan)) {
+                        echo getDiffTime($timeJadwalKeluar, $timeKantorKeluar);
+                    }
+                    else {
+                        $totalPersenTerlambat += getPercentageLate(getDiffTime($timeJadwalKeluar, $timeKantorKeluar));
+                    }
                 }
                 else {
                     echo "";

@@ -89,6 +89,24 @@ $bulan_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
 $split_awal = explode('-', $bulan_awal);
 
 $tahun = $split_awal[0];
+$absensiSakit = array();
+
+foreach ($model_absensi_year as $dataYear) {
+    $date1 = $dataYear['tanggal_mulai'];
+    $date2 = $dataYear['tanggal_selesai'];
+
+    $dtDate1 = new DateTime($date1);
+    $dtDate2 = new DateTime($date2);
+
+    $diffDate = $dtDate1->diff($dtDate2)->format("%d");
+
+    for ($i = 0; $i <= $diffDate; $i++ ) {
+        $arraySakit['date_absensi'] = date('Y-m-d', strtotime($date1. ' + '.$i.' days'));
+
+        array_push($absensiSakit, $arraySakit);
+    }
+
+}
 
 function month_indo($month)
 {
@@ -295,14 +313,15 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         }
         else if ($cekSizeDate == 1){
 
-            if ($dataAll['status_absensi_id'] == "5") {
-                $date1 = $dataAll['tanggal_mulai'];
-                $date2 = $dataAll['tanggal_selesai'];
+            $date1 = $dataAll['tanggal_mulai'];
+            $date2 = $dataAll['tanggal_selesai'];
 
-                $dtDate1 = new DateTime($date1);
-                $dtDate2 = new DateTime($date2);
+            $dtDate1 = new DateTime($date1);
+            $dtDate2 = new DateTime($date2);
 
-                $diffDate = $dtDate1->diff($dtDate2)->format("%d");
+            $diffDate = $dtDate1->diff($dtDate2)->format("%d");
+
+            if ($dataAll['status_absensi_id'] == "5" OR $dataAll['status_absensi_id'] == "3") {
 
                 for ($i = 0; $i <= $diffDate; $i++ ) {
                     $array['date_absensi'] = date('Y-m-d', strtotime($date1. ' + '.$i.' days'));
@@ -375,26 +394,48 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
     function getPercentageLate($lateTime)
     {
-        $totalPersenTerlambat = 0;
+        $totalPersen = 0;
         $exTime = explode(':', $lateTime);
         $hour = $exTime[0] * 60;
         $minute = $exTime[1];
         $minutes = $hour + $minute;
         switch ($minutes) {
             case $minutes >= 0 && $minutes <= 30:
-                $totalPersenTerlambat += 0.5;
+                $totalPersen += 0.5;
                 break;
             case  $minutes >= 31 && $minutes <= 60:
-                $totalPersenTerlambat += 1;
+                $totalPersen += 1;
                 break;
             case  $minutes >= 61 && $minutes <= 90:
-                $totalPersenTerlambat += 1.5;
+                $totalPersen += 1.5;
                 break;
             case  $minutes >= 91:
-                $totalPersenTerlambat += 1.5;
+                $totalPersen += 1.5;
                 break;
         }
-        return $totalPersenTerlambat;
+        return $totalPersen;
+    }
+
+    foreach ($absensiSakit as $key=>$value) {
+        $dateSakit = strtotime($value['date_absensi']);
+        $daySakit = convertDay(date('l', $dateSakit));
+        if ($daySakit == "Sabtu"){
+            unset($absensiSakit[$key]);
+        }
+        else if ($daySakit == "Minggu"){
+            unset($absensiSakit[$key]);
+        }
+    }
+
+    foreach ($absensi as $key=>$value) {
+        $date = strtotime($value['date_absensi']);
+        $day = convertDay(date('l', $date));
+        if ($day == "Sabtu"){
+            unset($absensi[$key]);
+        }
+        else if ($day == "Minggu"){
+            unset($absensi[$key]);
+        }
     }
 
     foreach ($absensi as $data):?>
@@ -410,22 +451,33 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             <td><?= getJamKeluarByHari(convertDay(date('l', $date))); ?></td>
             <td>
                 <?php
-                    $timeAbsensiMasuk = $data['time_absensi_masuk'];
-                    if ($data['status_absensi_id'] != "5"){
+                $timeAbsensiMasuk = $data['time_absensi_masuk'];
+                switch ($data['status_absensi_id']) {
+                    case "5":
+                        $totalPersenTerlambat += 0;
+                        break;
+                    case "3":
+                        $totalPersenTerlambat += 0;
+                        break;
+                    default:
                         if (empty($timeAbsensiMasuk)){
                             $totalPersenTerlambat += 1.5;
                         }
-                    }
-
-                    echo $timeAbsensiMasuk;
+                }
+                echo $timeAbsensiMasuk;
                 ?>
             </td>
             <td><?php
                 $timeAbsensiKeluar= $data['time_absensi_keluar'];
-                if ($data['status_absensi_id'] != "5"){
-                    if (empty($timeAbsensiKeluar)){
-                        $totalPersenTerlambat += 1.5;
-                    }
+                switch ($data['status_absensi_id']) {
+                    case "3":
+                    case "5":
+                        $totalPersenTerlambat += 0;
+                        break;
+                    default:
+                        if (empty($timeAbsensiKeluar)){
+                            $totalPersenTerlambat += 1.5;
+                        }
                 }
                 echo $timeAbsensiKeluar;
                 ?></td>
@@ -485,7 +537,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 ?>
             </td>
         </tr>
-    <?php $index++; endforeach; ?>
+        <?php $index++; endforeach; ?>
 
 </table>
 
@@ -493,7 +545,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     <div class="column">
         <table class="content" border="1" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
             <tr>
-                <th>Hari Kerja</th>
+                <th>Hari Kerja <?= count($absensiSakit) ?></th>
                 <th>Total Pemotongan(%)</th>
             </tr>
             <tr>

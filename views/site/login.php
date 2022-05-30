@@ -8,6 +8,9 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
+    $office = \app\models\TbMasterOffice::find()->all();
+    $listData = \yii\helpers\ArrayHelper::map($office, 'id_master_office', 'office_name');
+
 ?>
 
 <!--Custom styles-->
@@ -25,6 +28,17 @@ use yii\bootstrap\ActiveForm;
 ]); ?>
 
 <form class="m-t" >
+
+    <div class="form-group">
+         <?= $form->field($model, 'office_id')->widget(\kartik\select2\Select2::classname(), [
+                    'data' => $listData,
+                    'language' => 'en',
+                    'options' => ['placeholder' => 'Pilih Satker'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ])->label(false); ?>
+    </div>
 
     <div class="form-group">
         <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'class' => 'form-control', 'placeholder' => 'Username'])->label(false) ?>

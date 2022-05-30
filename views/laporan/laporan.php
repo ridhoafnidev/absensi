@@ -179,7 +179,13 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         <td colspan="5">: <?= $model_user['nip'] ?></td>
         <td>Tunjangan</td>
         <td>: <?php
-            if ($model_user['pns_nonpns_id'] == "1") { echo "Rp. ".number_format($model_user['tunjangan']);  }
+            if ($model_user['pns_nonpns_id'] == "1") {
+                    if(strlen($model_user['tunjangan']) > 0 )  {
+                        echo "Rp. ".number_format($model_user['tunjangan']);
+                    } else {
+                        echo "Rp. ".number_format(0);
+                    }
+            }
             ?></td>
     </tr>
     <tr>

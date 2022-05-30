@@ -117,15 +117,19 @@ class PegawaiController extends Controller
                 ];         
             }else if($model->load($request->post())){
 
+                $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
+
                 $authkey = Yii::$app->security->generateRandomString();
                 $accesToken = Yii::$app->security->generateRandomString();
 
                 if(strlen($model->nip) > 0) {
+                    $modelUser->office_id = $user->office_id;
                     $modelUser->username = $model->nip;
                     $modelUser->password = Yii::$app->getSecurity()->generatePasswordHash($model->nip);
                     $modelUser->authkey = $authkey;
                     $modelUser->accesToken = $accesToken;
                 } else {
+                    $modelUser->office_id = $user->office_id;
                     $modelUser->username = $model->nik;
                     $modelUser->password = Yii::$app->getSecurity()->generatePasswordHash($model->nik);
                     $modelUser->authkey = $authkey;
@@ -133,6 +137,7 @@ class PegawaiController extends Controller
                 }
                 if ($modelUser->save(false)){
                     $model->user_id = $modelUser->id_user;
+                    $model->office_id = $user->office_id;
                     $model->save();
                 }
                 return [

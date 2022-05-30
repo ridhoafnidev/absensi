@@ -28,7 +28,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'level_id', 'is_active','authkey', 'accesToken', 'createdAt', 'updatedAt'], 'required'],
+            [['username', 'office_id', 'password', 'level_id', 'is_active','authkey', 'accesToken', 'createdAt', 'updatedAt'], 'required'],
             [['createdAt', 'updatedAt'], 'safe'],
             [['username', 'authkey', 'accesToken'], 'string', 'max' => 50],
             [['password'], 'string', 'max' => 255],
@@ -41,6 +41,7 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
+            'office_id' => 'Satker',
             'id_user' => 'Id User',
             'username' => 'Username',
             'password' => 'Password',
@@ -87,11 +88,12 @@ class Admin extends \yii\db\ActiveRecord implements IdentityInterface
      * @param string $username
      * @return static|null
      */
-    public static function findByUsername($username)
+    public static function findByUsername($username, $office_id)
     {
       // mencari user berdasarkan username dan yang dicari haya 1
         $user = Admin::find()->where(['username' => $username])
-            ->andWhere(['level_id' => 2])->one();
+            ->andWhere(['level_id' => 2])
+            ->andWhere(['office_id' => $office_id])->one();
 
         if ($user != null) {
             return $user;

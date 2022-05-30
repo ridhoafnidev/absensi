@@ -13,6 +13,7 @@ use yii\base\Model;
  */
 class LoginForm extends Model
 {
+    public $office_id;
     public $username;
     public $password;
     public $rememberMe = true;
@@ -27,7 +28,7 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username', 'password'], 'required'],
+            [['office_id', 'username', 'password'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -68,7 +69,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Admin::findByUsername($this->username);
+            $this->_user = Admin::findByUsername($this->username, $this->office_id);
         }
 
         return $this->_user;

@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     $form = ActiveForm::begin(['options' => ['action' => ['/tb-asset/hasil-laporan'], 'target' => '_blank']]);
 
-    $pegawai = \app\models\TbPegawai::find()->all();
+    $pegawai = \app\models\TbPegawai::find()->where(['office_id' => $user->office_id])->all();
     $listData = ArrayHelper::map($pegawai, 'user_id', 'nama_lengkap');
 ?>
 

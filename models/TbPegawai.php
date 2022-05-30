@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id_pegawai
  * @property int $user_id
+ * @property int $office_id
  * @property string $nik
  * @property string $nip
  * @property string $nama_lengkap
@@ -49,7 +50,7 @@ class TbPegawai extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nik', 'nama_lengkap', 'email', 'no_hp', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'pangkat_golongan_id'], 'required'],
+            [['nik', 'office_id', 'nama_lengkap', 'email', 'no_hp', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'pangkat_golongan_id'], 'required'],
             [['user_id', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'jabatan_struktural_id', 'jabatan_fungsional_id', 'pangkat_golongan_id', 'is_active'], 'integer'],
             [['nik'], 'string', 'max' => 18],
             [['nip'], 'string', 'max' => 20],
@@ -74,6 +75,7 @@ class TbPegawai extends \yii\db\ActiveRecord
         return [
             'id_pegawai' => 'Id Pegawai',
             'user_id' => 'User ID',
+            'office_id' => 'Satker',
             'nik' => 'Nik',
             'nip' => 'Nip',
             'nama_lengkap' => 'Nama Lengkap',

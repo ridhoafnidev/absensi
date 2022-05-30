@@ -41,7 +41,9 @@ class TbPegawaiSearch extends TbPegawai
      */
     public function search($params)
     {
-        $query = TbPegawai::find();
+        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
+
+        $query = TbPegawai::find()->where(['office_id' => $user->office_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

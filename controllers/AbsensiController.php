@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\TbUser;
 use Yii;
 use app\models\TbAbsensi;
 use app\models\TbAbsensiSearch;
@@ -51,7 +52,7 @@ class AbsensiController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {    
+    {
         $searchModel = new TbAbsensiSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -96,7 +97,9 @@ class AbsensiController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new TbAbsensi();  
+        $model = new TbAbsensi();
+
+        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
 
         if($request->isAjax){
             /*
@@ -113,15 +116,17 @@ class AbsensiController extends Controller
                                 Html::button('Simpan',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            }else if($model->load($request->post())){
+                $model->office_id = $user->office_id;
+                $model->save();
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Tambah Data Absensi",
                     'content'=>'<span class="text-success">Data Absensi Berhasil ditambahkan</span>',
                     'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
+
+                ];
             }else{           
                 return [
                     'title'=> "Tambah Data Absensi",

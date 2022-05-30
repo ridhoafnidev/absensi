@@ -26,8 +26,8 @@ class LoginAppAsset extends AssetBundle
         'css/style.css',
     ];
     public $js = [
-        'js/jquery-3.1.1.min.js',
-        'js/bootstrap.min.js',
+        //'js/jquery-3.1.1.min.js',
+        //'js/bootstrap.min.js',
         'js/popper.min.js',
     ];
 

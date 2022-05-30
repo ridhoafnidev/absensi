@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers;
 use app\models\TbAbsensi;
+use app\models\TbUser;
 use Mpdf\Mpdf;
 use Yii;
 use yii\db\Query;
@@ -11,6 +12,7 @@ class LaporanController extends Controller
     public function actionIndex() {
         $model = new \app\models\TbAbsensi();
         $post = Yii::$app->request->post();
+        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
 
         if ($model->load($post)) {
             $bulanAwal = $post['TbAbsensi']['bulan_awal'];
@@ -21,12 +23,16 @@ class LaporanController extends Controller
         }
 
         return $this->render('index', [
-            'model' => $model
+            'model' => $model,
+            'user' => $user
         ]);
     }
 
     public function actionLaporan() {
         $model = new TbAbsensi();
+
+        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
+        $office_id = $user->office_id;
 
         $tgl_awal = Yii::$app->getRequest()->getQueryParam('awal');
         $tgl_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
@@ -36,7 +42,8 @@ class LaporanController extends Controller
         $dataUser->select(['tb_pegawai.*', 'tb_master_pangkat_golongan.pangkat_golongan'])
         ->from('tb_pegawai')
         ->leftJoin('tb_master_pangkat_golongan', 'tb_master_pangkat_golongan.id_pangkat_golongan = tb_pegawai.pangkat_golongan_id')
-        ->where(' tb_pegawai.user_id="'.$idUser.'" ');
+        ->where('tb_pegawai.user_id="'.$idUser.'" ')
+        ->where('tb_pegawai.office_id="'.$office_id.'"');
 
         $commandUser = $dataUser->createCommand();
         $modelUser = $commandUser->queryOne();
@@ -45,7 +52,7 @@ class LaporanController extends Controller
         $dataAbsensiAll->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
         ->from('tb_absensi')
         ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
+        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
         ->groupBy('tb_absensi.date_absensi');
 
         $commandAbsensiAll = $dataAbsensiAll->createCommand();
@@ -55,7 +62,7 @@ class LaporanController extends Controller
         $dataAbsensiDl->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
         ->from('tb_absensi')
         ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.status_absensi_id="5" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
+        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.status_absensi_id="5" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
         ->groupBy('tb_absensi.date_absensi');
 
         $commandAbsensiDl = $dataAbsensiDl->createCommand();

@@ -33,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div>
             <?php $url = Yii::getAlias("@web").'/gambar/kop/' ?>
             <img class="logo-name" src="<?= $url ?>depaglogo.png" style="width: 180px; height: 180px;">
-<!--            <h1 class="logo-name">IN+</h1>-->
 
         </div>
         <h3 style="margin-top: 50px;">Selamat Datang</h3>

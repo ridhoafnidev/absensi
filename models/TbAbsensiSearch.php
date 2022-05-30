@@ -42,7 +42,9 @@ class TbAbsensiSearch extends TbAbsensi
      */
     public function search($params)
     {
-        $query = TbAbsensi::find();
+        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
+
+        $query = TbAbsensi::find()->where(['office_id' => $user->office_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

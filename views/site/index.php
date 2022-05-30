@@ -4,6 +4,9 @@
 use yii\helpers\Html;
 $this->title = 'Beranda';
 $this->params['breadcrumbs'][] = $this->title;
+
+
+Yii::$app->user->getId()
 ?>
 <div class="site-index">
 

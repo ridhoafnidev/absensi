@@ -38,6 +38,20 @@ class LaporanController extends Controller
         $tgl_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
         $idUser = Yii::$app->getRequest()->getQueryParam('user');
 
+        //region Query count sick at year
+
+        $dataAllAbsensiYear = (new Query());
+        $dataAllAbsensiYear->select(['tb_absensi.*', 'YEAR(date_absensi)'])
+            ->from('tb_absensi')
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_akhir.'") AND status_absensi_id="3" AND office_id="'.$office_id.'"')
+            ->groupBy('date_absensi');
+
+        $commandAllAbsensiYear = $dataAllAbsensiYear->createCommand();
+        $modelAllAbsensiYear = $commandAllAbsensiYear->queryAll();
+
+        //endregion
+        //region get selected user
+
         $dataUser = (new Query());
         $dataUser->select(['tb_pegawai.*', 'tb_master_pangkat_golongan.pangkat_golongan'])
         ->from('tb_pegawai')
@@ -48,15 +62,21 @@ class LaporanController extends Controller
         $commandUser = $dataUser->createCommand();
         $modelUser = $commandUser->queryOne();
 
+        //endregion
+        //region get all absent in selected date range
+
         $dataAbsensiAll = (new Query());
         $dataAbsensiAll->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
         ->from('tb_absensi')
         ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
+        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
         ->groupBy('tb_absensi.date_absensi');
 
         $commandAbsensiAll = $dataAbsensiAll->createCommand();
         $modelAbsensiAll = $commandAbsensiAll->queryAll();
+
+        //endregion
+        //region get absent with Dinas Luar(DL)
 
         $dataAbsensiDl = (new Query());
         $dataAbsensiDl->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
@@ -68,14 +88,29 @@ class LaporanController extends Controller
         $commandAbsensiDl = $dataAbsensiDl->createCommand();
         $modelAbsensiDl = $commandAbsensiDl->queryAll();
 
+        //endregion
+        //region get all absent sick by current year
+
         $dataAbsensiYear = (new Query());
-        $dataAbsensiYear->select(['tb_absensi.*', 'YEAR(date_absensi)'])
+        $dataAbsensiYear->select(['tb_absensi.*'])
         ->from('tb_absensi')
-        ->where('YEAR(date_absensi)="2022" AND status_absensi_id="3"')
-        ->groupBy('date_absensi');
+        ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="3" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
         $commandAbsensiYear = $dataAbsensiYear->createCommand();
         $modelAbsensiYear = $commandAbsensiYear->queryAll();
+
+        //endregion
+        //region Cuti Alasan Penting
+
+        $dataCutiAlasanPenting = (new Query());
+        $dataCutiAlasanPenting->select(['tb_absensi.*'])
+            ->from('tb_absensi')
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+
+        $commandCutiAlasanPenting = $dataCutiAlasanPenting->createCommand();
+        $modelAllCutiAlasanPenting = $commandCutiAlasanPenting->queryAll();
+
+        //endregion
 
         $mpdf = new Mpdf();
         $mpdf->SetTitle("Laporan");
@@ -87,6 +122,8 @@ class LaporanController extends Controller
             'model_absensi_dl' => $modelAbsensiDl,
             'model_absensi_year' => $modelAbsensiYear,
             'model_user' => $modelUser,
+            'model_all_absensi_year' => $modelAllAbsensiYear,
+            'model_all_cuti_alasan_penting_year' => $modelAllCutiAlasanPenting,
         ]));
         $mpdf->Output('laporan.pdf', 'I');
         exit();

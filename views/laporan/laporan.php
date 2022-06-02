@@ -268,10 +268,12 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
         $cekSizeDate = \app\models\TbAbsensi::find()
             ->where(['date_absensi' => $dataAll['date_absensi']])
+            ->andWhere(['user_id' => $dataAll['user_id']])
             ->count();
 
         $dataAbsensi = \app\models\TbAbsensi::find()
             ->where(['date_absensi' => $dataAll['date_absensi']])
+            ->andWhere(['user_id' => $dataAll['user_id']])
             ->all();
 
         if ($cekSizeDate == 2) {

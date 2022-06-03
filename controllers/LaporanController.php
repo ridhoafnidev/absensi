@@ -111,6 +111,20 @@ class LaporanController extends Controller
         $modelAllCutiAlasanPenting = $commandCutiAlasanPenting->queryAll();
 
         //endregion
+        //region big leave
+
+
+
+        //endregion
+        //region maternity leave
+
+        $dataMaternityLeave = (new Query());
+        $dataMaternityLeave->select(['tb_absensi'])
+            ->from('tb_absensi')
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+
+
+        //endregion
 
         $mpdf = new Mpdf();
         $mpdf->SetTitle("Laporan");

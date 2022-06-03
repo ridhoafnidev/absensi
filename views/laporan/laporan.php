@@ -326,10 +326,12 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
         $cekSizeDate = \app\models\TbAbsensi::find()
             ->where(['date_absensi' => $dataAll['date_absensi']])
+            ->andWhere(['user_id' => $dataAll['user_id']])
             ->count();
 
         $dataAbsensi = \app\models\TbAbsensi::find()
             ->where(['date_absensi' => $dataAll['date_absensi']])
+            ->andWhere(['user_id' => $dataAll['user_id']])
             ->all();
 
         //region logic mapping absents in month
@@ -396,6 +398,12 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         $index++;
 
         //endregion
+    }
+
+    function getBigLeavePersentage($countBigLeaveYear) {
+        /*switch ($countBigLeaveYear) {
+            case $countBigLeaveYear -
+        }*/
     }
 
     function getPersenPotonganSakit($totalSakit) {
@@ -470,10 +478,10 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             case  $minutes >= 31 && $minutes <= 60:
                 $totalPersen += 1;
                 break;
-            case  $minutes >= 61 && $minutes <= 90:
+            case $minutes >= 61 && $minutes <= 90:
                 $totalPersen += 1.5;
                 break;
-            case  $minutes >= 91:
+            case $minutes >= 91:
                 $totalPersen += 1.5;
                 break;
         }
@@ -517,11 +525,17 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     //endregion
     //region count persentage in Year
 
+    /*Sick leave*/
     $countSickYear = count($absensiSakit);
     $persentageSick = getPersenPotonganSakit($countSickYear);
 
+    /*Urgent reason leave*/
     $countCutiAlasanPentingYear = count($absensiCutiAlasanPenting);
     $persentageCutiAlasanPenting = getPersenPotonganCutiAlasanPenting($countCutiAlasanPentingYear);
+
+    /*Big leave*/
+    $countBigLeaveYear = 0;
+    $bigLeavePersentage = getBigLeavePersentage($countBigLeaveYear);
 
     //endregion
 
@@ -647,8 +661,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         </tr>
 
     <?php $index++; endforeach;
-    switch (true) {
-        case $countSickMonth != 0 :
+        if ($countSickMonth != 0 ) {
             /*
              * --Cuti Sakit--
              * Check if all sick above 14 and all sick years equals all sick in month
@@ -665,27 +678,22 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                     $totalPersenTerlambat += $persentageSick;
                 }
             }
-            break;
-        case $countCutiAlasanPentingMonth != 0:
-
+        }
+        if ($countCutiAlasanPentingMonth != 0) {
             /*
-             * --Cuti Alasan Penting--
-             *
-             * Check if all cuti alasan penting in years equals above 3 days
-             * For all days and minus 2 to get day
-             * Count Cuti Alasan Sakit equals above 3 days persentage plus 2.5% in year
-            */
+            * --Cuti Alasan Penting--
+            *
+            * Check if all cuti alasan penting in years equals above 3 days
+            * For all days and minus 2 to get day
+            * Count Cuti Alasan Sakit equals above 3 days persentage plus 2.5% in year
+           */
 
             if($countCutiAlasanPentingYear >= 3) {
                 for ($i = 0; $i < $countCutiAlasanPentingMonth - 2; $i++) {
                     $totalPersenTerlambat += $persentageCutiAlasanPenting;
                 }
             }
-            break;
-
-    }
-
-
+        }
     ?>
 
 </table>

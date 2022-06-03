@@ -38,7 +38,7 @@ use yii\jui\DatePicker;
     <?php
 
     $list_cuti = ['Cuti Tahunan' => 'Cuti Tahunan', 'Cuti Besar' => 'Cuti Besar'
-    , 'Cuti Alasan Tidak Penting' => 'Cuti Alasan Tidak Penting', 'Cuti Bersalin' => 'Cuti Bersalin'];
+    , 'Cuti Alasan Tidak Penting' => 'Cuti Alasan Penting', 'Cuti Bersalin' => 'Cuti Bersalin'];
 
     echo $form->field($model, 'jenis_cuti')->dropDownList(
             $list_cuti,

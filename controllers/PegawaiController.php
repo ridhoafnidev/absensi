@@ -140,14 +140,17 @@ class PegawaiController extends Controller
                     $model->office_id = $user->office_id;
                     $model->save();
                 }
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Tambah Data Pegawai",
-                    'content'=>'<span class="text-success">Data Pewagawai Berhasil ditambahkan</span>',
-                    'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-        
-                ];         
+                if ($model->save()) {
+//                    return [
+//                        'forceReload'=>'#crud-datatable-pjax',
+//                        'title'=> "Tambah Data Pegawai",
+//                        'content'=>'<span class="text-success">Data Pewagawai Berhasil ditambahkan</span>',
+//                        'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+//                            Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+//
+//                    ];
+                }
+
             }else{           
                 return [
                     'title'=> "Tambah Data Pegawai",

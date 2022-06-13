@@ -69,7 +69,7 @@ class LaporanController extends Controller
         $dataAbsensiAll->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
         ->from('tb_absensi')
         ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
+        ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
         ->groupBy('tb_absensi.date_absensi');
 
         $commandAbsensiAll = $dataAbsensiAll->createCommand();
@@ -91,13 +91,13 @@ class LaporanController extends Controller
         //endregion
         //region get all absent sick by current year
 
-        $dataAbsensiYear = (new Query());
-        $dataAbsensiYear->select(['tb_absensi.*'])
+        $dataAbsensiSickYear = (new Query());
+        $dataAbsensiSickYear->select(['tb_absensi.*'])
         ->from('tb_absensi')
-        ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="3" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+        ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND tb_absensi.user_id="'.$idUser.'" AND status_absensi_id="3" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
-        $commandAbsensiYear = $dataAbsensiYear->createCommand();
-        $modelAbsensiYear = $commandAbsensiYear->queryAll();
+        $commandAbsensiSickYear = $dataAbsensiSickYear->createCommand();
+        $modelAbsensiSickYear = $commandAbsensiSickYear->queryAll();
 
         //endregion
         //region Cuti Alasan Penting
@@ -105,7 +105,7 @@ class LaporanController extends Controller
         $dataCutiAlasanPenting = (new Query());
         $dataCutiAlasanPenting->select(['tb_absensi.*'])
             ->from('tb_absensi')
-            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND tb_absensi.user_id="'.$idUser.'" AND status_absensi_id="4" AND jenis_cuti="Cuti Alasan Penting" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
         $commandCutiAlasanPenting = $dataCutiAlasanPenting->createCommand();
         $modelAllCutiAlasanPenting = $commandCutiAlasanPenting->queryAll();
@@ -113,16 +113,41 @@ class LaporanController extends Controller
         //endregion
         //region big leave
 
-
-
         //endregion
         //region maternity leave
 
-        $dataMaternityLeave = (new Query());
-        $dataMaternityLeave->select(['tb_absensi'])
+        $dataMaternityLeaveChildren = (new Query());
+        $dataMaternityLeaveChildren->select(['tb_absensi.*'])
             ->from('tb_absensi')
-            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND user_id="'.$idUser.'" AND status_absensi_id="4" AND jenis_cuti="Cuti Bersalin" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")')
+            ->orderBy(['anak_ke' => SORT_DESC])
+            ->limit(1);
 
+        $commandMaternityLeaveChildren = $dataMaternityLeaveChildren->createCommand();
+        $modelAllMaternityLeaveChildren = $commandMaternityLeaveChildren->queryAll();
+
+        $dateNow = date("m", strtotime($tgl_awal));
+        if ($dateNow == 01) {
+            $dateTo = 01;
+        }
+        else {
+            $dateTo = $dateNow - 01;
+        }
+        $dataMaternityLeaveDay = (new Query());
+        $dataMaternityLeaveDay->select(['tb_absensi.*'])
+            ->from('tb_absensi')
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND tb_absensi.user_id="'.$idUser.'" AND status_absensi_id="4" AND jenis_cuti="Cuti Bersalin" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND "'.$dateTo.'" ');
+
+        $commandMaternityLeaveDay = $dataMaternityLeaveDay->createCommand();
+        $modelAllMaternityLeaveDay = $commandMaternityLeaveDay->queryAll();
+
+        $dataMaternityLeaveMonth = (new Query());
+        $dataMaternityLeaveMonth->select(['tb_absensi.*'])
+            ->from('tb_absensi')
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND tb_absensi.user_id="'.$idUser.'" AND status_absensi_id="4" AND jenis_cuti="Cuti Bersalin" AND office_id="'.$office_id.'" AND MONTH(date_absensi) = MONTH("'.$tgl_awal.'") ');
+
+        $commandMaternityLeaveMonth = $dataMaternityLeaveMonth->createCommand();
+        $modelAllMaternityLeaveMonth = $commandMaternityLeaveMonth->queryAll();
 
         //endregion
 
@@ -134,10 +159,13 @@ class LaporanController extends Controller
             'model' => $model,
             'model_absensi_all' => $modelAbsensiAll,
             'model_absensi_dl' => $modelAbsensiDl,
-            'model_absensi_year' => $modelAbsensiYear,
+            'model_absensi_sick_year' => $modelAbsensiSickYear,
             'model_user' => $modelUser,
             'model_all_absensi_year' => $modelAllAbsensiYear,
             'model_all_cuti_alasan_penting_year' => $modelAllCutiAlasanPenting,
+            'model_all_maternity_year' => $modelAllMaternityLeaveChildren,
+            'model_all_maternity_day' => $modelAllMaternityLeaveDay,
+            'model_all_maternity_month' => $modelAllMaternityLeaveDay,
         ]));
         $mpdf->Output('laporan.pdf', 'I');
         exit();

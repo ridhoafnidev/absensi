@@ -93,7 +93,7 @@ $split_awal = explode('-', $bulan_awal);
 $tahun = $split_awal[0];
 $absensiSakit = array();
 
-foreach ($model_absensi_year as $dataYear) {
+foreach ($model_absensi_sick_year as $dataYear) {
     $date1 = $dataYear['tanggal_mulai'];
     $date2 = $dataYear['tanggal_selesai'];
 
@@ -140,7 +140,28 @@ foreach ($absensiCutiAlasanPenting as $key => $value) {
     }
 }
 
-//emdregion
+//endregion
+//region get all cuti bersalin in year
+
+$absensiCutiBersalin = array();
+
+foreach ($model_all_maternity_year as $cutiBersalin) {
+
+    $date1CutiBersalin = $cutiBersalin['tanggal_mulai'];
+    $date2CutiBersalin = $cutiBersalin['tanggal_selesai'];
+
+    $dtDate1CutiBersalin = new DateTime($date1CutiBersalin);
+    $dtDate2CutiBersalin = new DateTime($date2CutiBersalin);
+
+    $diffDateCutiBersalin = $dtDate1CutiBersalin->diff($dtDate2CutiBersalin)->format("%d");
+    for ($i = 0; $i <= $diffDateCutiBersalin; $i++) {
+        $arrayCutiBersalin['date_absensi'] = date('Y-m-d', strtotime($date1CutiAlasanPenting. ' + '.$i.' days'));
+        $arrayCutiBersalin['anak_ke'] = $cutiBersalin['anak_ke'];
+        array_push($absensiCutiBersalin, $arrayCutiBersalin);
+    }
+}
+
+//endregion
 
 function month_indo($month)
 {
@@ -346,6 +367,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             $array['lembur'] = $dataAbsensi[0]['lembur'];
             $array['status_absensi_id'] = $dataAbsensi[0]['status_absensi_id'];
             $array['jenis_cuti'] = $dataAbsensi[0]['jenis_cuti'];
+            $array['anak_ke'] = $dataAbsensi[0]['anak_ke'];
 
             array_push($absensi, $array);
 
@@ -371,6 +393,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                     $array['lembur'] = $dataAll['lembur'];
                     $array['status_absensi_id'] = $dataAll['status_absensi_id'];
                     $array['jenis_cuti'] = $dataAll['jenis_cuti'];
+                    $array['anak_ke'] = $dataAll['anak_ke'];
 
                     array_push($absensi, $array);
                 }
@@ -391,6 +414,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 $array['lembur'] = $dataAbsensi[0]['lembur'];
                 $array['status_absensi_id'] = $dataAbsensi[0]['status_absensi_id'];
                 $array['jenis_cuti'] = $dataAbsensi[0]['jenis_cuti'];
+                $array['anak_ke'] = $dataAbsensi[0]['anak_ke'];
 
                 array_push($absensi, $array);
             }
@@ -433,7 +457,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         return $persenCutiAlasanPenting;
     }
 
-    function getException($ex)
+    function getException($ex, $jenisCuti)
     {
         switch ($ex) {
             case '1':
@@ -443,10 +467,10 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 $pengecualian = "WFO";
                 break;
             case '3':
-                $pengecualian = "Sakit";
+                $pengecualian = "Cuti Sakit";
                 break;
             case '4':
-                $pengecualian = "Cuti";
+                $pengecualian = $jenisCuti;
                 break;
             case '5':
                 $pengecualian = "DL";
@@ -458,6 +482,11 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     function getDiffTime(DateTime $time1, DateTime $time2)
     {
         return $time1->diff($time2)->format('%H:%I');
+    }
+
+    function getDiffDay(DateTime $time1, DateTime $time2)
+    {
+        return $time1->diff($time2)->format('%D');
     }
 
     $index = 0;
@@ -478,10 +507,8 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             case  $minutes >= 31 && $minutes <= 60:
                 $totalPersen += 1;
                 break;
-            case $minutes >= 61 && $minutes <= 90:
-                $totalPersen += 1.5;
-                break;
             case $minutes >= 91:
+            case $minutes >= 61 && $minutes <= 90:
                 $totalPersen += 1.5;
                 break;
         }
@@ -493,10 +520,10 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     foreach ($absensiSakit as $key => $value) {
         $dateSakit = strtotime($value['date_absensi']);
         $daySakit = convertDay(date('l', $dateSakit));
-        if ($daySakit == "Sabtu"){
+        if ($daySakit == "Sabtu") {
             unset($absensiSakit[$key]);
         }
-        else if ($daySakit == "Minggu"){
+        else if ($daySakit == "Minggu") {
             unset($absensiSakit[$key]);
         }
     }
@@ -506,10 +533,10 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     foreach ($absensi as $key => $value) {
         $date = strtotime($value['date_absensi']);
         $day = convertDay(date('l', $date));
-        if ($day == "Sabtu"){
+        if ($day == "Sabtu") {
             unset($absensi[$key]);
         }
-        else if ($day == "Minggu"){
+        else if ($day == "Minggu") {
             unset($absensi[$key]);
         }
     }
@@ -517,6 +544,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     //region count cuti
 
     $countSickMonth = 0;
+    $countDayMonth = 0;
     $countCutiAlasanPentingMonth = 0;
     $countCutiTahunanMonth = 0;
     $countCutiBersalinMonth = 0;
@@ -530,16 +558,21 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     $persentageSick = getPersenPotonganSakit($countSickYear);
 
     /*Urgent reason leave*/
-    $countCutiAlasanPentingYear = count($absensiCutiAlasanPenting);
-    $persentageCutiAlasanPenting = getPersenPotonganCutiAlasanPenting($countCutiAlasanPentingYear);
+    /*Todo next release*/
+    /*$countCutiAlasanPentingYear = count($absensiCutiAlasanPenting);*/
+    /*$persentageCutiAlasanPenting = getPersenPotonganCutiAlasanPenting($countCutiAlasanPentingYear)*/;
 
     /*Big leave*/
-    $countBigLeaveYear = 0;
-    $bigLeavePersentage = getBigLeavePersentage($countBigLeaveYear);
+    /*Todo next release*/
+    /*$countBigLeaveYear = 0;*/
+    /*$bigLeavePersentage = getBigLeavePersentage($countBigLeaveYear);*/
 
     //endregion
 
     foreach ($absensi as $data) :
+        if (strlen($data['time_absensi_masuk']) != 0 && strlen($data['time_absensi_keluar']) != 0) {
+            $countDayMonth++;
+        }
         $pengecualian = $data['pengecualian'];
         $jenisCuti = $data['jenis_cuti'];
         switch ($pengecualian) {
@@ -624,7 +657,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 ?>
             </td>
             <td></td>
-            <td style="text-align: center"><?= getException($data['pengecualian']) ?></td>
+            <td style="text-align: center"><?= getException($data['pengecualian'], $jenisCuti) ?></td>
             <td>
                 <?php
                 $timeMasuk = new DateTime($data['time_absensi_masuk']);
@@ -679,21 +712,57 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 }
             }
         }
-        if ($countCutiAlasanPentingMonth != 0) {
-            /*
-            * --Cuti Alasan Penting--
-            *
-            * Check if all cuti alasan penting in years equals above 3 days
-            * For all days and minus 2 to get day
-            * Count Cuti Alasan Sakit equals above 3 days persentage plus 2.5% in year
-           */
+        /*if ($countCutiAlasanPentingMonth != 0) {*/
+        /*    /**/
+        /*    * --Cuti Alasan Penting--*/
+        /*    **/
+        /*    * Check if all cuti alasan penting in years equals above 3 days*/
+        /*    * For all days and minus 2 to get day*/
+        /*    * Count Cuti Alasan Sakit equals above 3 days persentage plus 2.5% in year*/
+        /*   */
+        /*    if($countCutiAlasanPentingYear >= 3) {*/
+        /*        for ($i = 0; $i < $countCutiAlasanPentingMonth - 2; $i++) {*/
+        /*            $totalPersenTerlambat += $persentageCutiAlasanPenting;*/
+        /*        }*/
+        /*    }*/
+        /*}*/
 
-            if($countCutiAlasanPentingYear >= 3) {
-                for ($i = 0; $i < $countCutiAlasanPentingMonth - 2; $i++) {
-                    $totalPersenTerlambat += $persentageCutiAlasanPenting;
+        $dayOfMaternity = 0;
+        $arrayMatternityDay = array();
+
+       foreach ($model_all_maternity_day as $day) {
+
+          $dayOfMaternity = getDiffDay(new DateTime($day['tanggal_mulai']), new DateTime($day['tanggal_selesai']));
+
+          for ($i = 0; $i < $dayOfMaternity + 1; $i++) {
+               $arrayMaternityDay['date_absensi'] = date('Y-m-d', strtotime($day['tanggal_mulai']. ' + '.$i.' days'));
+
+               array_push($arrayMatternityDay, $arrayMaternityDay);
+
+//               if (date("m", strtotime($arrayMatternityDay['date_absensi'])) == date("m", strtotime($bulan_awal))) {
+//                   array_push($arrayMatternityDay, $arrayMaternityDay);
+//               }
+
+
+
+           }
+       }
+
+        print_r($arrayMatternityDay);
+        exit();
+
+        if (count($model_all_maternity_year) != 0) {
+            foreach ($model_all_maternity_year as $maternity) {
+                if ($maternity['anak_ke'] >= 4) {
+
                 }
             }
         }
+
+        foreach ($model_all_maternity_year as $item) {
+            //print_r($item['anak_ke']);
+        }
+
     ?>
 
 </table>
@@ -702,11 +771,11 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     <div class="column">
         <table class="content" border="1" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
             <tr>
-                <th>Hari Kerja <?= count($absensiSakit) ?></th>
+                <th>Hari Kerja</th>
                 <th>Total Pemotongan(%)</th>
             </tr>
             <tr>
-                <td style="text-align: center"><?= count($model_absensi_all) - count($model_absensi_dl)?></td>
+                <td style="text-align: center"><?= $countDayMonth ?></td>
                 <td style="text-align: center"><?= $totalPersenTerlambat ?></td>
             </tr>
         </table>

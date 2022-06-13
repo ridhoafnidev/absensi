@@ -49,11 +49,11 @@ class TbAbsensi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date_absensi', 'lembur', 'time_absensi', 'status_absensi_id', 'lat', 'lng', 'alamat_absensi', 'user_id', 'jenis_absensi'], 'required'],
+            [['office_id','date_absensi', 'time_absensi', 'status_absensi_id', 'lat', 'lng', 'alamat_absensi', 'user_id', 'jenis_absensi', 'jenis_cuti', 'anak_ke'], 'required'],
             [['date_absensi', 'time_absensi', 'created_at', 'updated_at'], 'safe'],
-            [['status_absensi_id', 'lembur', 'user_id'], 'integer'],
+            [['office_id','status_absensi_id', 'lembur', 'user_id'], 'integer'],
             [['lat', 'lng'], 'number'],
-            [['alamat_absensi', 'jenis_absensi'], 'string'],
+            [['alamat_absensi', 'jenis_absensi','anak_ke'], 'string'],
             [['tanggal_mulai', 'tanggal_selesai'], 'string', 'max' => 10],
             [['dokumen_pendukung'], 'string', 'max' => 50],
             [['jenis_cuti'], 'string', 'max' => 150],

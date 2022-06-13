@@ -118,15 +118,17 @@ class AbsensiController extends Controller
                 ];         
             }else if($model->load($request->post())){
                 $model->office_id = $user->office_id;
-                $model->save();
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Tambah Data Absensi",
-                    'content'=>'<span class="text-success">Data Absensi Berhasil ditambahkan</span>',
-                    'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                if ($model->save()) {
+                    return [
+                        'forceReload'=>'#crud-datatable-pjax',
+                        'title'=> "Tambah Data Absensi",
+                        'content'=>'<span class="text-success">Data Absensi Berhasil ditambahkan</span>',
+                        'footer'=> Html::button('Tutup',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Tambah Lagi',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
 
-                ];
+                    ];
+                }
+
             }else{           
                 return [
                     'title'=> "Tambah Data Absensi",

@@ -17,6 +17,7 @@ use Yii;
  * @property string $jenis_cuti
  * @property int $lembur
  * @property string $keterangan
+ * @property string $anakKe
  * @property float $lat
  * @property float $lng
  * @property string $alamat_absensi
@@ -49,12 +50,12 @@ class TbAbsensi extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['date_absensi', 'lembur', 'time_absensi', 'status_absensi_id', 'lat', 'lng', 'alamat_absensi', 'user_id', 'jenis_absensi'], 'required'],
+            [['office_id','date_absensi', 'time_absensi', 'status_absensi_id', 'lat', 'lng', 'alamat_absensi', 'user_id', 'jenis_absensi', 'jenis_cuti', 'anak_ke'], 'required'],
             [['date_absensi', 'time_absensi', 'created_at', 'updated_at'], 'safe'],
-            [['status_absensi_id', 'lembur', 'user_id'], 'integer'],
+            [['office_id','status_absensi_id', 'lembur', 'user_id'], 'integer'],
             [['lat', 'lng'], 'number'],
             [['alamat_absensi', 'jenis_absensi'], 'string'],
-            [['tanggal_mulai', 'tanggal_selesai'], 'string', 'max' => 10],
+            [['tanggal_mulai', 'tanggal_selesai', 'anak_ke'], 'string', 'max' => 10],
             [['dokumen_pendukung'], 'string', 'max' => 50],
             [['jenis_cuti'], 'string', 'max' => 150],
             [['keterangan'], 'string', 'max' => 100],
@@ -79,6 +80,7 @@ class TbAbsensi extends \yii\db\ActiveRecord
             'jenis_cuti' => 'Jenis Cuti',
             'lembur' => 'Lembur',
             'keterangan' => 'Keterangan',
+            'anak_ke' => 'Anak Ke',
             'lat' => 'Lat',
             'lng' => 'Lng',
             'alamat_absensi' => 'Alamat Absensi',

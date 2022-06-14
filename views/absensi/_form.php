@@ -37,6 +37,13 @@ use yii\jui\DatePicker;
 
     <?php
 
+    $list_anak_ke = array('1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10');
+
+    echo $form->field($model, 'anak_ke')->dropDownList(
+            $list_anak_ke,
+            ['prompt' => 'Pilih...']
+    )->label('Anak ke-');
+
     $list_cuti = ['Cuti Tahunan' => 'Cuti Tahunan', 'Cuti Besar' => 'Cuti Besar'
     , 'Cuti Alasan Tidak Penting' => 'Cuti Alasan Penting', 'Cuti Bersalin' => 'Cuti Bersalin'];
 
@@ -77,7 +84,20 @@ use yii\jui\DatePicker;
         $list,
         ['prompt' => 'Pilih...']
     )->label('Username');
+
+    // $query = \app\models\TbUser::find()
+    // ->select('tb_pegawai.nama_lengkap')  // make sure same column name not there in both table
+    // ->leftJoin('tb_pegawai', 'tb_user.id_user = tb_pegawai.user_id')
+    // ->where(['tb_pegawai.office_id' => $model->office_id])
+    // ->asArray()
+    // ->all();
+
+    // echo $form->field($model, 'user_id')->dropDownList(
+    //     $query,
+    //     ['prompt' => 'Pilih...']
+    // )->label('Username');
     ?>
+
 
     <!-- $form->field($model, 'user_id')->textInput() ?> -->
 

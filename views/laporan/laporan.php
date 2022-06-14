@@ -106,7 +106,6 @@ foreach ($model_absensi_year as $dataYear) {
         $arraySakit['date_absensi'] = date('Y-m-d', strtotime($date1. ' + '.$i.' days'));
         array_push($absensiSakit, $arraySakit);
     }
-
 }
 
 //endregion
@@ -493,19 +492,30 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     foreach ($absensiSakit as $key => $value) {
         $dateSakit = strtotime($value['date_absensi']);
         $daySakit = convertDay(date('l', $dateSakit));
-        if ($daySakit == "Sabtu"){
+
+        if ($daySakit == "Sabtu") {
             unset($absensiSakit[$key]);
         }
-        else if ($daySakit == "Minggu"){
+        else if ($daySakit == "Minggu") {
             unset($absensiSakit[$key]);
         }
+
     }
 
     //endregion
-    
+
+//    print_r($absensi);
+//    exit();
+
     foreach ($absensi as $key => $value) {
         $date = strtotime($value['date_absensi']);
         $day = convertDay(date('l', $date));
+        $currentMonthAbsensi = date('m', $date);
+        $currentMonth = date('m', strtotime($bulan_awal));
+
+        if ($currentMonth != $currentMonth) {
+            unset($absensi[$key]);
+        }
         if ($day == "Sabtu"){
             unset($absensi[$key]);
         }

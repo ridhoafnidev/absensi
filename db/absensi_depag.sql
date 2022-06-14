@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 20, 2022 at 12:08 PM
+-- Generation Time: Jun 14, 2022 at 02:04 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tb_absensi` (
   `id_absensi` int(11) NOT NULL,
+  `office_id` int(11) NOT NULL,
   `date_absensi` date NOT NULL,
   `time_absensi` time NOT NULL,
   `status_absensi_id` int(11) NOT NULL,
@@ -44,20 +45,30 @@ CREATE TABLE `tb_absensi` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
-  `jenis_absensi` enum('masuk','keluar') NOT NULL
+  `jenis_absensi` enum('masuk','keluar') NOT NULL,
+  `terlambat` varchar(11) NOT NULL DEFAULT '',
+  `plg_cepat` varchar(11) NOT NULL DEFAULT '',
+  `anak_ke` varchar(10) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_absensi`
 --
 
-INSERT INTO `tb_absensi` (`id_absensi`, `date_absensi`, `time_absensi`, `status_absensi_id`, `tanggal_mulai`, `tanggal_selesai`, `dokumen_pendukung`, `jenis_cuti`, `lembur`, `keterangan`, `lat`, `lng`, `alamat_absensi`, `created_at`, `updated_at`, `user_id`, `jenis_absensi`) VALUES
-(6, '2022-04-21', '07:38:00', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
-(60, '2022-04-21', '16:57:59', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'keluar'),
-(61, '2022-04-22', '07:55:03', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
-(62, '2022-04-22', '17:01:34', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'keluar'),
-(63, '2022-04-19', '07:22:36', 1, '', '', '', '', 0, '', 0, 0, '', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk'),
-(64, '2022-04-25', '00:00:00', 5, '2022-04-25', '2022-04-27', '', '', 0, '', 0, 0, 'PKU', '2022-04-23 08:58:43', '2022-04-23 08:58:43', 2, 'masuk');
+INSERT INTO `tb_absensi` (`id_absensi`, `office_id`, `date_absensi`, `time_absensi`, `status_absensi_id`, `tanggal_mulai`, `tanggal_selesai`, `dokumen_pendukung`, `jenis_cuti`, `lembur`, `keterangan`, `lat`, `lng`, `alamat_absensi`, `created_at`, `updated_at`, `user_id`, `jenis_absensi`, `terlambat`, `plg_cepat`, `anak_ke`) VALUES
+(79, 1, '2022-05-02', '19:47:38', 3, '2022-05-02', '2022-05-20', '2_images.jpeg', '', 0, '', 37.421998333333335, -122.084, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', '2022-05-28 12:47:38', '2022-05-28 12:47:38', 2, 'keluar', '', '', ''),
+(81, 1, '2022-05-23', '22:20:00', 5, '2022-05-23', '2022-05-25', '', '', 0, '', 0, 0, '0', '2022-05-29 15:20:32', '2022-05-29 15:20:32', 2, 'masuk', '', '', ''),
+(82, 1, '2022-05-29', '23:24:00', 1, '', '', '', '', 1, '', 0, 0, '0', '2022-05-29 15:25:19', '2022-05-29 15:25:19', 2, 'keluar', '', '', ''),
+(83, 1, '2022-05-27', '07:22:40', 1, '', '', '', '', 0, '', 0, 0, 'pku', '2022-05-28 07:16:49', '2022-05-28 07:16:49', 2, 'masuk', '', '', ''),
+(84, 1, '2022-05-27', '16:06:12', 1, '', '', '', '', 0, '', 0, 0, 'pku', '2022-05-28 07:16:49', '2022-05-28 07:16:49', 2, 'keluar', '', '', ''),
+(85, 1, '2022-05-30', '19:47:38', 1, '', '', '', '', 0, '', 0, 0, 'pku', '2022-05-28 07:16:49', '2022-05-28 07:16:49', 2, 'keluar', '', '', ''),
+(86, 1, '2022-06-01', '19:47:38', 4, '2022-06-01', '2022-06-05', '2_images.jpeg', 'Cuti Alasan Penting', 0, '', 37.421998333333335, -122.084, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', '2022-05-28 12:47:38', '2022-05-28 12:47:38', 2, 'keluar', '', '', ''),
+(87, 1, '2022-06-06', '07:30:00', 1, '', '', '', '', 0, '', 37.421998333333335, -122.084, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', '2022-05-28 12:47:38', '2022-05-28 12:47:38', 2, 'masuk', '', '', ''),
+(88, 1, '2022-06-06', '16:30:30', 1, '', '', '', '', 0, '', 37.421998333333335, -122.084, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', '2022-05-28 12:47:38', '2022-05-28 12:47:38', 2, 'keluar', '', '', ''),
+(89, 1, '2022-06-07', '22:20:00', 3, '2022-06-07', '2022-06-08', '', '', 0, '', 0, 0, '0', '2022-05-29 15:20:32', '2022-05-29 15:20:32', 2, 'masuk', '', '', ''),
+(90, 1, '2022-06-08', '19:47:38', 4, '2022-06-08', '2022-06-09', '2_images.jpeg', 'Cuti Bersalin', 0, '', 37.421998333333335, -122.084, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', '2022-05-28 12:47:38', '2022-05-28 12:47:38', 2, 'masuk', '', '', '4'),
+(91, 1, '2022-06-10', '19:47:38', 4, '2022-06-10', '2022-06-11', '2_images.jpeg', 'Cuti Bersalin', 0, '', 37.421998333333335, -122.084, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', '2022-05-28 12:47:38', '2022-05-28 12:47:38', 2, 'masuk', '', '', '2'),
+(92, 1, '2022-05-28', '19:47:38', 4, '2022-05-28', '2022-06-03', '2_images.jpeg', 'Cuti Bersalin', 0, '', 37.421998333333335, -122.084, '1600 Amphitheatre Pkwy, Mountain View, CA 94043, USA', '2022-05-28 12:47:38', '2022-05-28 12:47:38', 2, 'keluar', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -75,8 +86,10 @@ CREATE TABLE `tb_master_jabatan_fungsional` (
 --
 
 INSERT INTO `tb_master_jabatan_fungsional` (`id_jabatan_fungsional`, `jabatan_fungsional`) VALUES
-(1, 'Kepala 1'),
-(2, 'Kepala 2');
+(1, 'Tidak Ada'),
+(2, 'Kepala 1'),
+(3, 'Kepala 2'),
+(5, 'Ahli Pertama Pranata Komputer');
 
 -- --------------------------------------------------------
 
@@ -94,8 +107,10 @@ CREATE TABLE `tb_master_jabatan_struktural` (
 --
 
 INSERT INTO `tb_master_jabatan_struktural` (`id_master_jabatan_struktural`, `jabatan_struktural`) VALUES
-(1, 'Kepala kantor'),
-(2, 'Kepala seksi');
+(1, 'Tidak Ada'),
+(2, 'Kepala seksi'),
+(3, 'Kepala kantor'),
+(5, 'Kepala Sub Bagian TU');
 
 -- --------------------------------------------------------
 
@@ -114,12 +129,12 @@ CREATE TABLE `tb_master_jam_kerja` (
 --
 
 INSERT INTO `tb_master_jam_kerja` (`id_jam_kerja`, `hari`, `jam`) VALUES
-(1, 'Senin', '07:30:00 - 16:00:00'),
-(2, 'Selasa', '07:30:00 - 16:00:00'),
-(3, 'Rabu', '07:30:00 - 16:00:00'),
-(4, 'Kamis', '07:30:00 - 16:00:00'),
-(5, 'Jumat', '07:30:00 - 16:00:00'),
-(6, 'Sabtu', '00:00 - 00:00'),
+(1, 'Senin', '07:30 - 16:00'),
+(2, 'Selasa', '07:30 - 16:00'),
+(3, 'Rabu', '07:30 - 16:00'),
+(4, 'Kamis', '07:30 - 16:00'),
+(5, 'Jumat', '07:30 - 16:30'),
+(6, 'Sabtu', '00:00 -00:00'),
 (7, 'Minggu', '00:00 - 00:00');
 
 -- --------------------------------------------------------
@@ -182,7 +197,8 @@ CREATE TABLE `tb_master_office` (
 --
 
 INSERT INTO `tb_master_office` (`id_master_office`, `office_name`, `office_address`, `lat`, `lng`, `created_at`, `updated_at`) VALUES
-(1, 'Kantor Baru', 'Jalan Narasinga', -6.229455, 106.608975, '2022-05-10 04:14:26', '2022-05-10 04:14:26');
+(1, 'Kemenag Inhu', 'Kemenag Inhu', -0.394472, 102.432389, '2022-05-10 04:14:26', '2022-05-10 04:14:26'),
+(2, 'Kemenag Inhu 2', 'Kemenag Inhu 2', -0.394472, 102.432389, '2022-05-10 04:14:26', '2022-05-10 04:14:26');
 
 -- --------------------------------------------------------
 
@@ -201,7 +217,9 @@ CREATE TABLE `tb_master_pangkat_golongan` (
 
 INSERT INTO `tb_master_pangkat_golongan` (`id_pangkat_golongan`, `pangkat_golongan`) VALUES
 (1, 'Golongan Ia'),
-(2, 'Golongan Ib');
+(2, 'Golongan Ib'),
+(3, 'III/A'),
+(4, 'III/d');
 
 -- --------------------------------------------------------
 
@@ -272,8 +290,9 @@ INSERT INTO `tb_master_unit_kerja` (`id_master_unit_kerja`, `unit_kerja`) VALUES
 CREATE TABLE `tb_pegawai` (
   `id_pegawai` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `nik` varchar(18) NOT NULL,
-  `nip` varchar(20) NOT NULL,
+  `office_id` int(11) NOT NULL,
+  `nik` varchar(40) NOT NULL,
+  `nip` varchar(40) NOT NULL,
   `nama_lengkap` varchar(50) NOT NULL,
   `foto` varchar(50) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL,
@@ -293,9 +312,8 @@ CREATE TABLE `tb_pegawai` (
 -- Dumping data for table `tb_pegawai`
 --
 
-INSERT INTO `tb_pegawai` (`id_pegawai`, `user_id`, `nik`, `nip`, `nama_lengkap`, `foto`, `email`, `no_hp`, `pns_nonpns_id`, `jenis_tenaga_id`, `unit_kerja_id`, `jabatan_struktural_id`, `jabatan_fungsional_id`, `pangkat_golongan_id`, `is_active`, `grade`, `tunjangan`) VALUES
-(3, 2, '123456', '7654321', 'Ahmad Zahid', '3_images.jpeg', 'ahmad@gmail.com', '082154321267', 1, 1, 2, 1, 1, 1, 1, '11', '5000000'),
-(4, 5, '098765', '567890', 'Aman', '', 'aman@gmail.com', '0812', 1, 1, 1, 2, 1, 1, 1, '11', '6500000');
+INSERT INTO `tb_pegawai` (`id_pegawai`, `user_id`, `office_id`, `nik`, `nip`, `nama_lengkap`, `foto`, `email`, `no_hp`, `pns_nonpns_id`, `jenis_tenaga_id`, `unit_kerja_id`, `jabatan_struktural_id`, `jabatan_fungsional_id`, `pangkat_golongan_id`, `is_active`, `grade`, `tunjangan`) VALUES
+(10, 2, 1, '123456', '654321', 'Ahmad', '', 'ahmad@gmail.com', '12345', 1, 1, 1, 1, 1, 1, 1, '3', '5500000');
 
 -- --------------------------------------------------------
 
@@ -308,6 +326,7 @@ CREATE TABLE `tb_user` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `level_id` int(11) NOT NULL DEFAULT '1',
+  `office_id` int(11) NOT NULL,
   `is_active` tinyint(4) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -319,10 +338,20 @@ CREATE TABLE `tb_user` (
 -- Dumping data for table `tb_user`
 --
 
-INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level_id`, `is_active`, `created_at`, `updated_at`, `authkey`, `accesToken`) VALUES
-(2, 'ahmad', '$2y$10$Pcr5OgzbhEJ7oUllq6ZvYO9HKE1wd66p8Jk4JGZhzY3XicQBrkBSC', 1, 1, '2022-04-12 08:08:56', '2022-05-12 10:31:09', '', ''),
-(5, '567890', '567890', 1, 1, '2022-05-17 16:29:24', '2022-05-17 16:29:24', '', ''),
-(6, 'admin', '$2y$10$2J8487haXMNup5mpAlbSUeUVJzcqYZuGqimoQVvWZ8s22oa.tRpQG', 2, 1, '2022-04-12 08:08:56', '2022-05-12 10:31:09', '', '');
+INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level_id`, `office_id`, `is_active`, `created_at`, `updated_at`, `authkey`, `accesToken`) VALUES
+(2, 'ahmad', '$2y$10$1bbd2K6XZuwoa8Ei.5Pwde6nuxq/.I7AcNO52wCj2.Zh1qGUad0bC', 1, 0, 1, '2022-04-12 08:08:56', '2022-05-24 02:08:41', '123456', '654321'),
+(6, 'admin', '$2y$10$2J8487haXMNup5mpAlbSUeUVJzcqYZuGqimoQVvWZ8s22oa.tRpQG', 2, 1, 1, '2022-04-12 08:08:56', '2022-05-12 10:31:09', '', ''),
+(17, '654321', '$2y$13$zU5aJjAGEazcEmgRKSocQOdmbZ7O1xGnWpX6Bm.3KX9/XkZVWUbsi', 1, 1, 1, '2022-05-29 15:17:14', '2022-05-29 15:17:14', 'sHxg3fOw7M6xXoCkyGN-JAWFWupKNqTn', 'VO_MvTpB4ja8wTMGKI7NQZVnHXHUleEl'),
+(18, '', '$2y$13$oAoZGU6q0OhiNYq/scuaQOJaQEWiuaMTzsLzecl4Ws06WuX0uxUva', 1, 1, 1, '2022-06-11 04:11:57', '2022-06-11 04:11:57', '6GjT1RXE_8X1DR8uuLT4vrdciqP42gCy', 'BDqj4mTYM8h1pcXbvWEiBZkGaLWCzGZa'),
+(19, '', '$2y$13$o7QjF9bnTNq0SfU2G1YTCe0SuQ/tZPYZt7Z7D49iF3myOWf.HEwPG', 1, 1, 1, '2022-06-11 04:13:21', '2022-06-11 04:13:21', 'v1hjEtGoRoXXrFYkc80x_Kkv7pKG_rSs', 'SLSzp_ACw89bMDlKUHr6GxPJqzSpUbqG'),
+(20, '', '$2y$13$McOF35fTWSSPKq0ZMCDxBOaFg4xQy0zuwvWu95VVdTZMVIdT7MPC2', 1, 1, 1, '2022-06-11 04:14:00', '2022-06-11 04:14:00', '4n3RFYR_5wsrRz9SyHQtUfUHkejl3GdX', 'zYXpeWC77AUuBHLUNnFc_pK7TnpCVE_w'),
+(21, '', '$2y$13$QuWIisiyGgP8CKbf2.VPAeYcNriGwqnYLwuQH9MihjWqOePSfGTiy', 1, 1, 1, '2022-06-11 04:14:30', '2022-06-11 04:14:30', '_bhA8GKGCP9EoB9JHgM1VDzUHN3jzaxm', '47miN19M-AVuv0SPW5OBH9YSXoP_c0Rm'),
+(22, '', '$2y$13$HevdELjywdMzzTFtJLMZq.ZBGKRZmZTrQybm4Q7zCb.ZlpgZdAjxO', 1, 1, 1, '2022-06-14 02:26:55', '2022-06-14 02:26:55', 'XY-b1oEQnMExwIa9RziY6tEI7_NRZFFz', 'mos5QDtZ0OTc82JSN3vOYc5kLU5T0jmI'),
+(23, '', '$2y$13$3Vt3r0Bw2gS5Wha6zQGhNuG0UjWxTh8zOELJ9TNYZcQ4yGvhe0Ueq', 1, 1, 1, '2022-06-14 07:10:04', '2022-06-14 07:10:04', 'gW6zKU1eF7rDZFpwi3RATUT_ANiRzUEp', 'i2iNwto1kEw56yIthKaj3h9J1Yhy8qBx'),
+(24, '', '$2y$13$C.QGGY9rhgrNySeuqbEtR.gPW/fq1tjqKHwhEeY5Ja.tsHFF89PyW', 1, 1, 1, '2022-06-14 13:42:45', '2022-06-14 13:42:45', 'tohTVKBJhehWQwPQnw67mk4iVbdYXMom', 'srAJRGHN6_lGK7cAfnxeiPAxKmaoRDjn'),
+(25, '', '$2y$13$p8IgC3q.L3yldXJUyD2fKeua..6KHkWLWUD9a0vCCilSKanxvoS3a', 1, 1, 1, '2022-06-14 13:42:51', '2022-06-14 13:42:51', 'pjLYHcNBM7_5UODdyz5SLNN7Anl9mP5s', 'Lt_2I0Mh92fbpR7AchBqjc13uKvros7z'),
+(26, '', '$2y$13$qM5h8iRAz1L5VfppGvOD1e746G3bU.miqeiDl2K3C715LLStaEDRG', 1, 1, 1, '2022-06-14 13:57:20', '2022-06-14 13:57:20', 'KcM6N7zQL7S4gN0OeSSQgvBUU74z8t0z', 'U9aA3CvkogfCVk-7qJqFoWI_VlGsCziQ'),
+(27, '', '$2y$13$qu2xf1tpPrZ/qUTCji0zfeB89ZNqV8bMKQ0TEgdZNdzdu7Nb7Ft1m', 1, 1, 1, '2022-06-14 13:57:52', '2022-06-14 13:57:52', 'paeuszgph2rJ0cn07SxPr9q2Tv_TAjze', 'GVP6nJogIT1Ygvm09RJl3Rjf-BwHg160');
 
 --
 -- Indexes for dumped tables
@@ -334,7 +363,8 @@ INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level_id`, `is_active
 ALTER TABLE `tb_absensi`
   ADD PRIMARY KEY (`id_absensi`),
   ADD KEY `FK_AbsensiMasterStatusAbsensi` (`status_absensi_id`),
-  ADD KEY `FK_AbsensiUser` (`user_id`);
+  ADD KEY `FK_AbsensiUser` (`user_id`),
+  ADD KEY `FK_AbsensiOffice` (`office_id`);
 
 --
 -- Indexes for table `tb_master_jabatan_fungsional`
@@ -407,6 +437,7 @@ ALTER TABLE `tb_pegawai`
   ADD KEY `FK_PegawaiMasterJabatanStruktural` (`jabatan_struktural_id`),
   ADD KEY `FK_PegawaiMasterJabatanFungsional` (`jabatan_fungsional_id`),
   ADD KEY `FK_PegawaiMasterPangkatGolongan` (`pangkat_golongan_id`),
+  ADD KEY `FK_PegawaiOffice` (`office_id`),
   ADD KEY `FK_PegawaiUser` (`user_id`);
 
 --
@@ -424,19 +455,19 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT for table `tb_absensi`
 --
 ALTER TABLE `tb_absensi`
-  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id_absensi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `tb_master_jabatan_fungsional`
 --
 ALTER TABLE `tb_master_jabatan_fungsional`
-  MODIFY `id_jabatan_fungsional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_jabatan_fungsional` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_master_jabatan_struktural`
 --
 ALTER TABLE `tb_master_jabatan_struktural`
-  MODIFY `id_master_jabatan_struktural` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_master_jabatan_struktural` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tb_master_jam_kerja`
@@ -460,13 +491,13 @@ ALTER TABLE `tb_master_level`
 -- AUTO_INCREMENT for table `tb_master_office`
 --
 ALTER TABLE `tb_master_office`
-  MODIFY `id_master_office` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_master_office` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_master_pangkat_golongan`
 --
 ALTER TABLE `tb_master_pangkat_golongan`
-  MODIFY `id_pangkat_golongan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_pangkat_golongan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_master_pns_nonpns`
@@ -490,13 +521,13 @@ ALTER TABLE `tb_master_unit_kerja`
 -- AUTO_INCREMENT for table `tb_pegawai`
 --
 ALTER TABLE `tb_pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables
@@ -507,6 +538,7 @@ ALTER TABLE `tb_user`
 --
 ALTER TABLE `tb_absensi`
   ADD CONSTRAINT `FK_AbsensiMasterStatusAbsensi` FOREIGN KEY (`status_absensi_id`) REFERENCES `tb_master_status_absensi` (`id_status_absensi`),
+  ADD CONSTRAINT `FK_AbsensiOffice` FOREIGN KEY (`office_id`) REFERENCES `tb_master_office` (`id_master_office`),
   ADD CONSTRAINT `FK_AbsensiUser` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id_user`);
 
 --
@@ -519,7 +551,8 @@ ALTER TABLE `tb_pegawai`
   ADD CONSTRAINT `FK_PegawaiMasterPangkatGolongan` FOREIGN KEY (`pangkat_golongan_id`) REFERENCES `tb_master_pangkat_golongan` (`id_pangkat_golongan`),
   ADD CONSTRAINT `FK_PegawaiMasterUnitKerja` FOREIGN KEY (`pns_nonpns_id`) REFERENCES `tb_master_pns_nonpns` (`id_master_pns_nonpns`),
   ADD CONSTRAINT `FK_PegawaiMasterUnitKerjaDuplicate` FOREIGN KEY (`unit_kerja_id`) REFERENCES `tb_master_unit_kerja` (`id_master_unit_kerja`),
-  ADD CONSTRAINT `FK_PegawaiUser` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id_user`);
+  ADD CONSTRAINT `FK_PegawaiOffice` FOREIGN KEY (`office_id`) REFERENCES `tb_master_office` (`id_master_office`),
+  ADD CONSTRAINT `FK_PegawaiUser` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tb_user`

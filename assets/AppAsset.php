@@ -20,7 +20,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/bootstrap.min.css',
+        //'css/bootstrap.min.css',
         'font-awesome/css/font-awesome.css',
         'css/plugins/toastr/toastr.min.css',
         'js/plugins/gritter/jquery.gritter.css',

@@ -20,7 +20,7 @@ class BackAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/bootstrap.min.css',
+        // 'css/bootstrap.min.css',
         'font-awesome/css/font-awesome.css',
         'css/plugins/toastr/toastr.min.css',
         'js/plugins/gritter/jquery.gritter.css',
@@ -28,8 +28,8 @@ class BackAsset extends AssetBundle
         'css/style.css',
     ];
     public $js = [
-        'js/jquery-3.1.1.min.js',
-        'js/bootstrap.min.js',
+        // 'js/jquery-3.1.1.min.js',
+        // 'js/bootstrap.min.js',
         'js/plugins/metisMenu/jquery.metisMenu.js',
         'js/plugins/slimscroll/jquery.slimscroll.min.js',
         'js/plugins/flot/jquery.flot.js',

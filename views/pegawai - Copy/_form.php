@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\TbPegawai */
@@ -100,43 +99,25 @@ use yii\helpers\Url;
     )->label('Pangkat Golongan');
     ?>
 
-    <?php
+
+    <?= $form->field($model, 'tunjangan')->textInput(['maxlength' => true, 'type' => 'number']) ?>
+
+<!--    < $form->field($model, 'is_active')->textInput() ?>-->
+<?php
         $gradeList = \app\models\TbTunjangan::find()->all();
         $listData = \yii\helpers\ArrayHelper::map($gradeList, 'id', 'grade');
-        echo $form->field($model,'grade')->dropDownList(
-            \yii\helpers\ArrayHelper::map(
-                \app\models\TbTunjangan::find()->all(),
-                'id','grade'
-            ),
-            [
-                'prompt' => 'pilih.. ',
-                'onchange'=>'
-                $.get( "'.Yii::$app->urlManager->createUrl('pegawai/dropdown-grade?id=').'"+$(this).val(), function( data ) {
-                $( "div#tunjangan" ).html( data );
-                console.log(data);
-                })
-'
-            ]
-        );
-        // echo $form->field($model, 'grade')->widget(Select2::classname(), [
-        //             'data' => $listData,
-        //             'language' => 'en',
-        //             'options' => ['placeholder' => 'Pilih Grade' , 'id' => 'id_grade', 'onchange'=> '
-        //             $.get( "'.Yii::$app->urlManager->createUrl('pegawai/dropdown-grade?id=').'"+$(this).val(), function( data ) {
-        //             $( "input#tunjangan" ).html( data );
-        //             })' ],
-        //             'pluginOptions' => [
-        //                 'allowClear' => true
-        //             ],
-        //         ])->label(false);
+    echo $form->field($model, 'user')->widget(Select2::classname(), [
+                    'data' => $listData,
+                    'language' => 'en',
+                    'options' => ['placeholder' => 'Pilih Grade'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ])->label(false);
 
-         ?>
-                
-    <div  id="tunjangan" ></div>
-    <!-- < $form->field($model, 'tunjangan')->textInput(['maxlength' => true, 'type' => 'number', 'id'=>'tunjangan']) ?> -->
-    <!-- < $form->field($model, 'tunjangan', ['inputOptions'=>['id'=>'tunjangan',]])->dropDownList([]); ?> -->
-<!--    < $form->field($model, 'is_active')->textInput() ?>-->  
-    <br>
+                ?>
+
+  
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
 	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
@@ -146,17 +127,3 @@ use yii\helpers\Url;
     <?php ActiveForm::end(); ?>
     
 </div>
-<?php
-    $render_tunjang = Url::to(['/absensi/pegawai/form-tunjangan']);
-    $this->registerJs(<<<JS
-        function tunjanganChange() {
-        // var idGrade = document.getElementById("id_grade").value;
-        // var link = "$render_tunjang"+"?id_grade="+id_grade;
-        //         $('#tunjangan').load(link, function() {
-        //             $('#tunjangan').hide();
-        //             $('#tunjangan').show();
-        //         });
-        
-        }
-    JS);
-?>

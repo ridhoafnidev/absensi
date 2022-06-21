@@ -2,29 +2,28 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\TbPegawai;
 
 /**
- * TbPegawaiSearch represents the model behind the search form about `app\models\TbPegawai`.
+ * TbPegawaiSearch represents the model behind the search form of `app\models\TbPegawai`.
  */
 class TbPegawaiSearch extends TbPegawai
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id_pegawai', 'user_id', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'jabatan_struktural_id', 'jabatan_fungsional_id', 'pangkat_golongan_id'], 'integer'],
-            [['nik', 'nip', 'nama_lengkap', 'foto', 'email', 'no_hp', 'is_active'], 'safe'],
+            [['id_pegawai', 'user_id', 'office_id', 'pns_nonpns_id', 'jenis_tenaga_id', 'unit_kerja_id', 'jabatan_struktural_id', 'jabatan_fungsional_id', 'pangkat_golongan_id', 'is_active'], 'integer'],
+            [['nik', 'nip', 'nama_lengkap', 'foto', 'email', 'no_hp', 'grade', 'tunjangan'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -41,9 +40,9 @@ class TbPegawaiSearch extends TbPegawai
      */
     public function search($params)
     {
-        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
+        $query = TbPegawai::find();
 
-        $query = TbPegawai::find()->where(['office_id' => $user->office_id]);
+        // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,15 +56,18 @@ class TbPegawaiSearch extends TbPegawai
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id_pegawai' => $this->id_pegawai,
             'user_id' => $this->user_id,
+            'office_id' => $this->office_id,
             'pns_nonpns_id' => $this->pns_nonpns_id,
             'jenis_tenaga_id' => $this->jenis_tenaga_id,
             'unit_kerja_id' => $this->unit_kerja_id,
             'jabatan_struktural_id' => $this->jabatan_struktural_id,
             'jabatan_fungsional_id' => $this->jabatan_fungsional_id,
             'pangkat_golongan_id' => $this->pangkat_golongan_id,
+            'is_active' => $this->is_active,
         ]);
 
         $query->andFilterWhere(['like', 'nik', $this->nik])
@@ -74,7 +76,8 @@ class TbPegawaiSearch extends TbPegawai
             ->andFilterWhere(['like', 'foto', $this->foto])
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['like', 'no_hp', $this->no_hp])
-            ->andFilterWhere(['like', 'is_active', $this->is_active]);
+            ->andFilterWhere(['like', 'grade', $this->grade])
+            ->andFilterWhere(['like', 'tunjangan', $this->tunjangan]);
 
         return $dataProvider;
     }

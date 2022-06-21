@@ -661,10 +661,10 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                     $timeKantorKeluar = new DateTime($jamKel);
                     if (strtotime($jamKel) > strtotime($jamKelKan)) {
                         echo getDiffTime($timeJadwalKeluar, $timeKantorKeluar);
+                         $totalPersenTerlambat += getPercentageLate(getDiffTime($timeJadwalKeluar, $timeKantorKeluar));
+                        print_r(getPercentageLate(getDiffTime($timeJadwalKeluar, $timeKantorKeluar)));
                     }
-                    else {
-                        $totalPersenTerlambat += getPercentageLate(getDiffTime($timeJadwalKeluar, $timeKantorKeluar));
-                    }
+                    
                 }
                 else {
                     echo "";
@@ -675,6 +675,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         </tr>
 
     <?php $index++; endforeach;
+    //exit();
         if ($countSickMonth != 0) {
             /*TODO*/
             /*

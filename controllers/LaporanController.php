@@ -19,13 +19,33 @@ class LaporanController extends Controller
             $bulanAkhir = $post['TbAbsensi']['bulan_akhir'];
             $user = $post['TbAbsensi']['user'];
 
-            return $this->redirect(['laporan', 'awal' => $bulanAwal, 'akhir' => $bulanAkhir, 'user' => $user]);
+            return $this->redirect(['laporan', 'awal' => $bulanAwal, 'akhir' => $bulanAkhir, 'user' => $user, 'is_admin' => true]);
         }
 
         return $this->render('index', [
             'model' => $model,
             'user' => $user
         ]);
+    }
+
+    public function actionKeuangan() {
+        $model = new TbAbsensi();
+        $post = Yii::$app->request->post();
+        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
+
+        if ($model->load($post)) {
+            $bulanAwal = $post['TbAbsensi']['bulan_awal'];
+            $bulanAkhir = $post['TbAbsensi']['bulan_akhir'];
+            $user = $post['TbAbsensi']['user'];
+
+            return $this->redirect(['laporan', 'awal' => $bulanAwal, 'akhir' => $bulanAkhir, 'user' => $user, 'is_admin' => false]);
+        }
+
+        return $this->render('keuangan', [
+            'model' => $model,
+            'user' => $user
+        ]);
+
     }
 
     public function actionLaporan() {

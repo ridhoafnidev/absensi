@@ -50,6 +50,10 @@ use yii\helpers\Html;
             <li class="<?php echo (Yii::$app->controller->route == 'laporan/index') ? 'active' : ''?>">
                 <?= Html::a('<i class="fa fa-book"></i></span> <span class="nav-label"> Laporan', ['/laporan/index']) ?>
             </li>
+
+            <li class="<?php echo (Yii::$app->controller->route == 'laporan/keuangan') ? 'active' : ''?>">
+                <?= Html::a('<i class="fa fa-book"></i></span> <span class="nav-label"> Laporan Keuangan', ['/laporan/keuangan']) ?>
+            </li>
         </ul>
     </div>
 </nav>

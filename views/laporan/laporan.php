@@ -10,7 +10,8 @@
     <style>
         .column {
             float: left;
-            width: 50%;
+            width: 40%;
+            margin-left: 30px;
         }
 
         .row:after {
@@ -86,6 +87,7 @@
 
 $bulan_awal = Yii::$app->getRequest()->getQueryParam('awal');
 $bulan_akhir = Yii::$app->getRequest()->getQueryParam('akhir');
+$is_admin = Yii::$app->getRequest()->getQueryParam('is_admin');
 $split_awal = explode('-', $bulan_awal);
 
 //region get all sick in years
@@ -245,7 +247,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     </tr>
 </table>
 
-<table class="content" border="1" width="100%" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
+<table class="content" border="1" width="100%" style="margin-top: 10px;  border: 1px solid black; border-collapse: collapse; padding: 5px; font-size: 12px">
     <tr>
         <th>Hari</th>
         <th>Tanggal</th>
@@ -259,6 +261,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         <th>Jumlah Jam Kerja</th>
         <th>Lembur</th>
     </tr>
+
     <?php
 
     function getTunjangan($tunjangan, $totalPersenTerlambat)
@@ -394,6 +397,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 array_push($absensi, $array);
             }
         }
+
         $index++;
 
         //endregion
@@ -551,7 +555,12 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
     //endregion
 
+    $countDayMonth = 0;
+
     foreach ($absensi as $data) :
+        if (strlen($data['time_absensi_masuk']) != 0 OR strlen($data['time_absensi_keluar']) != 0) {
+            $countDayMonth++;
+        }
         /*TODO*/
         /*$pengecualian = $data['pengecualian'];
         $jenisCuti = $data['jenis_cuti'];
@@ -661,14 +670,10 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                     if (strtotime($jamKel) > strtotime($jamKelKan)) {
                         echo getDiffTime($timeJadwalKeluar, $timeKantorKeluar);
                     }
-                    else {
-                        $totalPersenTerlambat += getPercentageLate(getDiffTime($timeJadwalKeluar, $timeKantorKeluar));
-                    }
                 }
                 else {
                     echo "";
                 }
-
                 ?>
             </td>
         </tr>
@@ -716,19 +721,62 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
 <div class="row">
     <div class="column">
-        <table class="content" border="1" style="margin-top: 50px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
+        <table class="content" border="1"
+               style="width: 100%; margin-top: 20px;  border: 1px solid black; border-collapse: collapse; padding: 5px; font-size: 12px;">
             <tr>
-                <th>Hari Kerja <?= count($absensiSakit) ?></th>
+                <th>Hari Kerja</th>
+                <th rowspan="2" style="border-top-color: white; border-bottom-color: white;"></th>
                 <th>Total Pemotongan(%)</th>
             </tr>
             <tr>
-                <td style="text-align: center"><?= count($model_absensi_all) - count($model_absensi_dl)?></td>
+                <td style="text-align: center"><?= $countDayMonth ?></td>
                 <td style="text-align: center"><?= $totalPersenTerlambat ?></td>
             </tr>
         </table>
+        <?php if ($is_admin == 0): ?>
+
+        <table class="content" border="1" style="margin-top: 10px; border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100%; font-size: 12px;">
+           <tr>
+               <th> TL.1 </th>
+               <th> TL.2 </th>
+               <th> TL.3 </th>
+               <th> TL.4 </th>
+           </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="content" border="1" style="margin-top: 10px; border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100%; font-size: 12px;">
+           <tr>
+               <th> PSW.1 </th>
+               <th> PSW.2 </th>
+               <th> PSW.3 </th>
+               <th> PSW.4 </th>
+           </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="content" style="margin-top: 30px; border: 1px solid black; border-collapse: collapse; padding: 5px; width: 100%; font-size: 12px;">
+            <tr>
+                <th style="width: 50%">Jumlah Potongan</th>
+                <th style="width: 50%">-</th>
+            </tr>
+        </table>
+
+
+        <?php endif; ?>
     </div>
     <div class="column">
-        <table class="content" border="1" style="margin-top: 50px; margin-left: 60px;  border: 1px solid black; border-collapse: collapse; padding: 5px;">
+        <table class="content" border="1" style="margin-top: 20px; margin-left: 60px;  border: 1px solid black; border-collapse: collapse; padding: 5px; font-size: 12px">
             <tr>
                 <th><b>Tunjangan Kinerja</b></th>
             </tr>
@@ -736,20 +784,22 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 <td style="text-align: center"><?= "Rp. ".number_format(getTunjangan($model_user['tunjangan'], $totalPersenTerlambat)) ?></td>
             </tr>
         </table>
+
+        <p style="font-size:12px;font-family:Arial, Times, serif; margin-left: 60px;">
+            Pekanbaru, <?= date("d") ?> <?= month_indo(date('m')) ?> <?= date("Y") ?>
+        </p>
+
+        <p style="font-size:12px;font-family:Arial, Times, serif; margin-left: 60px;">
+            Pelaksana Perhitungan Tunjangan Kinerja
+        </p>
+
+        <p style="margin-top:80px; font-size:12px;font-family:'Times New Roman', Times, serif; margin-left: 60px;">
+            Zelvi Fernando, ST <br>
+            NIP: 199509202020121008
+        </p>
+
     </div>
 </div>
-
-<br>
-<p style="margin-left:400px; font-size:12px;font-family:Arial, Times, serif;">
-    Pekanbaru, <?= date("d") ?> <?= month_indo(date('m')) ?> <?= date("Y") ?>
-</p>
-<p style="margin-left:400px; font-size:12px;font-family:Arial, Times, serif;">
-    Pelaksana Perhitungan Tunjangan Kinerja
-</p>
-<p style="margin-left:400px; margin-top:100px; font-size:12px;font-family:'Times New Roman', Times, serif;">
-    HAFIZUDDIN, SE <br>
-    NIP: ...
-</p>
 
 </body>
 </html>

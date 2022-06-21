@@ -512,14 +512,13 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         $day = convertDay(date('l', $date));
         $currentMonthAbsensi = date('m', $date);
         $currentMonth = date('m', strtotime($bulan_awal));
-
-        if ($currentMonth != $currentMonth) {
-            unset($absensi[$key]);
-        }
         if ($day == "Sabtu"){
             unset($absensi[$key]);
         }
         else if ($day == "Minggu"){
+            unset($absensi[$key]);
+        }
+        if ($currentMonth != $currentMonthAbsensi) {
             unset($absensi[$key]);
         }
     }

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 14, 2022 at 02:04 PM
--- Server version: 5.7.33
--- PHP Version: 7.4.19
+-- Host: 127.0.0.1
+-- Generation Time: Jun 21, 2022 at 05:12 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,13 +37,13 @@ CREATE TABLE `tb_absensi` (
   `tanggal_selesai` varchar(10) NOT NULL DEFAULT '',
   `dokumen_pendukung` varchar(50) NOT NULL DEFAULT '',
   `jenis_cuti` varchar(150) NOT NULL DEFAULT '',
-  `lembur` tinyint(4) NOT NULL DEFAULT '0',
+  `lembur` tinyint(4) NOT NULL DEFAULT 0,
   `keterangan` varchar(100) NOT NULL DEFAULT '',
   `lat` double NOT NULL,
   `lng` double NOT NULL,
   `alamat_absensi` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_id` int(11) NOT NULL,
   `jenis_absensi` enum('masuk','keluar') NOT NULL,
   `terlambat` varchar(11) NOT NULL DEFAULT '',
@@ -165,7 +165,7 @@ INSERT INTO `tb_master_jenis_tenaga` (`id_master_jenis_tenaga`, `jenis_tenaga`) 
 CREATE TABLE `tb_master_level` (
   `id_level` int(11) NOT NULL,
   `level` varchar(50) NOT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT '1'
+  `is_active` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -188,8 +188,8 @@ CREATE TABLE `tb_master_office` (
   `office_address` varchar(50) NOT NULL,
   `lat` double NOT NULL,
   `lng` double NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -303,7 +303,7 @@ CREATE TABLE `tb_pegawai` (
   `jabatan_struktural_id` int(11) NOT NULL,
   `jabatan_fungsional_id` int(11) NOT NULL,
   `pangkat_golongan_id` int(11) NOT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT '1',
+  `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `grade` varchar(11) NOT NULL DEFAULT '',
   `tunjangan` varchar(11) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -318,6 +318,26 @@ INSERT INTO `tb_pegawai` (`id_pegawai`, `user_id`, `office_id`, `nik`, `nip`, `n
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_tunjangan`
+--
+
+CREATE TABLE `tb_tunjangan` (
+  `id` int(11) NOT NULL,
+  `grade` varchar(10) NOT NULL,
+  `nominal_tunjangan` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_tunjangan`
+--
+
+INSERT INTO `tb_tunjangan` (`id`, `grade`, `nominal_tunjangan`) VALUES
+(1, '1', '100000'),
+(2, '2', '200000');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tb_user`
 --
 
@@ -325,11 +345,11 @@ CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `level_id` int(11) NOT NULL DEFAULT '1',
+  `level_id` int(11) NOT NULL DEFAULT 1,
   `office_id` int(11) NOT NULL,
-  `is_active` tinyint(4) NOT NULL DEFAULT '1',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_active` tinyint(4) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `authkey` varchar(50) NOT NULL DEFAULT '',
   `accesToken` varchar(50) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -351,7 +371,9 @@ INSERT INTO `tb_user` (`id_user`, `username`, `password`, `level_id`, `office_id
 (24, '', '$2y$13$C.QGGY9rhgrNySeuqbEtR.gPW/fq1tjqKHwhEeY5Ja.tsHFF89PyW', 1, 1, 1, '2022-06-14 13:42:45', '2022-06-14 13:42:45', 'tohTVKBJhehWQwPQnw67mk4iVbdYXMom', 'srAJRGHN6_lGK7cAfnxeiPAxKmaoRDjn'),
 (25, '', '$2y$13$p8IgC3q.L3yldXJUyD2fKeua..6KHkWLWUD9a0vCCilSKanxvoS3a', 1, 1, 1, '2022-06-14 13:42:51', '2022-06-14 13:42:51', 'pjLYHcNBM7_5UODdyz5SLNN7Anl9mP5s', 'Lt_2I0Mh92fbpR7AchBqjc13uKvros7z'),
 (26, '', '$2y$13$qM5h8iRAz1L5VfppGvOD1e746G3bU.miqeiDl2K3C715LLStaEDRG', 1, 1, 1, '2022-06-14 13:57:20', '2022-06-14 13:57:20', 'KcM6N7zQL7S4gN0OeSSQgvBUU74z8t0z', 'U9aA3CvkogfCVk-7qJqFoWI_VlGsCziQ'),
-(27, '', '$2y$13$qu2xf1tpPrZ/qUTCji0zfeB89ZNqV8bMKQ0TEgdZNdzdu7Nb7Ft1m', 1, 1, 1, '2022-06-14 13:57:52', '2022-06-14 13:57:52', 'paeuszgph2rJ0cn07SxPr9q2Tv_TAjze', 'GVP6nJogIT1Ygvm09RJl3Rjf-BwHg160');
+(27, '', '$2y$13$qu2xf1tpPrZ/qUTCji0zfeB89ZNqV8bMKQ0TEgdZNdzdu7Nb7Ft1m', 1, 1, 1, '2022-06-14 13:57:52', '2022-06-14 13:57:52', 'paeuszgph2rJ0cn07SxPr9q2Tv_TAjze', 'GVP6nJogIT1Ygvm09RJl3Rjf-BwHg160'),
+(28, '', '$2y$13$vTj4vJ//hhBwcuzQtjuLsujIduS33IuLDF9xy.xlRS1.9dFj4qQwO', 1, 1, 1, '2022-06-14 14:24:57', '2022-06-14 14:24:57', 'LJitbhpsBhw4GPgMZJJMYRx6dxOvfQju', 'k0ZO-umwfLfRQhKKWaSZnm7b0wcQPTXU'),
+(29, '', '$2y$13$va/tilZvbKZXYasJj4VKm.fpwS2QGT4Dv7mnNNUEcUurQpsgi7ig2', 1, 1, 1, '2022-06-14 14:28:40', '2022-06-14 14:28:40', 'VdM_RsYaHVeu5VlJJmwjODXbqJ3RSoIU', 'cubsO7NSkN9dNuQgWNR7O9NGPZo203-R');
 
 --
 -- Indexes for dumped tables
@@ -441,6 +463,12 @@ ALTER TABLE `tb_pegawai`
   ADD KEY `FK_PegawaiUser` (`user_id`);
 
 --
+-- Indexes for table `tb_tunjangan`
+--
+ALTER TABLE `tb_tunjangan`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tb_user`
 --
 ALTER TABLE `tb_user`
@@ -521,13 +549,19 @@ ALTER TABLE `tb_master_unit_kerja`
 -- AUTO_INCREMENT for table `tb_pegawai`
 --
 ALTER TABLE `tb_pegawai`
-  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_pegawai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `tb_tunjangan`
+--
+ALTER TABLE `tb_tunjangan`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables

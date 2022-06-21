@@ -1,0 +1,1 @@
+<input  id="tunjangan" type="number" class="form-control" name="tunjangan" value="<?= $modelTbTunjang->nominal_tunjangan ?>">

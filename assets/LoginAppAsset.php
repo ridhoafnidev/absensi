@@ -20,7 +20,7 @@ class LoginAppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/bootstrap.min.css',
+        //'css/bootstrap.min.css',
         'font-awesome/css/font-awesome.css',
         'css/animate.css',
         'css/style.css',

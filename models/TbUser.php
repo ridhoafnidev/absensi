@@ -73,7 +73,7 @@ class TbUser extends \yii\db\ActiveRecord
      */
     public function getTbPegawais()
     {
-        return $this->hasMany(TbPegawai::className(), ['user_id' => 'id_user']);
+        return $this->hasOne(TbPegawai::className(), ['user_id' => 'id_user']);
     }
 
     /**

@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\DatePicker;
-use kartik\select2\Select2;
+
 /* @var $this yii\web\View */
 /* @var $model app\models\TbAbsensi */
 /* @var $form yii\widgets\ActiveForm */
@@ -74,27 +74,16 @@ use kartik\select2\Select2;
      <!-- $form->field($model, 'created_at')->textInput() ?> -->
 
      <!-- $form->field($model, 'updated_at')->textInput() ?> -->
-    <label>Pegawai</label>
+
     <?php
-    $pgw = \app\models\TbPegawai::find()->all();
+    $user = \app\models\TbUser::find()->all();
 
-    $list = \yii\helpers\ArrayHelper::map($pgw, 'user_id','nama_lengkap');
+    $list = \yii\helpers\ArrayHelper::map($user, 'id_user','username');
 
-    // echo $form->field($model, 'user_id')->dropDownList(
-    //     $list,
-    //     ['prompt' => 'Pilih...']
-    // )->label('Username');
-
-    echo $form->field($model, 'user_id')->widget(Select2::classname(), [
-    'data' => $list,
-    'theme' => Select2::THEME_DEFAULT,
-    'options' => ['placeholder' => 'Pilih Pegawai'],
-    'pluginOptions' => [
-        'allowClear' => true
-    ],
-    ])->label(false);
-                            
-
+    echo $form->field($model, 'user_id')->dropDownList(
+        $list,
+        ['prompt' => 'Pilih...']
+    )->label('Username');
 
     // $query = \app\models\TbUser::find()
     // ->select('tb_pegawai.nama_lengkap')  // make sure same column name not there in both table

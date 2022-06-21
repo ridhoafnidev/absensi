@@ -1,65 +1,79 @@
 <?php
-use yii\helpers\Url;
+
 use yii\helpers\Html;
-use yii\bootstrap\Modal;
-use kartik\grid\GridView;
-use johnitvn\ajaxcrud\CrudAsset; 
-use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TbAbsensiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Data Absensi';
+$this->title = 'Tb Absensis';
 $this->params['breadcrumbs'][] = $this->title;
-
-CrudAsset::register($this);
-
 ?>
 <div class="tb-absensi-index">
-    <div id="ajaxCrudDatatable">
-        <?=GridView::widget([
-            'id'=>'crud-datatable',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'pjax'=>true,
-            'columns' => require(__DIR__.'/_columns.php'),
-            'toolbar'=> [
-                ['content'=>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
-                    ['role'=>'modal-remote','title'=> 'Tambah Data Absensi','class'=>'btn btn-default']).
-                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
-                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
-                    '{toggleData}'.
-                    '{export}'
-                ],
-            ],          
-            'striped' => true,
-            'condensed' => true,
-            'responsive' => true,          
-            'panel' => [
-                'type' => 'primary', 
-                'heading' => 'Data Absensi',
-                // 'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
-                'after'=>BulkButtonWidget::widget([
-                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Hapus Semua',
-                                ["bulkdelete"] ,
-                                [
-                                    "class"=>"btn btn-danger btn-xs",
-                                    'role'=>'modal-remote-bulk',
-                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
-                                    'data-request-method'=>'post',
-                                    'data-confirm-title'=>'Apakah anda yakin?',
-                                    'data-confirm-message'=>'Apakah anda yakin ingin menghapus item ini?'
-                                ]),
-                        ]).                        
-                        '<div class="clearfix"></div>',
-            ]
-        ])?>
-    </div>
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <p>
+        <?= Html::a('Create Tb Absensi', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            //'id_absensi',
+            //'office_id',
+            'date_absensi',
+            'time_absensi',
+            // 'status_absensi_id',
+            [
+                'attribute'=>'status_absensi_id',
+                'label' => 'Status Absensi',
+                'value' => function($model) {
+                    return $model->statusAbsensi->status_absensi;
+                }
+            ],
+            //'tanggal_mulai',
+            //'tanggal_selesai',
+            //'dokumen_pendukung',
+            //'jenis_cuti',
+            //'lembur',
+            [
+                'attribute' => 'lembur',
+                'value' => function ($model) {
+                    if($model->lembur!=0){
+                        return "iya";
+                    }else{
+                        return "tidak";
+                    }
+                },
+            ],
+            //'keterangan',
+            //'lat',
+            //'lng',
+            //'alamat_absensi:ntext',
+            //'created_at',
+            //'updated_at',
+            //'user_id',
+            [
+                'attribute' => 'username',
+                'value' => function ($model) {
+                    return $model->user->tbPegawais->nama_lengkap;
+                },
+            ],
+            //'jenis_absensi',
+            //'terlambat',
+            //'plg_cepat',
+            //'anak_ke',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+
+
 </div>
-<?php Modal::begin([
-    "id"=>"ajaxCrudModal",
-    "footer"=>"",// always need it for jquery plugin
-])?>
-<?php Modal::end(); ?>

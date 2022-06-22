@@ -2,29 +2,27 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\TbUser;
 
 /**
- * TbUserSearch represents the model behind the search form about `app\models\TbUser`.
+ * TbUserSearch represents the model behind the search form of `app\models\TbUser`.
  */
 class TbUserSearch extends TbUser
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id_user', 'level_id'], 'integer'],
-            [['username', 'password', 'is_active', 'created_at', 'updated_at'], 'safe'],
+            [['id_user', 'level_id', 'office_id', 'is_active'], 'integer'],
+            [['username', 'password', 'created_at', 'updated_at', 'authkey', 'accesToken'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -43,6 +41,8 @@ class TbUserSearch extends TbUser
     {
         $query = TbUser::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,16 +55,20 @@ class TbUserSearch extends TbUser
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id_user' => $this->id_user,
             'level_id' => $this->level_id,
+            'office_id' => $this->office_id,
+            'is_active' => $this->is_active,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'is_active', $this->is_active]);
+            ->andFilterWhere(['like', 'authkey', $this->authkey])
+            ->andFilterWhere(['like', 'accesToken', $this->accesToken]);
 
         return $dataProvider;
     }

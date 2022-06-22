@@ -28,7 +28,7 @@ use yii\helpers\Html;
                         <li class="<?php echo (Yii::$app->controller->route == 'master-jam-kerja/index') ? 'active' : ''?>"><?= Html::a('Jam Kerja', ['/master-jam-kerja/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-jenis-tenaga/index') ? 'active' : ''?>"><?= Html::a('Jenis Tenaga', ['/master-jenis-tenaga/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-level/index') ? 'active' : ''?>"><?= Html::a('Level', ['/master-level/index']) ?></li>
-                        <li class="<?php echo (Yii::$app->controller->route == 'master-office/index') ? 'active' : ''?>"><?= Html::a('Kantor', ['/master-office/index']) ?></li>
+                        <li class="<?php echo (Yii::$app->controller->route == 'master-office/index') ? 'active' : ''?>"><?= Html::a('Satuan Kerja', ['/master-office/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-pangkat-golongan/index') ? 'active' : ''?>"><?= Html::a('Pangkat Golongan', ['/master-pangkat-golongan/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-pns-nonpns/index') ? 'active' : ''?>"><?= Html::a('Pns Non-pns', ['/master-pns-nonpns/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-status-absensi/index') ? 'active' : ''?>"><?= Html::a('Status Absensi', ['/master-status-absensi/index']) ?></li>

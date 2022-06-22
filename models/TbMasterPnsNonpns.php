@@ -29,7 +29,7 @@ class TbMasterPnsNonpns extends \yii\db\ActiveRecord
     {
         return [
             [['pns_nonpns'], 'required'],
-            [['pns_nonpns'], 'integer'],
+            [['pns_nonpns'], 'string'],
         ];
     }
 

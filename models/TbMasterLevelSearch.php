@@ -2,29 +2,28 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\TbMasterLevel;
 
 /**
- * TbMasterLevelSearch represents the model behind the search form about `app\models\TbMasterLevel`.
+ * TbMasterLevelSearch represents the model behind the search form of `app\models\TbMasterLevel`.
  */
 class TbMasterLevelSearch extends TbMasterLevel
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id_level'], 'integer'],
-            [['level', 'is_active'], 'safe'],
+            [['id_level', 'is_active'], 'integer'],
+            [['level'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -43,6 +42,8 @@ class TbMasterLevelSearch extends TbMasterLevel
     {
         $query = TbMasterLevel::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,12 +56,13 @@ class TbMasterLevelSearch extends TbMasterLevel
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id_level' => $this->id_level,
+            'is_active' => $this->is_active,
         ]);
 
-        $query->andFilterWhere(['like', 'level', $this->level])
-            ->andFilterWhere(['like', 'is_active', $this->is_active]);
+        $query->andFilterWhere(['like', 'level', $this->level]);
 
         return $dataProvider;
     }

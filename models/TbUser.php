@@ -9,9 +9,11 @@ use Yii;
  *
  * @property int $id_user
  * @property string $username
+ * @property string $nama_pegawai
  * @property string $password
  * @property int $level_id
  * @property int $is_active
+ * @property int $office_id
  * @property string $created_at
  * @property string $updated_at
  *
@@ -21,6 +23,9 @@ use Yii;
  */
 class TbUser extends \yii\db\ActiveRecord
 {
+
+    public $nama_lengkap;
+
     /**
      * {@inheritdoc}
      */
@@ -36,7 +41,7 @@ class TbUser extends \yii\db\ActiveRecord
     {
         return [
             [['username', 'password', 'level_id'], 'required'],
-            [['level_id', 'is_active'], 'integer'],
+            [['level_id', 'is_active', 'office_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['username'], 'string', 'max' => 50],
             [['password'], 'string', 'max' => 255],
@@ -50,15 +55,24 @@ class TbUser extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id_user' => 'Id User',
+            'id_user' => 'Id',
             'username' => 'Username',
             'password' => 'Password',
-            'level_id' => 'Level ID',
-            'is_active' => 'Is Active',
+            'level_id' => 'Level',
+            'is_active' => 'Status Akun',
+            'office_id' => 'Satker',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
     }
+
+    //region satker
+
+    public function getSatker() {
+        return $this->hasOne(TbMasterOffice::className(), ['id_master_office' => 'office_id']);
+    }
+
+    //endregion
 
     /**
      * @return \yii\db\ActiveQuery

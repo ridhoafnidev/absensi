@@ -1,4 +1,5 @@
 <?php
+
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -20,21 +21,18 @@ use yii\widgets\ActiveForm;
     $list = \yii\helpers\ArrayHelper::map($level, 'id_level', 'level');
 
     echo $form->field($model, 'level_id')->dropDownList(
-            $list,
-            ['prompt' => 'Pilih...']
+        $list,
+        ['prompt' => 'Pilih...']
     )->label('Level') ?>
 
     <?= $form->field($model, 'is_active')->dropDownList([
-            '1' => "Aktif", '0' => 'Tidak Aktif'
+        '1' => "Aktif", '0' => 'Tidak Aktif'
     ])->label("Status") ?>
 
-  
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+    <div class="form-group">
+        <?= Html::submitButton('Simpan', ['class' => 'btn btn-success']) ?>
+    </div>
 
     <?php ActiveForm::end(); ?>
-    
+
 </div>

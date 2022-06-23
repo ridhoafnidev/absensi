@@ -2,18 +2,17 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\TbMasterStatusAbsensi;
 
 /**
- * TbMasterStatusAbsensiSearch represents the model behind the search form about `app\models\TbMasterStatusAbsensi`.
+ * TbMasterStatusAbsensiSearch represents the model behind the search form of `app\models\TbMasterStatusAbsensi`.
  */
 class TbMasterStatusAbsensiSearch extends TbMasterStatusAbsensi
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -24,7 +23,7 @@ class TbMasterStatusAbsensiSearch extends TbMasterStatusAbsensi
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -43,6 +42,8 @@ class TbMasterStatusAbsensiSearch extends TbMasterStatusAbsensi
     {
         $query = TbMasterStatusAbsensi::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,6 +56,7 @@ class TbMasterStatusAbsensiSearch extends TbMasterStatusAbsensi
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id_status_absensi' => $this->id_status_absensi,
         ]);

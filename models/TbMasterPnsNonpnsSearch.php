@@ -2,28 +2,28 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\TbMasterPnsNonpns;
 
 /**
- * TbMasterPnsNonpnsSearch represents the model behind the search form about `app\models\TbMasterPnsNonpns`.
+ * TbMasterPnsNonpnsSearch represents the model behind the search form of `app\models\TbMasterPnsNonpns`.
  */
 class TbMasterPnsNonpnsSearch extends TbMasterPnsNonpns
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id_master_pns_nonpns', 'pns_nonpns'], 'integer'],
+            [['id_master_pns_nonpns'], 'integer'],
+            [['pns_nonpns'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -42,6 +42,8 @@ class TbMasterPnsNonpnsSearch extends TbMasterPnsNonpns
     {
         $query = TbMasterPnsNonpns::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -54,10 +56,12 @@ class TbMasterPnsNonpnsSearch extends TbMasterPnsNonpns
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id_master_pns_nonpns' => $this->id_master_pns_nonpns,
-            'pns_nonpns' => $this->pns_nonpns,
         ]);
+
+        $query->andFilterWhere(['like', 'pns_nonpns', $this->pns_nonpns]);
 
         return $dataProvider;
     }

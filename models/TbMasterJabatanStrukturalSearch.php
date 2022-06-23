@@ -2,18 +2,17 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\TbMasterJabatanStruktural;
 
 /**
- * TbMasterJabatanStrukturalSearch represents the model behind the search form about `app\models\TbMasterJabatanStruktural`.
+ * TbMasterJabatanStrukturalSearch represents the model behind the search form of `app\models\TbMasterJabatanStruktural`.
  */
 class TbMasterJabatanStrukturalSearch extends TbMasterJabatanStruktural
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -24,7 +23,7 @@ class TbMasterJabatanStrukturalSearch extends TbMasterJabatanStruktural
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -43,6 +42,8 @@ class TbMasterJabatanStrukturalSearch extends TbMasterJabatanStruktural
     {
         $query = TbMasterJabatanStruktural::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,6 +56,7 @@ class TbMasterJabatanStrukturalSearch extends TbMasterJabatanStruktural
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id_master_jabatan_struktural' => $this->id_master_jabatan_struktural,
         ]);

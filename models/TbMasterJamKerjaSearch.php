@@ -2,18 +2,17 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\TbMasterJamKerja;
 
 /**
- * TbMasterJamKerjaSearch represents the model behind the search form about `app\models\TbMasterJamKerja`.
+ * TbMasterJamKerjaSearch represents the model behind the search form of `app\models\TbMasterJamKerja`.
  */
 class TbMasterJamKerjaSearch extends TbMasterJamKerja
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -24,7 +23,7 @@ class TbMasterJamKerjaSearch extends TbMasterJamKerja
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -43,6 +42,8 @@ class TbMasterJamKerjaSearch extends TbMasterJamKerja
     {
         $query = TbMasterJamKerja::find();
 
+        // add conditions that should always apply here
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -55,6 +56,7 @@ class TbMasterJamKerjaSearch extends TbMasterJamKerja
             return $dataProvider;
         }
 
+        // grid filtering conditions
         $query->andFilterWhere([
             'id_jam_kerja' => $this->id_jam_kerja,
         ]);

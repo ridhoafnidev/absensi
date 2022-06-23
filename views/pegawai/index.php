@@ -7,7 +7,6 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\TbPegawaiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tb Pegawais';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tb-pegawai-index">
@@ -15,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Tb Pegawai', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Pegawai', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -50,7 +49,22 @@ $this->params['breadcrumbs'][] = $this->title;
             //'grade',
             //'tunjangan',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'delete' => function($url, $model){
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id_pegawai], [
+                            'class' => '',
+                            'data' => [
+                                'confirm' => 'apakah anda yakin data dihapus?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    }
+                ]
+            ],
+
         ],
     ]); ?>
 

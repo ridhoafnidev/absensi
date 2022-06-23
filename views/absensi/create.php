@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TbAbsensi */
 
-$this->title = 'Create Tb Absensi';
+$this->title = 'Tambah Tb Absensi';
 $this->params['breadcrumbs'][] = ['label' => 'Tb Absensis', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

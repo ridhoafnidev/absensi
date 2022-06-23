@@ -7,7 +7,6 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\TbAbsensiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tb Absensis';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tb-absensi-index">
@@ -15,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Tb Absensi', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Data', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -61,7 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
             //'updated_at',
             //'user_id',
             [
-                'attribute' => 'username',
+                'label' =>  'Nama Pegawai',
+                'attribute' => 'user_id',
                 'value' => function ($model) {
                     return $model->user->tbPegawais->nama_lengkap;
                 },
@@ -71,7 +71,21 @@ $this->params['breadcrumbs'][] = $this->title;
             //'plg_cepat',
             //'anak_ke',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {delete}',
+                'buttons' => [
+                    'delete' => function($url, $model){
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id_absensi], [
+                            'class' => '',
+                            'data' => [
+                                'confirm' => 'apakah anda yakin data dihapus?',
+                                'method' => 'post',
+                            ],
+                        ]);
+                    }
+                ]
+            ],
         ],
     ]); ?>
 

@@ -27,6 +27,7 @@ use yii\helpers\Html;
                         <li class="<?php echo (Yii::$app->controller->route == 'master-jabatan-struktural/index') ? 'active' : ''?>"><?= Html::a('Jabatan Struktural', ['/master-jabatan-struktural/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-jam-kerja/index') ? 'active' : ''?>"><?= Html::a('Jam Kerja', ['/master-jam-kerja/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-jenis-tenaga/index') ? 'active' : ''?>"><?= Html::a('Jenis Tenaga', ['/master-jenis-tenaga/index']) ?></li>
+                        <li class="<?php echo (Yii::$app->controller->route == 'tunjangan/index') ? 'active' : ''?>"><?= Html::a('Tunjangan', ['/tunjangan/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-level/index') ? 'active' : ''?>"><?= Html::a('Level', ['/master-level/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-office/index') ? 'active' : ''?>"><?= Html::a('Satuan Kerja', ['/master-office/index']) ?></li>
                         <li class="<?php echo (Yii::$app->controller->route == 'master-pangkat-golongan/index') ? 'active' : ''?>"><?= Html::a('Pangkat Golongan', ['/master-pangkat-golongan/index']) ?></li>

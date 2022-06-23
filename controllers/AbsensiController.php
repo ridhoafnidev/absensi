@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\TbAbsensi;
+use app\models\TbUser;
 use app\models\TbAbsensiSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -65,14 +66,16 @@ class AbsensiController extends Controller
     public function actionCreate()
     {
         $model = new TbAbsensi();
+        $user = TbUser::find()->where(['id_user' => Yii::$app->getUser()->id])->one();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->office_id = $user->office_id;
             return $this->redirect(['view', 'id' => $model->id_absensi]);
         }
 
         return $this->render('create', [
             'model' => $model,
-        ]);
+        ]);       
     }
 
     /**

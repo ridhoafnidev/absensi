@@ -7,20 +7,18 @@ use yii\widgets\DetailView;
 /* @var $model app\models\TbPegawai */
 
 $this->title = $model->id_pegawai;
-$this->params['breadcrumbs'][] = ['label' => 'Tb Pegawais', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Pegawai', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="tb-pegawai-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id_pegawai], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id_pegawai], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Yakin ingin menghapus data ini..?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -30,23 +28,69 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id_pegawai',
-            'user_id',
-            'office_id',
+            [
+                'attribute' => 'user_id',
+                'label' => 'Username',
+                'value' => $model->user->username
+            ],
+            [
+                'attribute' => 'office_id',
+                'value' => $model->unitKerja->unit_kerja
+            ],
             'nik',
             'nip',
             'nama_lengkap',
-            'foto',
+            [
+                'attribute' => 'foto',
+                'format' => 'html',
+                'value' => function($data) {
+                    return Html::img('http://localhost/api-absensi-depag/public/profile/'.$data->foto, ['width' => '100px', 'height' => '100%']);
+                }
+            ],
             'email:email',
             'no_hp',
-            'pns_nonpns_id',
-            'jenis_tenaga_id',
-            'unit_kerja_id',
-            'jabatan_struktural_id',
-            'jabatan_fungsional_id',
-            'pangkat_golongan_id',
-            'is_active',
+            [
+                'attribute' => 'pns_nonpns_id',
+                'value' => $model->pnsNonpns->pns_nonpns
+            ],
+            [
+                'attribute' => 'jenis_tenaga_id',
+                'value' => $model->jenisTenaga->jenis_tenaga
+            ],
+            [
+                 'attribute' => 'unit_kerja_id',
+                 'value' => $model->unitKerja->unit_kerja
+            ],
+            [
+                'attribute' => 'jabatan_struktural_id',
+                'value' => $model->jabatanStruktural->jabatan_struktural
+            ],
+            [
+                'attribute' => 'jabatan_fungsional_id',
+                'value' => $model->jabatanFungsional->jabatan_fungsional
+            ],
+            [
+                'attribute' => 'pangkat_golongan_id',
+                'value' => $model->pangkatGolongan->pangkat_golongan
+            ],
+            [
+                'attribute' => 'is_active',
+                'value' => function($data) {
+                    if ($data->is_active == 0) {
+                        return "Tidak Aktif";
+                    }
+                    else {
+                        return "Aktif";
+                    }
+                }
+            ],
             'grade',
-            'tunjangan',
+            [
+                'attribute' => 'tunjangan',
+                'value' => function($data) {
+                    return "Rp. ".number_format($data->tunjangan);
+                }
+            ]
         ],
     ]) ?>
 

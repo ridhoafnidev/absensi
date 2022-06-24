@@ -11,11 +11,8 @@ $this->title = 'Tunjangan';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tb-tunjangan-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Tambah Tunjangan', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,9 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
             'grade',
-            'nominal_tunjangan',
+            [
+                'attribute' => 'nominal_tunjangan',
+                'value' => function($data) {
+                    return "Rp. ".number_format($data->nominal_tunjangan);
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

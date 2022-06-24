@@ -6,21 +6,19 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\TbAbsensi */
 
-$this->title = $model->id_absensi;
-$this->params['breadcrumbs'][] = ['label' => 'Tb Absensis', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = "Update Absensi";
+$this->params['breadcrumbs'][] = ['label' => 'Absensi', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $model->id_absensi;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="tb-absensi-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id_absensi], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id_absensi], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Yakin ingin menghapus data ini..?',
                 'method' => 'post',
             ],
         ]) ?>
@@ -29,27 +27,46 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id_absensi',
-            'office_id',
+            /*'id_absensi',*/
+            [
+                'attribute' => 'office_id',
+                'value' => $model->unitKerja->unit_kerja
+            ],
             'date_absensi',
             'time_absensi',
-            'status_absensi_id',
+            [
+                'attribute' => 'status_absensi_id',
+                'value' => $model->statusAbsensi->status_absensi
+            ],
             'tanggal_mulai',
             'tanggal_selesai',
             'dokumen_pendukung',
             'jenis_cuti',
-            'lembur',
+            [
+                'attribute' => 'lembur',
+                'value' => function($data) {
+                    if ($data->lembur == 1) {
+                        return "Iya";
+                    }
+                    else {
+                        return "Tidak";
+                    }
+
+                }
+            ],
             'keterangan',
             'lat',
             'lng',
             'alamat_absensi:ntext',
-            'created_at',
-            'updated_at',
-            'user_id',
+            [
+                'attribute' => 'user_id',
+                'value' => $model->user->tbPegawais->nama_lengkap
+            ],
             'jenis_absensi',
             'terlambat',
             'plg_cepat',
             'anak_ke',
+            'created_at',
         ],
     ]) ?>
 

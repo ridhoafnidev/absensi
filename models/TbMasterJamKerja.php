@@ -13,6 +13,10 @@ use Yii;
  */
 class TbMasterJamKerja extends \yii\db\ActiveRecord
 {
+
+    public $jam_awal;
+    public $jam_akhir;
+
     /**
      * {@inheritdoc}
      */

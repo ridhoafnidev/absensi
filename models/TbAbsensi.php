@@ -73,7 +73,7 @@ class TbAbsensi extends \yii\db\ActiveRecord
             'id_absensi' => 'Id Absensi',
             'date_absensi' => 'Date Absensi',
             'time_absensi' => 'Time Absensi',
-            'status_absensi_id' => 'Status Absensi ID',
+            'status_absensi_id' => 'Status Absensi',
             'tanggal_mulai' => 'Tanggal Mulai',
             'tanggal_selesai' => 'Tanggal Selesai',
             'dokumen_pendukung' => 'Dokumen Pendukung',
@@ -81,14 +81,18 @@ class TbAbsensi extends \yii\db\ActiveRecord
             'lembur' => 'Lembur',
             'keterangan' => 'Keterangan',
             'anak_ke' => 'Anak Ke',
-            'lat' => 'Lat',
-            'lng' => 'Lng',
+            'lat' => 'Latitude',
+            'lng' => 'Longitude',
             'alamat_absensi' => 'Alamat Absensi',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'user_id' => 'User ID',
+            'user_id' => 'Pengguna',
             'jenis_absensi' => 'Jenis Absensi',
         ];
+    }
+
+    public function getUnitKerja() {
+        return $this->hasOne(TbMasterUnitKerja::className(), ['id_master_unit_kerja' => 'office_id' ]);
     }
 
     /**

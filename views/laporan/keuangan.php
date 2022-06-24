@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
 ?>
 
     <h1 class="lead" style='font-family:"Lucida Console", Monaco, monospace; font-size:200%; margin-top: 50px'>
-        <center>Cari Laporan Absensi</center>
+        <center>Cari Laporan Keuangan Absensi</center>
     </h1>
 
 

@@ -7,15 +7,13 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\TbMasterJabatanStrukturalSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Master Jabatan Strukturals';
+$this->title = 'Master Jabatan Struktural';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tb-master-jabatan-struktural-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Tambah Master Jabatan Struktural', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id_master_jabatan_struktural',
+            /*'id_master_jabatan_struktural',*/
             'jabatan_struktural',
 
             ['class' => 'yii\grid\ActionColumn'],

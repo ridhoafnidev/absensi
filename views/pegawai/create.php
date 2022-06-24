@@ -5,13 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\TbPegawai */
 
-$this->title = 'Tambah Tb Pegawai';
-$this->params['breadcrumbs'][] = ['label' => 'Tb Pegawais', 'url' => ['index']];
+$this->title = 'Tambah';
+$this->params['breadcrumbs'][] = ['label' => 'Pegawai', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tb-pegawai-create">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

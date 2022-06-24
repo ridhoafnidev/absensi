@@ -14,10 +14,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'hari')->dropDownList([ 'Senin' => 'Senin', 'Selasa' => 'Selasa', 'Rabu' => 'Rabu', 'Kamis' => 'Kamis', 'Jumat' => 'Jumat', 'Sabtu' => 'Sabtu', 'Minggu' => 'Minggu', ], ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'jam')->textInput(['type' => 'date']) ?>
+    <?php
+        if ($model->jam != "") :
+            echo $form->field($model, 'jam_awal')->textInput(['type' => 'time', 'value' => explode(' - ', $model->jam)[0]]);
+            echo $form->field($model, 'jam_akhir')->textInput(['type' => 'time', 'value' => explode(' - ', $model->jam)[1]]);
+        else:
+            echo $form->field($model, 'jam_awal')->textInput(['type' => 'time']);
+            echo $form->field($model, 'jam_akhir')->textInput(['type' => 'time']);
+        endif;
+    ?>
+
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Simpang', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

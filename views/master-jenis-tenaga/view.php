@@ -7,20 +7,18 @@ use yii\widgets\DetailView;
 /* @var $model app\models\TbMasterJenisTenaga */
 
 $this->title = $model->id_master_jenis_tenaga;
-$this->params['breadcrumbs'][] = ['label' => 'Tb Master Jenis Tenagas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Master Jenis Tenaga', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
 <div class="tb-master-jenis-tenaga-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id_master_jenis_tenaga], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id_master_jenis_tenaga], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Yakin ingin menghapus data ini..?',
                 'method' => 'post',
             ],
         ]) ?>

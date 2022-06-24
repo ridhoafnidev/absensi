@@ -66,8 +66,12 @@ class MasterJamKerjaController extends Controller
     {
         $model = new TbMasterJamKerja();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_jam_kerja]);
+        if ($model->load(Yii::$app->request->post())) {
+            $request = Yii::$app->request->post();
+            $model->jam = $request['TbMasterJamKerja']['jam_awal']." - ".$request['TbMasterJamKerja']['jam_akhir'];
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id_jam_kerja]);
+            }
         }
 
         return $this->render('create', [

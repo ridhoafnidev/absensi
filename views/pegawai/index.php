@@ -7,11 +7,10 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\TbPegawaiSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$this->title = "Pegawai";
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tb-pegawai-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Tambah Pegawai', ['create'], ['class' => 'btn btn-success']) ?>
@@ -25,20 +24,21 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // [
-            //     'attribute' => 'id_pegawai',
-            //     'headerOptions' => ['style' => 'background-color:#ccf8fe'],
-            // ],
-
             //'id_pegawai',
             //'user_id',
-            'office_id',
+            [
+                'attribute' => 'office_id',
+                'value' => function($model) {
+                    return $model->unitKerja->unit_kerja;
+                }
+            ],
             'nik',
             'nip',
             'nama_lengkap',
             //'foto',
-            //'email:email',
-            //'no_hp',
+            'email:email',
+            'no_hp',
+            'grade',
             //'pns_nonpns_id',
             //'jenis_tenaga_id',
             //'unit_kerja_id',
@@ -46,7 +46,6 @@ $this->params['breadcrumbs'][] = $this->title;
             //'jabatan_fungsional_id',
             //'pangkat_golongan_id',
             //'is_active',
-            //'grade',
             //'tunjangan',
 
             [

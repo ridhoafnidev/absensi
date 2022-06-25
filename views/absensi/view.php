@@ -40,7 +40,19 @@ $this->params['breadcrumbs'][] = $model->id_absensi;
             ],
             'tanggal_mulai',
             'tanggal_selesai',
-            'dokumen_pendukung',
+            [
+                'attribute' => 'dokumen_pendukung',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if ($data->dokumen_pendukung != "") {
+                        return '<a href="http://localhost/api-absensi-depag/public/dokumen-pendukung/$data->dokumen_pendukung" target="_blank" class="btn btn-info">Lihat Dokumen</a>';
+                    }
+                    else {
+                        return "-";
+                    }
+
+                },
+            ],
             'jenis_cuti',
             [
                 'attribute' => 'lembur',

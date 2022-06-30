@@ -153,7 +153,7 @@ class LaporanController extends Controller
         $dataCutiAlasanPenting = (new Query());
         $dataCutiAlasanPenting->select(['tb_absensi.*'])
             ->from('tb_absensi')
-            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND jenis_cuti = "Cuti Alasan Penting" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
         $commandCutiAlasanPenting = $dataCutiAlasanPenting->createCommand();
         $modelAllCutiAlasanPenting = $commandCutiAlasanPenting->queryAll();

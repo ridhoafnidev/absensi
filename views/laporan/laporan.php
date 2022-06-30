@@ -93,6 +93,7 @@ $split_awal = explode('-', $bulan_awal);
 //region get all sick in years
 
 $tahun = $split_awal[0];
+$bulan = $split_awal[1];
 $absensiSakit = array();
 
 foreach ($model_absensi_year as $dataYear) {
@@ -104,16 +105,22 @@ foreach ($model_absensi_year as $dataYear) {
 
     $diffDate = $dtDate1->diff($dtDate2)->format("%d");
 
+    
     for ($i = 0; $i <= $diffDate; $i++) {
         $arraySakit['date_absensi'] = date('Y-m-d', strtotime($date1. ' + '.$i.' days'));
         array_push($absensiSakit, $arraySakit);
     }
+
+    // echo "<pre>";
+    // var_dump($absensiSakit);
+    // exit();
 }
 
 //endregion
 //region get all cuti alasan penting in year
 /*TODO next release*/
 $absensiCutiAlasanPenting = array();
+
 
 foreach ($model_all_cuti_alasan_penting_year as $cutiAlasanPenting) {
     $date1CutiAlasanPenting = $cutiAlasanPenting['tanggal_mulai'];
@@ -133,13 +140,21 @@ foreach ($model_all_cuti_alasan_penting_year as $cutiAlasanPenting) {
 foreach ($absensiCutiAlasanPenting as $key => $value) {
     $dateSakit = strtotime($value['date_absensi']);
     $daySakit = convertDay(date('l', $dateSakit));
+    $month = date('m', $dateSakit);
+    if($month != $bulan){
+        unset($absensiCutiAlasanPenting[$key]);
+    }
     if ($daySakit == "Sabtu"){
         unset($absensiCutiAlasanPenting[$key]);
     }
     else if ($daySakit == "Minggu"){
         unset($absensiCutiAlasanPenting[$key]);
     }
+    
 }
+// echo "<pre>";
+// var_dump($bulan);
+// exit();
 
 //emdregion
 
@@ -706,11 +721,25 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
             * Count Cuti Alasan Sakit equals above 3 days persentage plus 2.5% in year
            */
 
-           if($countCutiAlasanPentingYear >= 3) {
-                for ($i = 0; $i < $countCutiAlasanPentingMonth - 2; $i++) {
-                    $totalPersenTerlambat += $persentageCutiAlasanPenting;
-                }
+        //    if($countCutiAlasanPentingYear >= 3) {
+        //         for ($i = 0; $i < $countCutiAlasanPentingYear - 2; $i++) {
+        //             $totalPersenTerlambat += $persentageCutiAlasanPenting;
+        //         }
+        //     }
+        
+
+        if ($countCutiAlasanPentingYear >= 3 && $countCutiAlasanPentingYear == $countCutiAlasanPentingMonth) {
+            $countCP = $countCutiAlasanPentingMonth - 2;
+            for ($i = 0; $i < $countCP; $i++) {
+                $totalPersenTerlambat += $persentageCutiAlasanPenting;
             }
+        }
+        else {
+            for ($x = 0; $x < $countCutiAlasanPentingMonth; $x++) {
+                $totalPersenTerlambat += $persentageCutiAlasanPenting;
+            }
+        }
+
         }
     ?>
 

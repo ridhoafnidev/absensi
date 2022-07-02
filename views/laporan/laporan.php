@@ -111,9 +111,6 @@ foreach ($model_absensi_year as $dataYear) {
         array_push($absensiSakit, $arraySakit);
     }
 
-    // echo "<pre>";
-    // var_dump($absensiSakit);
-    // exit();
 }
 
 //endregion
@@ -150,13 +147,47 @@ foreach ($absensiCutiAlasanPenting as $key => $value) {
     else if ($daySakit == "Minggu"){
         unset($absensiCutiAlasanPenting[$key]);
     }
-    
 }
-// echo "<pre>";
-// var_dump($bulan);
-// exit();
 
-//emdregion
+//endregion
+//region mapping Cuti Bersalin
+
+$absensiCutiBersalin = array();
+
+foreach($model_all_cuti_bersalin as $cutiBersalin) {
+
+    $date1CutiBersalin = $cutiBersalin['tanggal_mulai'];
+    $date2CutiBersalin = $cutiBersalin['tanggal_selesai'];
+
+    $dtDate1CutBersalin = new DateTime($date1CutiBersalin);
+    $dtDate2CutiBersalin = new DateTime($date2CutiBersalin);
+
+    $diffDateCutiBersalin = $date1CutiBersalin->diff($dtDate2CutiBersalin)->format("%d");
+
+    for ($i = 0; $i <= $diffDateCutiBersalin; $i++) {
+        $arrayCutiBersalin['date_absensi'] = date('Y-m-d', strtotime($date1CutiBersalin. ' + '.$i.' days'));
+        array_push($absensiCutiBersalin, $arrayCutiBersalin);
+    }
+
+}
+
+foreach ($absensiCutiBersalin as $key => $value) {
+    $dateCutiBersalin = strtotime($value['date_absensi']);
+    $dayCutiBersalin = convertDay(date('l', $dateCutiBersalin));
+    $month = date('m', $dateCutiBersalin);
+    if ($month != $bulan) {
+        unset($absensiCutiBersalin[$key]);
+    }
+    if ($dayCutiBersalin == "Sabtu") {
+        unset($absensiCutiBersalin[$key]);
+    }
+    else if ($dayCutiBersalin == "Minggu") {
+        unset($absensiCutiBersalin[$key]);
+    }
+
+}
+
+//endregion
 
 function month_indo($month)
 {
@@ -451,6 +482,20 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
         return $persenCutiAlasanPenting;
     }
 
+    //region cuti bersalin
+
+    function getPersenCutiBersalin($anakKe) {
+       switch ($anakKe) {
+           case $anakKe >= 0 && $anakKe <= 3:
+               $persenCutiBersalin = 0;
+               break;
+           case $anakKe >= 4:
+               //$persenCutiBersalin =
+       }
+    }
+
+    //endregion
+
     function getException($ex)
     {
         switch ($ex) {
@@ -562,8 +607,8 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
     /*Big leave*/
     /*TODO after release*/
-    /*$countBigLeaveYear = 0;
-    $bigLeavePersentage = getBigLeavePersentage($countBigLeaveYear);*/
+    $countCutiBersalinYear = 0;
+    $persentageCutiBersalin = getBigLeavePersentage($countBigLeaveYear);
 
     //endregion
 

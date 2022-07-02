@@ -169,8 +169,10 @@ class LaporanController extends Controller
         $dataMaternityLeave = (new Query());
         $dataMaternityLeave->select(['tb_absensi'])
             ->from('tb_absensi')
-            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" jenis_cuti = "Cuti Bersalin" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
+        $commandCutiBersalin = $dataMaternityLeave->createCommand();
+        $modelCutiBersalin = $commandCutiAlasanPenting->queryAll();
 
         //endregion
 
@@ -186,6 +188,7 @@ class LaporanController extends Controller
             'model_user' => $modelUser,
             'model_all_absensi_year' => $modelAllAbsensiYear,
             'model_all_cuti_alasan_penting_year' => $modelAllCutiAlasanPenting,
+            'model_all_cuti_bersalin' => $modelCutiBersalin
         ]));
         $mpdf->Output('laporan.pdf', 'I');
         exit();

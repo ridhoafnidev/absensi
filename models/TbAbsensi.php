@@ -25,6 +25,7 @@ use Yii;
  * @property string $updated_at
  * @property int $user_id
  * @property string $jenis_absensi
+ * @property string $foto_pribadi
  *
  * @property TbMasterStatusAbsensi $statusAbsensi
  * @property TbUser $user
@@ -54,7 +55,7 @@ class TbAbsensi extends \yii\db\ActiveRecord
             [['date_absensi', 'time_absensi', 'created_at', 'updated_at'], 'safe'],
             [['office_id','status_absensi_id', 'lembur', 'user_id'], 'integer'],
             [['lat', 'lng'], 'number'],
-            [['alamat_absensi', 'jenis_absensi'], 'string'],
+            [['alamat_absensi', 'jenis_absensi', 'foto_pribadi'], 'string'],
             [['tanggal_mulai', 'tanggal_selesai', 'anak_ke'], 'string', 'max' => 10],
             [['dokumen_pendukung'], 'string', 'max' => 50],
             [['jenis_cuti'], 'string', 'max' => 150],
@@ -88,6 +89,7 @@ class TbAbsensi extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'user_id' => 'Pengguna',
             'jenis_absensi' => 'Jenis Absensi',
+            'foto_pribadi' => 'Foto Absensi'
         ];
     }
 

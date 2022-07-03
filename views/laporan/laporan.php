@@ -179,13 +179,32 @@ foreach ($absensiCutiBersalin as $key => $value) {
     if ($month != $bulan) {
         unset($absensiCutiBersalin[$key]);
     }
-    if ($dayCutiBersalin == "Sabtu") {
+    /*if ($dayCutiBersalin == "Sabtu") {
         unset($absensiCutiBersalin[$key]);
     }
     else if ($dayCutiBersalin == "Minggu") {
         unset($absensiCutiBersalin[$key]);
-    }
+    }*/
 
+}
+
+//endregion
+//region mapping cuti besar
+
+$absensiCutiBesar = array();
+foreach ($model_all_cuti_besar as $cutiBesar) {
+    $date1CutiBesar = $cutiBesar['tanggal_mulai'];
+    $date2CutiBesar = $cutiBesar['tanggal_selesai'];
+
+    $dtDate1CutBesar = new DateTime($date1CutiBesar);
+    $dtDate2CutiBesar = new DateTime($date2CutiBesar);
+
+    $diffDateCutiBesar = $dtDate1CutBesar->diff($dtDate2CutiBesar)->format("%d");
+
+    for ($i = 0; $i <= $diffDateCutiBesar; $i++) {
+        $arrayCutiBesar['date_absensi'] = date('Y-m-d', strtotime($date1CutiBesar. ' + '.$i.' days'));
+        array_push($absensiCutiBersalin, $arrayCutiBersalin);
+    }
 }
 
 //endregion
@@ -487,7 +506,7 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
     function getPersenCutiBersalin($anakKe, $totalAbsensi) {
        switch ($anakKe) {
-           case $anakKe >= 0 && $anakKe == 3:
+           case $anakKe >= 0 && $anakKe <= 3:
                $persenCutiBersalin = 0;
                break;
            case $anakKe >= 4 && $totalAbsensi == 30:
@@ -507,6 +526,27 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                break;
        }
        return $persenCutiBersalin;
+    }
+
+    //endregion
+    //region cuti besar
+
+    function getPersenCutiBesar($totalCutiBesar) {
+        switch ($totalCutiBesar) {
+            case $totalCutiBesar >= 28 && $totalCutiBesar <= 31:
+                $persen = 50;
+                break;
+            case $totalCutiBesar >= 57 AND $totalCutiBesar <= 61:
+                $persen = 75;
+                break;
+            case $totalCutiBesar >= 84 AND $totalCutiBesar <= 93:
+                $persen = 75;
+                break;
+            case $totalCutiBesar >= 94:
+                $persen = 90;
+                break;
+        }
+        return $persen;
     }
 
     //endregion
@@ -620,12 +660,19 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     $countCutiAlasanPentingYear = count($absensiCutiAlasanPenting);
     $persentageCutiAlasanPenting = getPersenPotonganCutiAlasanPenting($countCutiAlasanPentingYear);
 
-    /*Big leave*/
+    /*Big bersalin*/
     /*TODO after release*/
     $countCutiBersalinYear = count($absensiCutiBersalin);
     $dataAnakTerakhir = end($absensiCutiBersalin);
     $persentageCutiBersalin = getPersenCutiBersalin($dataAnakTerakhir['anak'], $countCutiBersalinYear);
 
+    //endregion
+
+    //region cuti besar
+
+    $countCutiBesarYear = count($absensiCutiBesar);
+
+    $persentageCutiBesar = getPersenCutiBesar($countCutiBersalinYear);
     //endregion
 
     $countDayMonth = 0;
@@ -798,6 +845,15 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
         if ($countCutiBersalinMonth != 0) {
             $totalPersenTerlambat += $persentageCutiBersalin;
+        }
+
+        if ($countCutiBesarMonth != 0) {
+
+            //added logic
+            /*
+             * ex: cuti tgl 15 bulan 5 sampai tgl 15 bulan 6
+             * */
+            $totalPersenTerlambat += $persentageCutiBesar;
         }
     ?>
 

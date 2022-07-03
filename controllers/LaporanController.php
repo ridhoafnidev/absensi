@@ -161,7 +161,13 @@ class LaporanController extends Controller
         //endregion
         //region big leave
 
+        $dataBigLeave = (new Query());
+        $dataBigLeave->select(['tb_absensi.*'])
+            ->from('tb_absensi')
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND jenis_cuti = "Cuti Besar" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
+        $commandCutiBersalin = $dataBigLeave->createCommand();
+        $modelCutiBersalin = $commandCutiBersalin->queryAll();
 
         //endregion
         //region maternity leave
@@ -171,8 +177,8 @@ class LaporanController extends Controller
             ->from('tb_absensi')
             ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND jenis_cuti = "Cuti Bersalin" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
-        $commandCutiBersalin = $dataMaternityLeave->createCommand();
-        $modelCutiBersalin = $commandCutiBersalin->queryAll();
+        $commandCutiBesar = $dataMaternityLeave->createCommand();
+        $modelCutiBesar = $commandCutiBesar->queryAll();
 
         //endregion
 
@@ -188,7 +194,8 @@ class LaporanController extends Controller
             'model_user' => $modelUser,
             'model_all_absensi_year' => $modelAllAbsensiYear,
             'model_all_cuti_alasan_penting_year' => $modelAllCutiAlasanPenting,
-            'model_all_cuti_bersalin' => $modelCutiBersalin
+            'model_all_cuti_bersalin' => $modelCutiBersalin,
+            'model_all_cuti_besar' => $modelCutiBesar
         ]));
         $mpdf->Output('laporan.pdf', 'I');
         exit();

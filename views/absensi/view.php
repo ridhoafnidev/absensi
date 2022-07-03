@@ -41,14 +41,28 @@ $this->params['breadcrumbs'][] = $model->id_absensi;
             'tanggal_mulai',
             'tanggal_selesai',
             [
+                    'attribute' => 'foto_pribadi',
+                    'format' => 'html',
+                    'value' => function($data) {
+                        $foto =  $data->foto_pribadi;
+                        if ($foto != "") {
+                            return '<a href="http://localhost/api-absensi-depag/public/dokumen-pendukung/'.$foto.'" target="_blank" class="btn btn-info">Lihat Foto</a>';
+                        }
+                        else {
+                            return '<font color="RED"> Tidak Ada Foto</font>';
+                        }
+                    }
+            ],
+            [
                 'attribute' => 'dokumen_pendukung',
                 'format' => 'html',
                 'value' => function ($data) {
-                    if ($data->dokumen_pendukung != "") {
-                        return '<a href="http://localhost/api-absensi-depag/public/dokumen-pendukung/$data->dokumen_pendukung" target="_blank" class="btn btn-info">Lihat Dokumen</a>';
+                    $foto_pendukung = $data->dokumen_pendukung;
+                    if ($foto_pendukung != "") {
+                        return '<a href="http://localhost/api-absensi-depag/public/dokumen-pendukung/'.$foto_pendukung.'" target="_blank" class="btn btn-info">Lihat Dokumen</a>';
                     }
                     else {
-                        return "-";
+                        return "<font color='RED'>Tidak Ada Dokumen Pendukung</font>";
                     }
 
                 },

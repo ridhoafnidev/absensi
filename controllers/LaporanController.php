@@ -164,7 +164,7 @@ class LaporanController extends Controller
         $dataBigLeave = (new Query());
         $dataBigLeave->select(['tb_absensi.*'])
             ->from('tb_absensi')
-            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND jenis_cuti = "Cuti Besar" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND jenis_cuti = "Cuti Bersalin" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
         $commandCutiBersalin = $dataBigLeave->createCommand();
         $modelCutiBersalin = $commandCutiBersalin->queryAll();
@@ -175,7 +175,7 @@ class LaporanController extends Controller
         $dataMaternityLeave = (new Query());
         $dataMaternityLeave->select(['tb_absensi.*'])
             ->from('tb_absensi')
-            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND jenis_cuti = "Cuti Bersalin" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
+            ->where('YEAR(date_absensi)=YEAR("'.$tgl_awal.'") AND status_absensi_id="4" AND jenis_cuti = "Cuti Besar" AND office_id="'.$office_id.'" AND MONTH(date_absensi) between "01" AND MONTH("'.$tgl_awal.'")');
 
         $commandCutiBesar = $dataMaternityLeave->createCommand();
         $modelCutiBesar = $commandCutiBesar->queryAll();

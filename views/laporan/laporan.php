@@ -154,6 +154,7 @@ foreach ($absensiCutiAlasanPenting as $key => $value) {
 
 $absensiCutiBersalin = array();
 
+
 foreach($model_all_cuti_bersalin as $cutiBersalin) {
 
     $date1CutiBersalin = $cutiBersalin['tanggal_mulai'];
@@ -193,20 +194,28 @@ foreach ($absensiCutiBersalin as $key => $value) {
 
 $absensiCutiBesar = array();
 foreach ($model_all_cuti_besar as $cutiBesar) {
+    
     $date1CutiBesar = $cutiBesar['tanggal_mulai'];
     $date2CutiBesar = $cutiBesar['tanggal_selesai'];
 
-    $dtDate1CutBesar = new DateTime($date1CutiBesar);
-    $dtDate2CutiBesar = new DateTime($date2CutiBesar);
+    // $dtDate1CutiBesar = new DateTime($date1CutiBesar);
+    // $dtDate2CutiBesar = new DateTime($date2CutiBesar);
 
-    $diffDateCutiBesar = $dtDate1CutBesar->diff($dtDate2CutiBesar)->format("%d");
+    $start = strtotime($date1CutiBesar);
+    $end = strtotime($date2CutiBesar);
 
-    for ($i = 0; $i <= $diffDateCutiBesar; $i++) {
+    $days_between = ceil(abs($end - $start) / 86400);
+
+    // $diffDateCutiBesar = $dtDate1CutiBesar->diff($dtDate2CutiBesar);
+
+    for ($i = 0; $i <= $days_between; $i++) {
         $arrayCutiBesar['date_absensi'] = date('Y-m-d', strtotime($date1CutiBesar. ' + '.$i.' days'));
-        array_push($absensiCutiBersalin, $arrayCutiBersalin);
+        array_push($absensiCutiBesar, $arrayCutiBesar);
     }
 }
-
+    // echo "<pre>";
+    // var_dump($absensiCutiBesar);
+    // exit();
 //endregion
 
 function month_indo($month)
@@ -532,7 +541,13 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     //region cuti besar
 
     function getPersenCutiBesar($totalCutiBesar) {
+        // var_dump($totalCutiBesar);
+        // exit();
+        //$persen=0;
         switch ($totalCutiBesar) {
+            case $totalCutiBesar<28:
+                $persen = 0;
+                break;
             case $totalCutiBesar >= 28 && $totalCutiBesar <= 31:
                 $persen = 50;
                 break;
@@ -546,9 +561,11 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
                 $persen = 90;
                 break;
         }
+        // var_dump($persen);
+        // exit();
         return $persen;
     }
-
+            
     //endregion
 
     function getException($ex)
@@ -664,6 +681,8 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
     /*TODO after release*/
     $countCutiBersalinYear = count($absensiCutiBersalin);
     $dataAnakTerakhir = end($absensiCutiBersalin);
+    // var_dump($model_all_cuti_bersalin);
+    // exit();
     $persentageCutiBersalin = getPersenCutiBersalin($dataAnakTerakhir['anak'], $countCutiBersalinYear);
 
     //endregion
@@ -672,7 +691,8 @@ function tanggal_indo($tanggal_awal, $tanggal_akhir)
 
     $countCutiBesarYear = count($absensiCutiBesar);
 
-    $persentageCutiBesar = getPersenCutiBesar($countCutiBersalinYear);
+    $persentageCutiBesar = getPersenCutiBesar($countCutiBesarYear);
+
     //endregion
 
     $countDayMonth = 0;

@@ -117,7 +117,8 @@ class LaporanController extends Controller
         $dataAbsensiAll->select(['tb_absensi.*', 'tb_master_status_absensi.status_absensi'])
             ->from('tb_absensi')
             ->leftJoin('tb_master_status_absensi', 'tb_master_status_absensi.id_status_absensi = tb_absensi.status_absensi_id')
-            ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.office_id="'.$office_id.'" AND tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" ')
+            ->where('tb_absensi.user_id="'.$idUser.'" AND tb_absensi.office_id="'.$office_id.'" AND 
+            ((tb_absensi.date_absensi between "'.$tgl_awal.'" AND "'.$tgl_akhir.'" )OR(tb_absensi.tanggal_selesai between "'.$tgl_awal.'" AND "'.$tgl_akhir.'"))')
             ->groupBy('tb_absensi.date_absensi');
 
         $commandAbsensiAll = $dataAbsensiAll->createCommand();

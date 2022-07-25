@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'tunjangan',
                 'value' => function($data) {
-                    return "Rp. ".number_format($data->tunjangan);
+                    return "Rp. ".$data->tunjangan;
                 }
             ]
         ],
